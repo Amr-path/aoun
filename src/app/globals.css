@@ -8,8 +8,8 @@
 
 @theme {
   /* الخطوط */
-  --font-sans: var(--font-arabic), "IBM Plex Sans Arabic", system-ui, sans-serif;
-  --font-display: var(--font-display), var(--font-arabic), sans-serif;
+  --font-sans: var(--font-arabic), "Readex Pro", system-ui, sans-serif;
+  --font-display: var(--font-arabic), "Readex Pro", sans-serif;
 
   /* الأسطح الورقية الدافئة */
   --color-cream: #faf6f0;      /* خلفية الصفحة */

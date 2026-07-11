@@ -1,23 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Sans_Arabic, Noto_Kufi_Arabic } from "next/font/google";
+import { Readex_Pro } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { BRAND } from "@/lib/constants";
 import SWRegister from "@/components/SWRegister";
 
-// الخط الأساسي: ينسجم مع اللاتيني ويعطي إحساساً راقياً
-const arabic = IBM_Plex_Sans_Arabic({
+// خطٌّ واحد موحّد: Readex Pro — حديثٌ ناعمٌ دافئٌ عالي الوضوح، للنصّ والعناوين معاً.
+const arabic = Readex_Pro({
   variable: "--font-arabic",
   subsets: ["arabic", "latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-// خط العناوين — كوفيّ راقٍ يمنح حضوراً تحريرياً هادئاً
-const display = Noto_Kufi_Arabic({
-  variable: "--font-display",
-  subsets: ["arabic", "latin"],
-  weight: ["600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -62,7 +54,7 @@ export default async function RootLayout({
       lang="ar"
       dir="rtl"
       data-theme={theme}
-      className={`${arabic.variable} ${display.variable} h-full antialiased`}
+      className={`${arabic.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <SWRegister />

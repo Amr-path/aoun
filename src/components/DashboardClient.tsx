@@ -118,7 +118,7 @@ export default function DashboardClient({
           </span>
         </div>
 
-        <section className="flex flex-col gap-2.5">
+        <section className="flex flex-col gap-2">
           {pending.map((h, i) => (
             <div key={h.id} className="animate-rise" style={{ animationDelay: `${i * 45}ms` }}>
               <HabitCard habit={h} />

@@ -44,22 +44,22 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
 
   return (
     <div
-      className={`press card relative p-3 ${inactive ? "opacity-55" : ""}`}
+      className={`press card relative p-2.5 ${inactive ? "opacity-55" : ""}`}
       style={done ? { background: soft, borderColor: "transparent" } : undefined}
     >
       {/* شريطٌ جانبيّ عند الإتمام */}
       {done && (
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-y-3 start-0 w-[3px] rounded-full"
+          className="pointer-events-none absolute inset-y-2.5 start-0 w-[3px] rounded-full"
           style={{ background: accent, opacity: 0.85 }}
         />
       )}
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2.5">
         {/* رمز العادة (اختيار المستخدم) */}
         <span
-          className="icon-chip h-11 w-11 shrink-0 text-xl"
+          className="icon-chip h-10 w-10 shrink-0 text-[19px]"
           style={{ background: done ? "var(--color-surface)" : soft }}
         >
           {habit.emoji}
@@ -67,8 +67,8 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
 
         {/* العنوان والوصف */}
         <div className="min-w-0 flex-1">
-          <h3 className="truncate text-[15.5px] font-semibold text-[--color-ink]">{habit.title}</h3>
-          <div className="mt-0.5 flex items-center gap-1.5 text-[12px] text-[--color-muted]">
+          <h3 className="truncate text-[15px] font-semibold text-[--color-ink]">{habit.title}</h3>
+          <div className="mt-0.5 flex items-center gap-1.5 text-[11.5px] text-[--color-muted]">
             <span className="tabular inline-flex items-center gap-1">
               <Icon name="clock" size={12} className="text-[--color-faint]" />
               {habit.scheduledAt}
@@ -94,7 +94,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
           onClick={onCheck}
           aria-pressed={done}
           aria-label={done ? "إلغاء الإتمام" : "تحديد كمُنجز"}
-          className={`relative grid h-7 w-7 shrink-0 place-items-center rounded-full border-[1.5px] transition-transform active:scale-90 ${
+          className={`relative grid h-[26px] w-[26px] shrink-0 place-items-center rounded-full border-[1.5px] transition-transform active:scale-90 ${
             done ? "animate-pop" : ""
           }`}
           style={{
@@ -103,7 +103,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
             color: done ? "#fff" : accent,
           }}
         >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
             <path
               d="M20 6 9 17l-5-5"
               stroke="currentColor"

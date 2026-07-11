@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════
-   عون — نظام التصميم (ساج وكريمي)
-   فلسفة: هادئ، دافئ، طبيعي، وأنيق — مع تفاعل حيويّ مبهج.
+   عون — نظام التصميم «ضوءٌ يُنبت»
+   ورقٌ دافئ + حبرٌ فاخر + ذهبٌ توقيعيّ (الآذريون) + حديقةٌ من سبعة ألوان.
+   الأسماء ثابتة لتتبنّى كل الشاشات الهوية الجديدة تلقائياً.
    ═══════════════════════════════════════════════════════════════ */
 
 @theme {
@@ -10,49 +11,71 @@
   --font-sans: var(--font-arabic), "IBM Plex Sans Arabic", system-ui, sans-serif;
   --font-display: var(--font-display), var(--font-arabic), sans-serif;
 
-  /* الأسطح الدافئة */
-  --color-cream: #f7f4ef;
-  --color-bg: #f4f0e8;
-  --color-surface: #fffdfa;
-  --color-surface-2: #f3eee6;
-  --color-surface-3: #eae3d6;
-  --color-border: #e8e1d4;
-  --color-hairline: #dbd2c2;
-  --color-hairline-soft: rgba(60, 50, 40, 0.08);
+  /* الأسطح الورقية الدافئة */
+  --color-cream: #faf6f0;      /* خلفية الصفحة */
+  --color-bg: #f3ede3;         /* غائرٌ تحت الأسطح (تدرّجات، مسارات) */
+  --color-surface: #fffcf8;    /* بطاقة */
+  --color-surface-2: #f2ece2;  /* إدراج/مسار */
+  --color-surface-3: #eae0d2;  /* أعمق */
+  --color-elevated: #ffffff;   /* ورقة/نافذة */
+  --color-border: #eae3d8;
+  --color-hairline: #ded5c6;
+  --color-hairline-soft: rgba(40, 34, 28, 0.07);
 
   /* النصوص */
-  --color-ink: #2e2e2b;
-  --color-muted: #726d63;
-  --color-faint: #a29b8f;
+  --color-ink: #221f1b;
+  --color-muted: #6b655c;
+  --color-faint: #9b9184;
 
-  /* لكنات هادئة (accent) — كل لكنة: أساسي / حبر داكن / خلفية ناعمة */
-  --color-sage: #6fa07c;
-  --color-sage-ink: #3f6149;
-  --color-sage-soft: #e5eee6;
+  /* اللون التوقيعي: الآذريون (ضوءٌ يُنبت) — أساسي / حبر / ناعم */
+  --color-accent: #e0913a;
+  --color-accent-ink: #96560f;
+  --color-accent-soft: #fbeeda;
 
-  --color-clay: #d0895f;
-  --color-clay-ink: #8a4c30;
-  --color-clay-soft: #f6e7dc;
+  /* حالات دلالية */
+  --color-success: #4e8f5b;
+  --color-success-ink: #2f6b3e;
+  --color-success-soft: #e4f0e6;
+  --color-danger: #c25b4e;
+  --color-danger-ink: #8a392e;
+  --color-danger-soft: #f6e3df;
 
-  --color-lavender: #9b8bd4;
-  --color-lavender-ink: #554a83;
-  --color-lavender-soft: #ece8f6;
+  /* حديقةُ العادات السبع — أساسي / حبر داكن / خلفية ناعمة */
+  --color-sage: #5c9a64;
+  --color-sage-ink: #316b3b;
+  --color-sage-soft: #e7f1e7;
 
-  --color-sky: #5aa6bf;
-  --color-sky-ink: #2c6376;
-  --color-sky-soft: #e1eff3;
+  --color-teal: #3e9088;
+  --color-teal-ink: #216158;
+  --color-teal-soft: #deefec;
 
-  --color-amber: #e0a94e;
-  --color-amber-ink: #8a6316;
-  --color-amber-soft: #f8eed6;
+  --color-sky: #4e93c4;
+  --color-sky-ink: #235f86;
+  --color-sky-soft: #e1eef6;
 
-  --color-blush: #d98ba6;
-  --color-blush-ink: #8a4560;
-  --color-blush-soft: #f7e4eb;
+  --color-lavender: #7c7fd0;
+  --color-lavender-ink: #494c93;
+  --color-lavender-soft: #e9e9f7;
+
+  --color-blush: #d07ea0;
+  --color-blush-ink: #8a4463;
+  --color-blush-soft: #f8e6ee;
+
+  --color-clay: #ce7f52;
+  --color-clay-ink: #8a4c2a;
+  --color-clay-soft: #f7e7d9;
+
+  --color-amber: #d9a23c;
+  --color-amber-ink: #8a5a12;
+  --color-amber-soft: #f7ebd3;
 
   /* أنصاف الأقطار */
-  --radius-card: 1.25rem;
-  --radius-chip: 0.875rem;
+  --radius-xs: 0.625rem;   /* 10 */
+  --radius-sm: 0.875rem;   /* 14 */
+  --radius-chip: 0.9375rem;/* 15 */
+  --radius-md: 1rem;       /* 16 */
+  --radius-card: 1.25rem;  /* 20 */
+  --radius-xl: 1.75rem;    /* 28 */
   --radius-pill: 999px;
 
   /* الحركة */
@@ -61,57 +84,75 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ظلالٌ دافئة طبقية + مدد حركة موحّدة (رموز خارج @theme) */
+/* ظلالٌ ناعمة طبقية + توهّج + تدرّج توقيعي + مدد الحركة (رموز خارج @theme) */
 :root {
-  --shadow-1: 0 1px 2px rgba(72, 60, 50, 0.05), 0 8px 24px rgba(72, 60, 50, 0.07);
-  --shadow-2: 0 2px 6px rgba(72, 60, 50, 0.06), 0 18px 40px rgba(72, 60, 50, 0.11);
-  --shadow-top: inset 0 1px 0 rgba(255, 255, 255, 0.65);
-  --dur-fast: 150ms;
+  --shadow-1: 0 1px 2px rgba(35, 28, 20, 0.04), 0 6px 16px -8px rgba(35, 28, 20, 0.10);
+  --shadow-2: 0 2px 4px rgba(35, 28, 20, 0.05), 0 16px 32px -12px rgba(35, 28, 20, 0.14);
+  --shadow-lg: 0 8px 24px -8px rgba(35, 28, 20, 0.12), 0 32px 64px -24px rgba(35, 28, 20, 0.22);
+  --shadow-top: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --glow-accent: 0 0 40px -6px rgba(224, 145, 58, 0.45);
+  --grad-sunrise: linear-gradient(135deg, #f0b75c 0%, #e0913a 55%, #d06e3c 100%);
+  --dur-fast: 130ms;
   --dur-med: 240ms;
   --dur-slow: 420ms;
 }
 
-/* ─── الأساس ─────────────────────────────────────────────────── */
 :root {
   color-scheme: light;
 }
 
-/* ─── الوضع الليلي الهادئ (Dusk) — دافئ منخفض الإضاءة، لا أسود صريح ─── */
+/* ─── الوضع الليلي «Dusk» — دافئ منخفض الإضاءة، لا أسود صريح ─── */
 :root[data-theme="dusk"] {
   color-scheme: dark;
-  --color-cream: #1c1a17;
-  --color-bg: #1c1a17;
-  --color-surface: #24211d;
-  --color-surface-2: #2b2723;
-  --color-surface-3: #35302a;
-  --color-border: #3a352e;
-  --color-hairline: #4a443c;
+  --color-cream: #181613;
+  --color-bg: #141210;
+  --color-surface: #221f1a;
+  --color-surface-2: #2a261f;
+  --color-surface-3: #322d25;
+  --color-elevated: #322d25;
+  --color-border: #3a342b;
+  --color-hairline: #453f35;
   --color-hairline-soft: rgba(255, 255, 255, 0.06);
-  --color-ink: #f0ece4;
-  --color-muted: #b0a89b;
-  --color-faint: #7d766a;
+  --color-ink: #f1ece3;
+  --color-muted: #ada598;
+  --color-faint: #7a7264;
 
-  --color-sage: #7cae88;
-  --color-sage-ink: #b7d6bf;
-  --color-sage-soft: #223027;
-  --color-clay: #dd9a72;
-  --color-clay-ink: #f0c3a6;
-  --color-clay-soft: #33261d;
-  --color-lavender: #a99ce0;
-  --color-lavender-ink: #cfc6f0;
-  --color-lavender-soft: #2a2540;
-  --color-sky: #6fbdd6;
-  --color-sky-ink: #b3dcea;
-  --color-sky-soft: #1f2e34;
-  --color-amber: #e6b25f;
+  --color-accent: #e9a24e;
+  --color-accent-ink: #f3c888;
+  --color-accent-soft: #352819;
+
+  --color-success: #6db077;
+  --color-success-ink: #a9d6af;
+  --color-success-soft: #1f2e22;
+  --color-danger: #d97a6e;
+  --color-danger-ink: #f0bab0;
+  --color-danger-soft: #33201c;
+
+  --color-sage: #7fb588;
+  --color-sage-ink: #b9dcbf;
+  --color-sage-soft: #1e2a20;
+  --color-teal: #5fb0a6;
+  --color-teal-ink: #a9dcd4;
+  --color-teal-soft: #1a2c29;
+  --color-sky: #6fb0dc;
+  --color-sky-ink: #b4d8ee;
+  --color-sky-soft: #182833;
+  --color-lavender: #9b9de0;
+  --color-lavender-ink: #c9caf0;
+  --color-lavender-soft: #23233a;
+  --color-blush: #e29cbb;
+  --color-blush-ink: #f1c8d8;
+  --color-blush-soft: #33202a;
+  --color-clay: #e0996a;
+  --color-clay-ink: #f0c3a2;
+  --color-clay-soft: #33251b;
+  --color-amber: #e6bd6b;
   --color-amber-ink: #f2d29b;
   --color-amber-soft: #33291a;
-  --color-blush: #e19bb2;
-  --color-blush-ink: #f0c6d3;
-  --color-blush-soft: #331f28;
 
-  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
-  --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.35), 0 18px 40px rgba(0, 0, 0, 0.45);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.30), 0 8px 24px -10px rgba(0, 0, 0, 0.45);
+  --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.35), 0 18px 40px -14px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 32px 64px -24px rgba(0, 0, 0, 0.6);
   --shadow-top: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
@@ -140,7 +181,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* أجواءٌ متحرّكة هادئة: هالاتٌ لونية تطفو ببطء خلف المحتوى */
+/* أجواءٌ متحرّكة هادئة بألوان الهوية الجديدة (آذريون/إيرِس/ورق) */
 body::before {
   content: "";
   position: fixed;
@@ -148,10 +189,10 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(42rem 30rem at 20% 12%, rgba(155, 139, 212, 0.16), transparent 60%),
-    radial-gradient(40rem 28rem at 85% 18%, rgba(111, 160, 124, 0.16), transparent 60%),
-    radial-gradient(38rem 30rem at 60% 92%, rgba(224, 169, 78, 0.11), transparent 62%);
-  animation: ambient-float 24s ease-in-out infinite alternate;
+    radial-gradient(42rem 30rem at 88% 6%, rgba(224, 145, 58, 0.16), transparent 62%),
+    radial-gradient(40rem 28rem at 8% 22%, rgba(124, 127, 208, 0.13), transparent 62%),
+    radial-gradient(38rem 30rem at 60% 96%, rgba(92, 154, 100, 0.12), transparent 64%);
+  animation: ambient-float 26s ease-in-out infinite alternate;
 }
 
 @keyframes ambient-float {
@@ -166,15 +207,14 @@ body::after {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.03;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* الطباعة: تباعد أحرفٍ محكم للعناوين + إيقاع عربي مريح */
-h1,
-h2 {
-  letter-spacing: -0.015em;
+/* الطباعة */
+h1, h2, h3 {
+  letter-spacing: -0.012em;
 }
 
 .tabular,
@@ -194,34 +234,49 @@ h2 {
     transition: box-shadow var(--dur-med) var(--ease-out),
       transform var(--dur-med) var(--ease-out);
   }
-  /* رفعٌ لطيف عند التمرير للبطاقات التفاعلية */
   .lift:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-top), var(--shadow-2);
+  }
+  /* لمسةٌ محسوسة: ضغطٌ لطيف على أي عنصر تفاعلي */
+  .press {
+    transition: transform var(--dur-fast) var(--ease-soft),
+      box-shadow var(--dur-fast) var(--ease-soft);
+  }
+  .press:active {
+    transform: scale(0.97);
   }
   .icon-chip {
     border-radius: var(--radius-chip);
     display: grid;
     place-items: center;
   }
-
   .pill {
     border-radius: var(--radius-pill);
   }
-
-  /* حلقة لطيفة ملوّنة عند التفعيل — دون توهّج نيون */
+  /* توهّجٌ ذهبيّ توقيعي */
+  .glow-accent {
+    box-shadow: var(--glow-accent);
+  }
+  /* حلقة لطيفة ملوّنة عند التفعيل */
   .ring-accent {
     box-shadow:
-      0 0 0 1.5px var(--accent, var(--color-sage)),
-      0 12px 30px -16px var(--accent, var(--color-sage));
+      0 0 0 1.5px var(--accent, var(--color-accent)),
+      0 12px 30px -16px var(--accent, var(--color-accent));
+  }
+  /* زجاجٌ للشريط السفليّ العائم */
+  .glass {
+    background: color-mix(in srgb, var(--color-surface) 82%, transparent);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
   }
 }
 
-/* ─── حركات مبهجة ─────────────────────────────────────────────── */
+/* ─── حركات ───────────────────────────────────────────────────── */
 @keyframes pop-check {
   0% { transform: scale(1); }
   35% { transform: scale(0.82); }
-  70% { transform: scale(1.18); }
+  70% { transform: scale(1.16); }
   100% { transform: scale(1); }
 }
 
@@ -252,28 +307,25 @@ h2 {
   75% { transform: rotate(6deg); }
 }
 
-/* تنفّسٌ هادئ لحلقة النتيجة عند اكتمال اليوم */
 @keyframes breathe {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.025); }
+  50% { transform: scale(1.03); }
 }
-.animate-breathe { animation: breathe 4s ease-in-out infinite; }
+.animate-breathe { animation: breathe 4.5s ease-in-out infinite; }
 
-/* نبضة هالة عند الإنجاز */
 @keyframes halo-pulse {
   0% { opacity: 0; transform: scale(0.92); }
   30% { opacity: 0.22; }
-  100% { opacity: 0; transform: scale(1.06); }
+  100% { opacity: 0; transform: scale(1.08); }
 }
 
-/* تفتّح بتلات الشعار (الهبوط السينمائي) */
 @keyframes petal-in {
   0% { opacity: 0; transform: rotate(var(--rot, 0deg)) scale(0.2); }
   100% { opacity: 0.92; transform: rotate(var(--rot, 0deg)) scale(1); }
 }
 
 .animate-pop { animation: pop-check 0.45s var(--ease-spring); }
-.animate-rise { animation: rise-in 0.55s var(--ease-soft) both; }
+.animate-rise { animation: rise-in 0.5s var(--ease-soft) both; }
 .animate-cheer { animation: cheer-in 0.5s var(--ease-spring) both; }
 .animate-wiggle { animation: wiggle 0.4s var(--ease-soft); }
 
@@ -293,4 +345,4 @@ h2 {
   border: 2px solid transparent;
   background-clip: content-box;
 }
-::selection { background: var(--color-sage-soft); }
+::selection { background: var(--color-accent-soft); }

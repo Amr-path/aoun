@@ -59,7 +59,7 @@ export default function AuthForm() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="الاسم (اختياري)"
-            className="rounded-2xl border border-[--color-hairline] bg-[--color-surface] px-4 py-3 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-sage]"
+            className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-4 py-3 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent]"
           />
         )}
         <input
@@ -69,7 +69,7 @@ export default function AuthForm() {
           placeholder="البريد الإلكتروني"
           autoComplete="email"
           required
-          className="rounded-2xl border border-[--color-hairline] bg-[--color-surface] px-4 py-3 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-sage]"
+          className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-4 py-3 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent]"
         />
         <input
           type="password"
@@ -78,16 +78,15 @@ export default function AuthForm() {
           placeholder="كلمة المرور"
           autoComplete={isRegister ? "new-password" : "current-password"}
           required
-          className="rounded-2xl border border-[--color-hairline] bg-[--color-surface] px-4 py-3 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-sage]"
+          className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-4 py-3 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent]"
         />
 
-        {err && <p className="text-sm text-[--color-clay-ink]">{err}</p>}
+        {err && <p className="text-sm text-[--color-danger-ink]">{err}</p>}
 
         <button
           type="submit"
           disabled={busy}
-          className="pill mt-2 py-3.5 text-center font-bold text-white transition-transform hover:scale-[1.02] active:scale-95 disabled:opacity-60"
-          style={{ background: "var(--color-sage)" }}
+          className="press pill mt-2 bg-[--color-ink] py-3.5 text-center font-bold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-60"
         >
           {busy ? "…" : isRegister ? "إنشاء الحساب" : "دخول"}
         </button>
@@ -101,7 +100,7 @@ export default function AuthForm() {
             setMode(isRegister ? "login" : "register");
             setErr("");
           }}
-          className="font-semibold text-[--color-sage-ink] hover:underline"
+          className="font-semibold text-[--color-accent-ink] hover:underline"
         >
           {isRegister ? "سجّل الدخول" : "أنشئ حساباً"}
         </button>

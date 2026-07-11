@@ -1,13 +1,14 @@
-// عون — شبكة السنة (٣٦٥ يوماً) على طراز الحدائق: كثافة الساج = اتساقك.
+// عون — شبكة السنة (٣٦٥ يوماً) على طراز الحدائق: كثافة الآذريون = اتساقك.
 import { weekdayOf } from "@/lib/date";
 import type { DayCell } from "@/lib/analytics";
 
+// سُلّم توقيعيّ: من الورق الفارغ إلى ذهب الآذريون الكامل.
 const LEVELS = [
   "var(--color-surface-2)",
-  "#cfe3d4",
-  "#a3cbab",
-  "#7bb083",
-  "#5c8a68",
+  "color-mix(in srgb, var(--color-accent) 22%, var(--color-surface-2))",
+  "color-mix(in srgb, var(--color-accent) 48%, var(--color-surface-2))",
+  "color-mix(in srgb, var(--color-accent) 74%, var(--color-surface-2))",
+  "var(--color-accent)",
 ];
 
 export default function ContributionGrid({ days }: { days: DayCell[] }) {

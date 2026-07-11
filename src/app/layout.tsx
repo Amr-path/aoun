@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Sans_Arabic, Cairo } from "next/font/google";
+import { IBM_Plex_Sans_Arabic, Noto_Kufi_Arabic } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { BRAND } from "@/lib/constants";
@@ -13,11 +13,11 @@ const arabic = IBM_Plex_Sans_Arabic({
   display: "swap",
 });
 
-// خط العناوين/الأرقام العريضة
-const display = Cairo({
+// خط العناوين — كوفيّ راقٍ يمنح حضوراً تحريرياً هادئاً
+const display = Noto_Kufi_Arabic({
   variable: "--font-display",
   subsets: ["arabic", "latin"],
-  weight: ["600", "700", "900"],
+  weight: ["600", "700", "800"],
   display: "swap",
 });
 
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f7f4ef",
+  themeColor: "#faf6f0",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,

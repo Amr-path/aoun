@@ -18,7 +18,6 @@ export const config = {
     "/analytics/:path*",
     "/onboarding/:path*",
     "/settings/:path*",
-    "/reflect/:path*",
     "/harvest/:path*",
   ],
 };

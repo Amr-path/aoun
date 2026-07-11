@@ -6,7 +6,8 @@ import * as htmlToImage from "html-to-image";
 import { ar } from "@/lib/numerals";
 
 const PETAL = "M60 52 C 47 42 47 24 60 11 C 73 24 73 42 60 52 Z";
-const PETAL_COLORS = ["#9b8bd4", "#5aa6bf", "#d0895f", "#6fa07c", "#d98ba6", "#e0a94e", "#7fb188"];
+// حديقةُ العادات السبع — بلوحةٍ ثابتة تُطابق الهوية الجديدة (تصدير PNG متّسق)
+const PETAL_COLORS = ["#5C9A64", "#3E9088", "#4E93C4", "#7C7FD0", "#D07EA0", "#CE7F52", "#D9A23C"];
 const ANGLES = Array.from({ length: 7 }, (_, i) => (i * 360) / 7);
 
 interface Props {
@@ -20,10 +21,10 @@ interface Props {
 function Stat({ value, label }: { value: number; label: string }) {
   return (
     <div style={{ textAlign: "center" }}>
-      <div style={{ fontSize: 26, fontWeight: 800, color: "#2e2e2b", lineHeight: 1 }}>
+      <div style={{ fontSize: 26, fontWeight: 800, color: "#221F1B", lineHeight: 1 }}>
         {ar(value)}
       </div>
-      <div style={{ fontSize: 12, color: "#726d63", marginTop: 4 }}>{label}</div>
+      <div style={{ fontSize: 12, color: "#6B655C", marginTop: 4 }}>{label}</div>
     </div>
   );
 }
@@ -77,20 +78,27 @@ export default function HarvestClient({
           width: 360,
           maxWidth: "100%",
           background:
-            "radial-gradient(24rem 16rem at 80% 0%, rgba(155,139,212,.16), transparent 60%), radial-gradient(22rem 15rem at 0% 20%, rgba(111,160,124,.16), transparent 58%), #f7f4ef",
-          border: "1px solid #e3dccd",
+            "radial-gradient(24rem 16rem at 80% 0%, rgba(224,145,58,.18), transparent 60%), radial-gradient(22rem 15rem at 0% 20%, rgba(124,127,208,.14), transparent 58%), #FAF6F0",
+          border: "1px solid #EAE3D8",
           borderRadius: 28,
           padding: "28px 24px 24px",
           fontFamily: "var(--font-display), var(--font-arabic), sans-serif",
-          color: "#2e2e2b",
+          color: "#221F1B",
           boxSizing: "border-box",
         }}
       >
         {/* العلامة */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
           <svg width="26" height="26" viewBox="0 0 48 48">
-            <rect width="48" height="48" rx="14" fill="#6fa07c" />
-            <g fill="#f7f4ef" opacity="0.92">
+            <defs>
+              <linearGradient id="mark-sunrise" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stopColor="#F0B75C" />
+                <stop offset="0.55" stopColor="#E0913A" />
+                <stop offset="1" stopColor="#D06E3C" />
+              </linearGradient>
+            </defs>
+            <rect width="48" height="48" rx="14" fill="url(#mark-sunrise)" />
+            <g fill="#FAF6F0" opacity="0.94">
               {ANGLES.map((a) => (
                 <path
                   key={a}
@@ -99,7 +107,7 @@ export default function HarvestClient({
                 />
               ))}
             </g>
-            <circle cx="24" cy="24" r="3" fill="#3f6149" />
+            <circle cx="24" cy="24" r="3" fill="#96560F" />
           </svg>
           <span style={{ fontSize: 20, fontWeight: 800 }}>عون</span>
         </div>
@@ -117,7 +125,7 @@ export default function HarvestClient({
                   opacity={0.9}
                 />
               ))}
-              <circle cx="60" cy="60" r="25" fill="#fffdfa" stroke="#6fa07c" strokeWidth="1.5" />
+              <circle cx="60" cy="60" r="25" fill="#FFFCF8" stroke="#E0913A" strokeWidth="1.5" />
             </svg>
             <div
               style={{
@@ -132,12 +140,12 @@ export default function HarvestClient({
               <span style={{ fontSize: 34, fontWeight: 800, lineHeight: 1 }}>
                 {ar(bestStreak)}
               </span>
-              <span style={{ fontSize: 10, color: "#726d63", marginTop: 2 }}>أفضل مداومة</span>
+              <span style={{ fontSize: 10, color: "#6B655C", marginTop: 2 }}>أفضل مداومة</span>
             </div>
           </div>
         </div>
 
-        <p style={{ textAlign: "center", fontSize: 15, color: "#726d63", margin: "6px 0 18px" }}>
+        <p style={{ textAlign: "center", fontSize: 15, color: "#6B655C", margin: "6px 0 18px" }}>
           {name ? `حصادُ ${name} مع عون` : "حصادي مع عون"}
         </p>
 
@@ -147,8 +155,8 @@ export default function HarvestClient({
             display: "grid",
             gridTemplateColumns: "1fr 1fr 1fr",
             gap: 8,
-            background: "#fffdfa",
-            border: "1px solid #e8e1d4",
+            background: "#FFFCF8",
+            border: "1px solid #EAE3D8",
             borderRadius: 18,
             padding: "16px 12px",
           }}
@@ -158,7 +166,7 @@ export default function HarvestClient({
           <Stat value={totalCompletions} label="إتمامات" />
         </div>
 
-        <p style={{ textAlign: "center", fontSize: 12, color: "#a29b8f", marginTop: 18 }}>
+        <p style={{ textAlign: "center", fontSize: 12, color: "#9B9184", marginTop: 18 }}>
           عون — رفيقك للاستمرار
         </p>
       </div>
@@ -167,8 +175,8 @@ export default function HarvestClient({
         type="button"
         onClick={download}
         disabled={busy}
-        className="pill mt-6 w-full py-3.5 text-center font-bold text-white transition-transform active:scale-95 disabled:opacity-60"
-        style={{ background: "var(--color-sage)" }}
+        className="pill press mt-6 w-full py-3.5 text-center font-bold disabled:opacity-60"
+        style={{ background: "var(--color-ink)", color: "var(--color-cream)" }}
       >
         {busy ? "…نُجهّز الصورة" : "تنزيل صورة الحصاد"}
       </button>

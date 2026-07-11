@@ -2,6 +2,7 @@
 // عون — تفعيل التذكيرات اللطيفة (Web Push).
 import { useEffect, useState } from "react";
 import { pushStatus, enablePush, disablePush, type PushStatus } from "@/lib/push-client";
+import Icon from "@/components/ui/Icon";
 
 export default function NotificationsToggle() {
   const [status, setStatus] = useState<PushStatus>("unsupported");
@@ -41,10 +42,10 @@ export default function NotificationsToggle() {
   return (
     <div className="card mt-4 flex items-center gap-3 p-4">
       <span
-        className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-xl"
+        className="icon-chip h-11 w-11 shrink-0 text-[--color-amber-ink]"
         style={{ background: "var(--color-amber-soft)" }}
       >
-        🔔
+        <Icon name="bell" size={22} />
       </span>
       <div className="min-w-0 flex-1">
         <h3 className="font-semibold text-[--color-ink]">تذكيراتٌ لطيفة</h3>
@@ -65,7 +66,7 @@ export default function NotificationsToggle() {
             type="button"
             onClick={test}
             disabled={busy}
-            className="pill bg-[--color-surface-2] px-4 py-2 text-sm font-medium text-[--color-ink] transition-colors hover:bg-[--color-surface-3] disabled:opacity-50"
+            className="press pill bg-[--color-surface-2] px-4 py-2 text-sm font-medium text-[--color-ink] transition-colors hover:bg-[--color-surface-3] disabled:opacity-50"
           >
             جرّب
           </button>
@@ -74,7 +75,7 @@ export default function NotificationsToggle() {
             onClick={turnOff}
             disabled={busy}
             aria-label="إيقاف التذكيرات"
-            className="pill px-3 py-2 text-sm text-[--color-faint] transition-colors hover:text-[--color-clay-ink]"
+            className="press pill px-3 py-2 text-sm text-[--color-faint] transition-colors hover:text-[--color-danger-ink]"
           >
             إيقاف
           </button>
@@ -84,8 +85,7 @@ export default function NotificationsToggle() {
           type="button"
           onClick={enable}
           disabled={busy}
-          className="pill shrink-0 px-5 py-2 text-sm font-semibold text-white transition-transform active:scale-95 disabled:opacity-50"
-          style={{ background: "var(--color-sage)" }}
+          className="press pill shrink-0 bg-[--color-ink] px-5 py-2 text-sm font-semibold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-50"
         >
           {busy ? "…" : "تفعيل"}
         </button>

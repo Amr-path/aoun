@@ -5,7 +5,8 @@ import type { DayCell } from "@/lib/analytics";
 
 const STEP = 14;
 const ROWS = 7;
-const TINTS = ["", "#cfe3d4", "#a3cbab", "#7bb083", "#5c8a68"];
+// سُلّم توقيعيّ من ذهب الآذريون: من برعمٍ باهت إلى زهرةٍ متوهّجة.
+const TINTS = ["", "#f2d4a0", "#ecb768", "#e0913a", "#c1762a"];
 
 function mark(level: number, cx: number, cy: number, key: number | string): ReactNode {
   if (level <= 0) {

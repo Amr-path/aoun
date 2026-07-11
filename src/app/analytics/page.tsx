@@ -9,6 +9,8 @@ import YearView from "@/components/YearView";
 import WeeklyChart from "@/components/WeeklyChart";
 import BadgesSection from "@/components/BadgesSection";
 import LogoutButton from "@/components/LogoutButton";
+import BottomNav from "@/components/BottomNav";
+import Icon from "@/components/ui/Icon";
 import { earnedCount } from "@/lib/badges";
 
 export const dynamic = "force-dynamic";
@@ -17,8 +19,8 @@ export const metadata = { title: "رحلتك" };
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="card p-4">
-      <p className="text-xs text-[--color-muted]">{label}</p>
-      <p className="score mt-1 font-[family-name:var(--font-display)] text-3xl font-black text-[--color-ink]">
+      <p className="text-[13px] text-[--color-muted]">{label}</p>
+      <p className="score tabular mt-1 font-[family-name:var(--font-display)] text-3xl font-black text-[--color-ink]">
         {ar(value)}
       </p>
     </div>
@@ -35,18 +37,24 @@ export default async function AnalyticsPage() {
   const narrative = weeklyNarrative(a.days, name);
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-5 pb-24 pt-8">
+    <main className="mx-auto w-full max-w-2xl px-5 pb-32 pt-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="font-[family-name:var(--font-display)] text-3xl font-black text-[--color-ink]">
-          رحلتك
-        </h1>
+        <div className="flex items-center gap-3">
+          <span className="icon-chip h-11 w-11 bg-[--color-accent-soft] text-[--color-accent-ink] shadow-[var(--shadow-top),var(--shadow-1)]">
+            <Icon name="garden" size={22} />
+          </span>
+          <h1 className="font-[family-name:var(--font-display)] text-3xl font-black text-[--color-ink]">
+            رحلتك
+          </h1>
+        </div>
         <div className="flex items-center gap-2">
           <LogoutButton />
           <Link
             href="/dashboard"
-            className="pill border border-[--color-border] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] transition-colors hover:bg-[--color-surface-2]"
+            className="press pill inline-flex items-center gap-1 border border-[--color-border] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] transition-colors hover:bg-[--color-surface-2]"
           >
-            ← اللوحة
+            <Icon name="chevron" size={16} />
+            اللوحة
           </Link>
         </div>
       </div>
@@ -60,7 +68,7 @@ export default async function AnalyticsPage() {
       </section>
 
       {/* لمحة أسبوعك */}
-      <section className="card mt-4 p-5">
+      <section className="card mt-6 p-5">
         <h2 className="font-[family-name:var(--font-display)] text-lg font-black text-[--color-ink]">
           لمحة أسبوعك
         </h2>
@@ -68,7 +76,7 @@ export default async function AnalyticsPage() {
       </section>
 
       {/* حديقة/شبكة السنة */}
-      <section className="card mt-4 p-5">
+      <section className="card mt-6 p-5">
         <div className="mb-4 flex items-baseline justify-between">
           <h2 className="font-[family-name:var(--font-display)] text-lg font-black text-[--color-ink]">
             سنتك تُزهر
@@ -79,7 +87,7 @@ export default async function AnalyticsPage() {
       </section>
 
       {/* الاتساق الأسبوعي */}
-      <section className="card mt-4 p-5">
+      <section className="card mt-6 p-5">
         <div className="mb-4 flex items-baseline justify-between">
           <h2 className="font-[family-name:var(--font-display)] text-lg font-black text-[--color-ink]">
             اتساقك الأسبوعي
@@ -90,7 +98,7 @@ export default async function AnalyticsPage() {
       </section>
 
       {/* الشارات */}
-      <section className="card mt-4 p-5">
+      <section className="card mt-6 p-5">
         <div className="mb-5 flex items-baseline justify-between">
           <h2 className="font-[family-name:var(--font-display)] text-lg font-black text-[--color-ink]">
             شاراتك
@@ -105,15 +113,18 @@ export default async function AnalyticsPage() {
       {/* مشاركة الحصاد */}
       <Link
         href="/harvest"
-        className="pill mt-4 flex items-center justify-center gap-2 py-3.5 text-center font-semibold text-white transition-transform active:scale-95"
-        style={{ background: "var(--color-sage)" }}
+        className="press pill mt-6 flex items-center justify-center gap-2 py-3.5 text-center font-semibold text-white shadow-[var(--shadow-2)]"
+        style={{ background: "var(--grad-sunrise)" }}
       >
-        🌾 شارك حصادك
+        <Icon name="spark" size={20} />
+        شارك حصادك
       </Link>
 
       <p className="mt-6 text-center text-sm text-[--color-muted]">
         أتممتَ {ar(a.totalCompletions)} عادةً حتى الآن. واصِل، فالمداومة تُثمر.
       </p>
+
+      <BottomNav />
     </main>
   );
 }

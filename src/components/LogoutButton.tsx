@@ -1,6 +1,7 @@
 "use client";
 // عون — زرّ تسجيل الخروج.
 import { useRouter } from "next/navigation";
+import Icon from "@/components/ui/Icon";
 
 export default function LogoutButton() {
   const router = useRouter();
@@ -13,8 +14,9 @@ export default function LogoutButton() {
     <button
       type="button"
       onClick={out}
-      className="pill px-4 py-2 text-sm font-medium text-[--color-faint] transition-colors hover:text-[--color-clay-ink]"
+      className="press pill inline-flex items-center gap-2 border border-[--color-hairline] bg-[--color-surface] px-5 py-2.5 text-sm font-semibold text-[--color-danger-ink] transition-colors hover:bg-[--color-danger-soft]"
     >
+      <Icon name="logout" size={18} />
       خروج
     </button>
   );

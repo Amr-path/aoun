@@ -1,11 +1,11 @@
 // عون — الأنواع الأساسية للنطاق (domain types)
 // مصدر الحقيقة الوحيد لأشكال البيانات المتبادلة بين الواجهة والخادم.
 
-/** مفاتيح ألوان اللكنة (accent) الهادئة المعتمدة في نظام التصميم. */
-export type ColorKey = "sage" | "clay" | "lavender" | "sky" | "amber" | "blush";
+/** مفاتيح ألوان الحديقة السبع — لكنةٌ لكلّ عادة، تنسجم معاً. */
+export type ColorKey = "sage" | "teal" | "sky" | "lavender" | "blush" | "clay" | "amber";
 
 /** كل مفاتيح الألوان (للتحقّق والتكرار). */
-export const COLOR_KEYS: ColorKey[] = ["sage", "clay", "lavender", "sky", "amber", "blush"];
+export const COLOR_KEYS: ColorKey[] = ["sage", "teal", "sky", "lavender", "blush", "clay", "amber"];
 
 /** تكرار العادة. */
 export type Frequency = "daily" | "weekly";

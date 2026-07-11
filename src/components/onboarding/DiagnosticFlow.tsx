@@ -2,6 +2,7 @@
 // عون — عرض سؤال تشخيصي واحد بحركة دخول لطيفة.
 import type { DiagnosticAnswers, FocusArea } from "@/lib/types";
 import type { Question } from "@/lib/onboarding-questions";
+import Icon from "@/components/ui/Icon";
 
 interface Props {
   question: Question;
@@ -29,7 +30,7 @@ export default function DiagnosticFlow({ question, answers, onChange, onAdvance 
       <h2 className="font-[family-name:var(--font-display)] text-3xl font-black leading-tight text-[--color-ink]">
         {question.title}
       </h2>
-      <p className="mt-2 text-[--color-muted]">{question.subtitle}</p>
+      <p className="mt-3 text-[--color-muted]">{question.subtitle}</p>
 
       <div className="mt-8">
         {question.kind === "time" ? (
@@ -37,7 +38,7 @@ export default function DiagnosticFlow({ question, answers, onChange, onAdvance 
             type="time"
             value={answers.wakeTime}
             onChange={(e) => onChange({ wakeTime: e.target.value })}
-            className="tabular w-full rounded-2xl border border-[--color-hairline] bg-[--color-surface] px-5 py-4 text-center text-2xl text-[--color-ink] shadow-sm outline-none focus:border-[--color-sage]"
+            className="tabular w-full rounded-[--radius-md] border border-[--color-border] bg-[--color-surface] px-5 py-4 text-center text-2xl text-[--color-ink] shadow-[var(--shadow-1)] outline-none transition-colors focus:border-[--color-accent]"
           />
         ) : (
           <div className="grid grid-cols-1 gap-3">
@@ -56,14 +57,24 @@ export default function DiagnosticFlow({ question, answers, onChange, onAdvance 
                       : selectSingle(opt.value)
                   }
                   aria-pressed={selected}
-                  className={`card flex items-center gap-3.5 p-4 text-start transition-all active:scale-[0.98] ${
-                    selected ? "ring-2 ring-[--color-sage]" : "hover:border-[--color-hairline]"
+                  className={`press card flex items-center gap-3.5 p-4 text-start transition-all ${
+                    selected
+                      ? "border-[--color-accent] ring-1 ring-[--color-accent]"
+                      : "lift"
                   }`}
-                  style={selected ? { background: "var(--color-sage-soft)" } : undefined}
+                  style={
+                    selected
+                      ? { background: "var(--color-accent-soft)" }
+                      : undefined
+                  }
                 >
                   <span
-                    className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-xl"
-                    style={{ background: "var(--color-surface-2)" }}
+                    className="grid h-11 w-11 shrink-0 place-items-center rounded-[--radius-md] text-xl transition-colors"
+                    style={{
+                      background: selected
+                        ? "var(--color-surface)"
+                        : "var(--color-surface-2)",
+                    }}
                   >
                     {opt.emoji}
                   </span>
@@ -75,11 +86,11 @@ export default function DiagnosticFlow({ question, answers, onChange, onAdvance 
                   </span>
                   {selected && (
                     <span
-                      className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-sm text-white"
-                      style={{ background: "var(--color-sage)" }}
+                      className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-[--color-accent-ink]"
+                      style={{ background: "var(--color-accent)" }}
                       aria-hidden
                     >
-                      ✓
+                      <Icon name="check" size={14} className="text-[--color-cream]" strokeWidth={2.4} />
                     </span>
                   )}
                 </button>

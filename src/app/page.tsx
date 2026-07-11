@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BRAND, HABIT_LIBRARY, DEFAULT_SEVEN_KEYS } from "@/lib/constants";
 import { accentSoftOf } from "@/lib/colors";
+import { ar } from "@/lib/numerals";
 import Logo from "@/components/Logo";
 
 const preview = DEFAULT_SEVEN_KEYS.map(
@@ -11,8 +12,8 @@ export default function Home() {
   return (
     <main className="relative mx-auto flex w-full max-w-4xl flex-1 flex-col items-center px-6 py-16 sm:py-24">
       <Logo variant="badge" size={88} animated className="mb-8" />
-      <span className="pill animate-rise mb-6 inline-flex items-center gap-2 border border-[--color-border] bg-[--color-surface] px-4 py-1.5 text-sm text-[--color-muted] shadow-sm">
-        <span className="inline-block h-2 w-2 rounded-full bg-[--color-sage]" />
+      <span className="pill animate-rise mb-6 inline-flex items-center gap-2 bg-[--color-accent-soft] px-4 py-1.5 text-sm font-medium text-[--color-accent-ink]">
+        <span className="inline-block h-2 w-2 rounded-full bg-[--color-accent]" />
         {BRAND.philosophy}
       </span>
 
@@ -53,9 +54,9 @@ export default function Home() {
             <span className="tabular text-xs text-[--color-faint]">{h.scheduledAt}</span>
           </div>
         ))}
-        <div className="card flex items-center justify-center p-4 text-center">
-          <span className="font-[family-name:var(--font-display)] text-4xl font-black text-[--color-sage]">
-            ٧
+        <div className="card flex items-center justify-center p-4 text-center" style={{ background: "var(--grad-sunrise)" }}>
+          <span className="font-[family-name:var(--font-display)] tabular text-4xl font-black text-[--color-cream]">
+            {ar(7)}
           </span>
         </div>
       </div>
@@ -66,14 +67,13 @@ export default function Home() {
       >
         <Link
           href="/login"
-          className="pill px-8 py-3 font-semibold text-white shadow-sm transition-transform hover:scale-[1.03] active:scale-95"
-          style={{ background: "var(--color-sage)" }}
+          className="press pill bg-[--color-ink] px-8 py-3 font-semibold text-[--color-cream] shadow-[var(--shadow-2)]"
         >
           ابدأ رحلتك
         </Link>
         <Link
           href="/login"
-          className="pill border border-[--color-border] bg-[--color-surface] px-8 py-3 font-semibold text-[--color-ink] transition-colors hover:bg-[--color-surface-2]"
+          className="press pill border border-[--color-hairline] px-8 py-3 font-semibold text-[--color-ink] transition-colors hover:bg-[--color-surface-2]"
         >
           لديك حساب؟ دخول
         </Link>

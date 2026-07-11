@@ -6,6 +6,7 @@ import { EMOJI_CHOICES, HABIT_LIBRARY, HABIT_META } from "@/lib/constants";
 import { COLOR_KEYS, type ColorKey } from "@/lib/types";
 import { accentOf, accentSoftOf } from "@/lib/colors";
 import type { OnboardingHabitInput } from "@/lib/habits";
+import Icon from "@/components/ui/Icon";
 
 export default function AddHabit() {
   const addHabit = useDashboard((s) => s.addHabit);
@@ -81,38 +82,51 @@ export default function AddHabit() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="grid place-items-center rounded-[--radius-card] border-2 border-dashed border-[--color-hairline] p-6 text-[--color-muted] transition-colors hover:border-[--color-sage] hover:text-[--color-sage-ink]"
+        className="card press grid place-items-center rounded-[--radius-card] border-2 border-dashed border-[--color-hairline] p-6 text-[--color-muted] transition-colors hover:border-[--color-accent] hover:text-[--color-accent-ink]"
       >
-        <span className="text-2xl">＋</span>
-        <span className="mt-1 text-sm font-medium">أضف عادة</span>
+        <span
+          className="icon-chip h-11 w-11 text-[--color-accent-ink]"
+          style={{ background: "var(--color-accent-soft)" }}
+        >
+          <Icon name="plus" />
+        </span>
+        <span className="mt-2 text-sm font-medium">أضِف عادة</span>
       </button>
     );
   }
 
   return (
-    <div className="card flex flex-col gap-3 p-4 sm:col-span-2">
+    <div className="card flex flex-col gap-3 rounded-[--radius-xl] p-4 sm:col-span-2">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-[--color-ink]">أضف عادة</h3>
+        <h3 className="font-[family-name:var(--font-display)] font-semibold text-[--color-ink]">
+          أضِف عادة
+        </h3>
         <button
           type="button"
           onClick={() => {
             reset();
             setOpen(false);
           }}
-          className="text-sm text-[--color-faint] hover:text-[--color-muted]"
+          aria-label="إغلاق"
+          className="press grid h-8 w-8 place-items-center rounded-full text-[--color-faint] transition-colors hover:bg-[--color-surface-2] hover:text-[--color-muted]"
         >
-          إغلاق
+          <Icon name="close" size={18} />
         </button>
       </div>
 
       {!custom ? (
         <>
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="ابحث عن عادة… (مثال: تركيز، نوم)"
-            className="rounded-2xl border border-[--color-hairline] bg-[--color-surface] px-4 py-2.5 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-sage]"
-          />
+          <div className="relative">
+            <span className="pointer-events-none absolute inset-y-0 start-3 grid place-items-center text-[--color-faint]">
+              <Icon name="search" size={18} />
+            </span>
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="ابحث عن عادة… (مثال: تركيز، نوم)"
+              className="w-full rounded-2xl border border-[--color-hairline] bg-[--color-surface] py-2.5 pe-4 ps-10 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-accent]"
+            />
+          </div>
           <div className="flex max-h-72 flex-col gap-2 overflow-y-auto pe-1">
             {results.map((h) => {
               const meta = HABIT_META[h.key];
@@ -122,7 +136,7 @@ export default function AddHabit() {
                   type="button"
                   onClick={() => addFromLibrary(h.key)}
                   disabled={busy}
-                  className="lift card flex items-center gap-3 p-3 text-start disabled:opacity-60"
+                  className="lift press card flex items-center gap-3 p-3 text-start disabled:opacity-60"
                 >
                   <span
                     className="icon-chip h-10 w-10 shrink-0 text-xl"
@@ -147,7 +161,12 @@ export default function AddHabit() {
                       </span>
                     )}
                   </span>
-                  <span className="text-lg text-[--color-sage-ink]">＋</span>
+                  <span
+                    className="icon-chip h-8 w-8 shrink-0 rounded-full text-[--color-accent-ink]"
+                    style={{ background: "var(--color-accent-soft)" }}
+                  >
+                    <Icon name="plus" size={18} />
+                  </span>
                 </button>
               );
             })}
@@ -161,7 +180,7 @@ export default function AddHabit() {
           <button
             type="button"
             onClick={() => setCustom(true)}
-            className="self-start text-sm font-medium text-[--color-sage-ink] hover:underline"
+            className="self-start text-sm font-medium text-[--color-accent-ink] hover:underline"
           >
             أو أنشئ عادةً مخصّصة ←
           </button>
@@ -181,7 +200,7 @@ export default function AddHabit() {
               onKeyDown={(e) => e.key === "Enter" && submitCustom()}
               autoFocus
               placeholder="اسم العادة…"
-              className="flex-1 rounded-xl border border-[--color-hairline] bg-[--color-surface] px-3 py-2 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-sage]"
+              className="flex-1 rounded-xl border border-[--color-hairline] bg-[--color-surface] px-3 py-2 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-accent]"
             />
           </div>
 
@@ -191,8 +210,8 @@ export default function AddHabit() {
                 key={e}
                 type="button"
                 onClick={() => setEmoji(e)}
-                className={`grid h-8 w-8 place-items-center rounded-lg text-base transition-all active:scale-90 ${
-                  emoji === e ? "bg-[--color-surface-3] ring-2 ring-[--color-sage]" : "bg-[--color-surface-2]"
+                className={`press grid h-8 w-8 place-items-center rounded-lg text-base transition-all ${
+                  emoji === e ? "bg-[--color-surface-3] ring-2 ring-[--color-accent]" : "bg-[--color-surface-2]"
                 }`}
               >
                 {e}
@@ -229,8 +248,8 @@ export default function AddHabit() {
               type="button"
               onClick={submitCustom}
               disabled={busy || !title.trim()}
-              className="pill flex-1 py-2.5 font-semibold text-white transition-transform active:scale-95 disabled:opacity-50"
-              style={{ background: "var(--color-sage)" }}
+              className="pill press flex-1 py-2.5 font-semibold text-white shadow-[var(--glow-accent)] disabled:opacity-50 disabled:shadow-none"
+              style={{ background: "var(--grad-sunrise)" }}
             >
               {busy ? "…يُضاف" : "إضافة"}
             </button>

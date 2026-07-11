@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { BRAND } from "@/lib/constants";
 import type { OnboardingHabitInput } from "@/lib/habits";
-import { accentOf, accentSoftOf } from "@/lib/colors";
+import { accentOf, accentSoftOf, accentInkOf } from "@/lib/colors";
+import Icon from "@/components/ui/Icon";
 
 export interface DraftHabit extends OnboardingHabitInput {
   uid: string;
@@ -49,17 +50,20 @@ export default function ReviewStep({
       <h2 className="font-[family-name:var(--font-display)] text-3xl font-black text-[--color-ink]">
         عاداتك السبع
       </h2>
-      <p className="mt-2 text-[--color-muted]">
+      <p className="mt-3 text-[--color-muted]">
         اخترناها لك بعنايةٍ من إجاباتك. عدّلها كما تشاء — {habits.length}/
         {BRAND.maxHabits}.
       </p>
 
-      <div className="mt-6 flex flex-col gap-2.5">
+      <div className="mt-6 flex flex-col gap-3">
         {habits.map((h) => (
-          <div key={h.uid} className="card flex items-center gap-3 p-3.5">
+          <div key={h.uid} className="card flex items-center gap-3.5 p-4">
             <span
-              className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl text-2xl"
-              style={{ background: accentSoftOf(h.colorKey) }}
+              className="grid h-12 w-12 shrink-0 place-items-center rounded-[--radius-md] text-2xl"
+              style={{
+                background: accentSoftOf(h.colorKey),
+                boxShadow: `inset 0 0 0 1px ${accentOf(h.colorKey)}22`,
+              }}
             >
               {h.emoji}
             </span>
@@ -68,20 +72,22 @@ export default function ReviewStep({
                 <h3 className="truncate font-semibold text-[--color-ink]">{h.title}</h3>
                 {h.apiRefined && (
                   <span
-                    className="pill px-2 py-0.5 text-[10px] font-medium"
-                    style={{ background: "var(--color-lavender-soft)", color: "var(--color-lavender-ink)" }}
+                    className="pill inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-semibold"
+                    style={{ background: "var(--color-accent-soft)", color: "var(--color-accent-ink)" }}
                   >
+                    <Icon name="spark" size={10} strokeWidth={2} />
                     منقّحة
                   </span>
                 )}
               </div>
               {h.identity && (
-                <p className="mt-0.5 text-xs text-[--color-muted]">{h.identity}</p>
+                <p className="mt-0.5 text-xs" style={{ color: accentInkOf(h.colorKey) }}>{h.identity}</p>
               )}
               {h.why && (
                 <p className="mt-0.5 text-[11px] italic text-[--color-faint]">{h.why}</p>
               )}
-              <p className="tabular mt-0.5 text-xs text-[--color-faint]">
+              <p className="tabular mt-1 flex items-center gap-1.5 text-xs text-[--color-faint]">
+                <Icon name="clock" size={13} className="text-[--color-faint]" />
                 {h.scheduledAt} · {h.frequency === "daily" ? "يومي" : "أيام محدّدة"}
               </p>
             </div>
@@ -89,9 +95,9 @@ export default function ReviewStep({
               type="button"
               onClick={() => onRemove(h.uid)}
               aria-label={`إزالة ${h.title}`}
-              className="grid h-8 w-8 place-items-center rounded-full text-[--color-faint] transition-colors hover:bg-[--color-surface-2] hover:text-[--color-clay-ink]"
+              className="press grid h-8 w-8 shrink-0 place-items-center rounded-full text-[--color-faint] transition-colors hover:bg-[--color-danger-soft] hover:text-[--color-danger-ink]"
             >
-              ✕
+              <Icon name="close" size={16} />
             </button>
           </div>
         ))}
@@ -105,15 +111,23 @@ export default function ReviewStep({
               onChange={(e) => setText(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && submitCustom()}
               placeholder="اكتب عادتك بكلماتك… مثال: أشرب ماءً أكثر"
-              className="flex-1 rounded-2xl border border-[--color-hairline] bg-[--color-surface] px-4 py-3 text-[--color-ink] shadow-sm outline-none placeholder:text-[--color-faint] focus:border-[--color-sage]"
+              className="flex-1 rounded-[--radius-md] border border-[--color-border] bg-[--color-surface] px-4 py-3 text-[--color-ink] shadow-[var(--shadow-1)] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent]"
             />
             <button
               type="button"
               onClick={submitCustom}
               disabled={adding || !text.trim()}
-              className="pill shrink-0 bg-[--color-surface-2] px-5 font-semibold text-[--color-ink] transition-colors hover:bg-[--color-surface-3] disabled:opacity-50"
+              className="press inline-flex shrink-0 items-center gap-1.5 rounded-[--radius-pill] px-5 font-semibold transition-colors disabled:opacity-50"
+              style={{ background: "var(--color-accent-soft)", color: "var(--color-accent-ink)" }}
             >
-              {adding ? "…يُنقّح" : "إضافة"}
+              {adding ? (
+                "…يُنقّح"
+              ) : (
+                <>
+                  <Icon name="plus" size={16} strokeWidth={2.2} />
+                  إضافة
+                </>
+              )}
             </button>
           </div>
           <p className="mt-1.5 text-xs text-[--color-faint]">
@@ -126,10 +140,16 @@ export default function ReviewStep({
         type="button"
         onClick={onFinish}
         disabled={finishing || habits.length === 0}
-        className="pill mt-8 py-3.5 text-center font-bold text-white transition-transform hover:scale-[1.02] active:scale-95 disabled:opacity-60"
-        style={{ background: "var(--color-sage)" }}
+        className="press mt-8 flex items-center justify-center gap-2 rounded-[--radius-pill] bg-[--color-ink] py-4 text-center font-bold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-50"
       >
-        {finishing ? "…نجهّز لوحتك" : "ابدأ رحلتي"}
+        {finishing ? (
+          "…نجهّز لوحتك"
+        ) : (
+          <>
+            <Icon name="leaf" size={18} className="text-[--color-cream]" />
+            ابدأ رحلتي
+          </>
+        )}
       </button>
     </div>
   );

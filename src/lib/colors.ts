@@ -3,29 +3,32 @@ import type { ColorKey } from "./types";
 
 export const ACCENT: Record<ColorKey, string> = {
   sage: "var(--color-sage)",
-  clay: "var(--color-clay)",
-  lavender: "var(--color-lavender)",
+  teal: "var(--color-teal)",
   sky: "var(--color-sky)",
-  amber: "var(--color-amber)",
+  lavender: "var(--color-lavender)",
   blush: "var(--color-blush)",
+  clay: "var(--color-clay)",
+  amber: "var(--color-amber)",
 };
 
 export const ACCENT_SOFT: Record<ColorKey, string> = {
   sage: "var(--color-sage-soft)",
-  clay: "var(--color-clay-soft)",
-  lavender: "var(--color-lavender-soft)",
+  teal: "var(--color-teal-soft)",
   sky: "var(--color-sky-soft)",
-  amber: "var(--color-amber-soft)",
+  lavender: "var(--color-lavender-soft)",
   blush: "var(--color-blush-soft)",
+  clay: "var(--color-clay-soft)",
+  amber: "var(--color-amber-soft)",
 };
 
 export const ACCENT_INK: Record<ColorKey, string> = {
   sage: "var(--color-sage-ink)",
-  clay: "var(--color-clay-ink)",
-  lavender: "var(--color-lavender-ink)",
+  teal: "var(--color-teal-ink)",
   sky: "var(--color-sky-ink)",
-  amber: "var(--color-amber-ink)",
+  lavender: "var(--color-lavender-ink)",
   blush: "var(--color-blush-ink)",
+  clay: "var(--color-clay-ink)",
+  amber: "var(--color-amber-ink)",
 };
 
 /** لون آمن افتراضي عند قيمة غير معروفة. */

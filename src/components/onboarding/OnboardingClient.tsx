@@ -9,6 +9,7 @@ import { HABIT_META, type HabitTemplate } from "@/lib/constants";
 import type { OnboardingHabitInput } from "@/lib/habits";
 import DiagnosticFlow from "./DiagnosticFlow";
 import ReviewStep, { type DraftHabit } from "./ReviewStep";
+import Icon from "@/components/ui/Icon";
 
 const REVIEW = QUESTIONS.length;
 
@@ -125,17 +126,17 @@ export default function OnboardingClient() {
             type="button"
             onClick={back}
             aria-label="رجوع"
-            className="grid h-9 w-9 place-items-center rounded-full bg-[--color-surface] text-[--color-muted] transition-colors hover:text-[--color-ink]"
+            className="press card grid h-10 w-10 shrink-0 place-items-center rounded-full text-[--color-muted] transition-colors hover:text-[--color-ink]"
           >
-            →
+            <Icon name="chevron" size={18} />
           </button>
         )}
-        <div className="h-2 flex-1 overflow-hidden rounded-full bg-[--color-surface-2]">
+        <div className="h-2 flex-1 overflow-hidden rounded-full bg-[--color-surface-2] shadow-[inset_0_1px_2px_rgba(35,28,20,0.06)]">
           <div
             className="h-full rounded-full transition-[width] duration-500"
             style={{
               width: `${progress}%`,
-              background: "linear-gradient(90deg, var(--color-lavender), var(--color-sage))",
+              background: "var(--grad-sunrise)",
             }}
           />
         </div>
@@ -167,10 +168,10 @@ export default function OnboardingClient() {
           type="button"
           onClick={advance}
           disabled={!canAdvance}
-          className="pill mt-6 py-3.5 text-center font-bold text-white transition-transform hover:scale-[1.02] active:scale-95 disabled:opacity-50"
-          style={{ background: "var(--color-sage)" }}
+          className="press mt-8 flex items-center justify-center gap-2 rounded-[--radius-pill] bg-[--color-ink] py-3.5 text-center font-bold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-40"
         >
           التالي
+          <Icon name="chevron" size={18} />
         </button>
       )}
     </main>

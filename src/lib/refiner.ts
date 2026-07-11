@@ -81,13 +81,6 @@ const RULES: Rule[] = [
     steps: () => ["اختر مكاناً هادئاً", "اقرأ صفحة للبداية", "أكمل هدفك اليومي"],
   },
   {
-    match: /(تأمل|تنفّس|تنفس|استرخاء|سكينة|هدوء|صفاء|meditat|breath|calm|yoga|يوغا)/i,
-    emoji: "🧘",
-    color: "lavender",
-    times: ["06:30"],
-    steps: () => ["اجلس بهدوء", "تنفّس بعمق", "أطلِق توتّرك برفق"],
-  },
-  {
     match: /(نوم|أنام|sleep)/i,
     emoji: "😴",
     color: "sky",
@@ -102,7 +95,7 @@ const RULES: Rule[] = [
     steps: () => ["أغلق المشتّتات", "شغّل مؤقّت 25 دقيقة", "مهمة واحدة فقط"],
   },
   {
-    match: /(امتنان|شكر|تأمل|تنفس|gratitude|meditat)/i,
+    match: /(امتنان|شكر|gratitude)/i,
     emoji: "🕊️",
     color: "blush",
     times: ["22:00"],

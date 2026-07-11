@@ -51,15 +51,15 @@ test("addMinutes: حساب صحيح مع الالتفاف", () => {
 });
 
 test("personalizeTimes: يقدّم الصباحية لوقت الاستيقاظ", () => {
-  const templates = HABIT_LIBRARY.filter((h) => h.key === "meditate");
+  const templates = HABIT_LIBRARY.filter((h) => h.key === "no_phone_morning");
   const out = personalizeTimes(templates, "05:30");
   assert.equal(out[0].scheduledAt, "05:50"); // 05:30 + 20د
   // لا يطال المكتبة الأصلية
-  assert.equal(HABIT_LIBRARY.find((h) => h.key === "meditate")!.scheduledAt, "06:30");
+  assert.equal(HABIT_LIBRARY.find((h) => h.key === "no_phone_morning")!.scheduledAt, "06:00");
 });
 
 test("personalizeTimes: وقت استيقاظ غير صالح يُبقي الأصل", () => {
-  const templates = HABIT_LIBRARY.filter((h) => h.key === "meditate");
+  const templates = HABIT_LIBRARY.filter((h) => h.key === "no_phone_morning");
   const out = personalizeTimes(templates, "bad");
-  assert.equal(out[0].scheduledAt, "06:30");
+  assert.equal(out[0].scheduledAt, "06:00");
 });

@@ -1,6 +1,7 @@
 "use client";
 // عون — مبدّل الوضع النهاري/الليلي (يُحفظ محلياً).
 import { useEffect, useState } from "react";
+import Icon from "@/components/ui/Icon";
 
 export default function ThemeToggle() {
   const [theme, setTheme] = useState<"light" | "dusk">("light");
@@ -19,32 +20,47 @@ export default function ThemeToggle() {
     document.cookie = `aoun-theme=${next}; path=/; max-age=31536000; samesite=lax`;
   };
 
+  const isDusk = theme === "dusk";
+
   return (
     <button
       type="button"
       onClick={toggle}
-      className="card flex w-full items-center justify-between p-4 text-start"
+      className="press card flex w-full items-center justify-between p-4 text-start"
       aria-label="تبديل الوضع الليلي"
     >
       <span className="flex items-center gap-3">
         <span
-          className="icon-chip h-11 w-11 text-xl"
-          style={{ background: "var(--color-lavender-soft)" }}
+          className="icon-chip h-11 w-11 text-[--color-accent-ink]"
+          style={{ background: "var(--color-accent-soft)" }}
         >
-          {theme === "dusk" ? "🌙" : "☀️"}
+          <Icon name={isDusk ? "moon" : "sun"} size={22} />
         </span>
         <span>
           <span className="block font-semibold text-[--color-ink]">المظهر</span>
           <span className="block text-xs text-[--color-muted]">
-            {theme === "dusk" ? "الوضع الليلي مُفعّل" : "الوضع النهاري"}
+            {isDusk ? "الوضع الليلي مُفعّل" : "الوضع النهاري"}
           </span>
         </span>
       </span>
       <span
-        className="pill px-4 py-2 text-sm font-medium"
-        style={{ background: "var(--color-surface-2)", color: "var(--color-ink)" }}
+        aria-hidden
+        className="flex items-center gap-1 rounded-[--radius-pill] bg-[--color-surface-2] p-1"
       >
-        {theme === "dusk" ? "تحويل للنهاري" : "تحويل لليلي"}
+        <span
+          className={`grid h-8 w-9 place-items-center rounded-[--radius-pill] transition-colors ${
+            isDusk ? "text-[--color-faint]" : "bg-[--color-accent-soft] text-[--color-accent-ink]"
+          }`}
+        >
+          <Icon name="sun" size={18} />
+        </span>
+        <span
+          className={`grid h-8 w-9 place-items-center rounded-[--radius-pill] transition-colors ${
+            isDusk ? "bg-[--color-accent-soft] text-[--color-accent-ink]" : "text-[--color-faint]"
+          }`}
+        >
+          <Icon name="moon" size={18} />
+        </span>
       </span>
     </button>
   );

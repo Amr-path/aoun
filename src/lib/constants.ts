@@ -34,18 +34,6 @@ export interface HabitTemplate {
  */
 export const HABIT_LIBRARY: HabitTemplate[] = [
   {
-    key: "meditate",
-    title: "تأمّل وتنفّس",
-    emoji: "🧘",
-    frequency: "daily",
-    weekdays: [0, 1, 2, 3, 4, 5, 6],
-    scheduledAt: "06:30",
-    microSteps: ["اجلس بهدوء دقيقة", "تنفّس بعمق عشر مرّات", "أطلِق توتّرك برفق"],
-    colorKey: "lavender",
-    focus: ["spiritual"],
-    identity: "أنت من يبدأ يومه بصفاءٍ داخلي.",
-  },
-  {
     key: "gratitude",
     title: "تدوين الامتنان",
     emoji: "🙏",
@@ -154,18 +142,6 @@ export const HABIT_LIBRARY: HabitTemplate[] = [
     identity: "أنت من يصل من يحبّ.",
   },
   {
-    key: "reflect_journal",
-    title: "تدوينٌ مسائي",
-    emoji: "✍️",
-    frequency: "daily",
-    weekdays: [0, 1, 2, 3, 4, 5, 6],
-    scheduledAt: "22:00",
-    microSteps: ["اكتب سطراً عن يومك", "راجع نفسك برفق", "دوّن نيّةً للغد"],
-    colorKey: "clay",
-    focus: ["mental"],
-    identity: "أنت من يراجع نفسه ليكبر.",
-  },
-  {
     key: "sunlight",
     title: "دقائق تحت الشمس",
     emoji: "☀️",
@@ -205,7 +181,7 @@ export const HABIT_LIBRARY: HabitTemplate[] = [
 
 /** الاختيار الافتراضي المتوازن: 7 عادات تغطّي الجسد والذهن والصفاء والنوم. */
 export const DEFAULT_SEVEN_KEYS = [
-  "meditate",
+  "no_phone_morning",
   "walk_30",
   "water_2l",
   "deep_focus",
@@ -229,7 +205,6 @@ export const WEEKDAY_SHORT_AR = ["ح", "ن", "ث", "ر", "خ", "ج", "س"] as co
 
 /** بيانات إثرائية لكل عادة: التصنيف و«لماذا تهمّ» (علميّ عام). */
 export const HABIT_META: Record<string, { category: string; why: string }> = {
-  meditate: { category: "الصفاء", why: "دقائق تنفّسٍ تخفض التوتّر وتحسّن التركيز." },
   gratitude: { category: "الصفاء", why: "تدوين الامتنان يرفع الرضا والمزاج الإيجابي." },
   walk_30: { category: "الجسد", why: "المشي اليومي يقوّي القلب والمزاج والطاقة." },
   water_2l: { category: "الجسد", why: "الترطيب الكافي يحسّن التركيز والطاقة." },
@@ -239,7 +214,6 @@ export const HABIT_META: Record<string, { category: string; why: string }> = {
   move_body: { category: "الجسد", why: "الإطالة تقلّل الشدّ وتحسّن المرونة." },
   no_phone_morning: { category: "الذهن", why: "بدايةٌ بلا شاشة تحمي تركيزك ومزاجك." },
   connect: { category: "العلاقات", why: "التواصل الدافئ يعزّز السعادة والانتماء." },
-  reflect_journal: { category: "الصفاء", why: "التدوين المسائي يصفّي الذهن ويرسّخ الدروس." },
   sunlight: { category: "الجسد", why: "ضوء الصباح يضبط ساعتك البيولوجية ونومك." },
   plan_day: { category: "الإنتاجية", why: "تخطيط اليوم يقلّل التشتّت ويرفع الإنجاز." },
   learn: { category: "الذهن", why: "التعلّم المستمر يبقي عقلك نشطاً ومتجدّداً." },
@@ -247,7 +221,7 @@ export const HABIT_META: Record<string, { category: string; why: string }> = {
 
 /** لوحة إيموجي مقترحة عند إنشاء/تعديل عادة. */
 export const EMOJI_CHOICES = [
-  "🧘", "🙏", "🚶", "💧", "😴", "🎯", "📚", "🤸", "🌤️", "🤍",
+  "🙏", "🚶", "💧", "😴", "🎯", "📚", "🤸", "🌤️", "🤍", "🕊️",
   "✍️", "☀️", "🗒️", "🧠", "🌿", "🏃", "🥗", "🎧", "☕", "🧹",
   "⭐", "🌱", "💪", "🌊", "🎨", "🎸", "💰", "🌷", "🔥", "📵",
 ] as const;

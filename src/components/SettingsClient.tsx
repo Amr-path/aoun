@@ -6,6 +6,8 @@ import Logo from "./Logo";
 import ThemeToggle from "./ThemeToggle";
 import NotificationsToggle from "./NotificationsToggle";
 import LogoutButton from "./LogoutButton";
+import BottomNav from "./BottomNav";
+import Icon from "@/components/ui/Icon";
 
 const TIMEZONES = [
   "Asia/Riyadh",
@@ -55,14 +57,15 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
   };
 
   return (
-    <main className="mx-auto w-full max-w-lg px-5 pb-24 pt-6">
+    <main className="mx-auto w-full max-w-lg px-5 pb-32 pt-6">
       <div className="mb-6 flex items-center justify-between">
         <Logo size={28} withWordmark />
         <Link
           href="/dashboard"
-          className="pill border border-[--color-border] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] transition-colors hover:bg-[--color-surface-2]"
+          className="press pill inline-flex items-center gap-1.5 border border-[--color-hairline] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] transition-colors hover:bg-[--color-surface-2]"
         >
-          ← اللوحة
+          <Icon name="chevron" size={16} />
+          اللوحة
         </Link>
       </div>
 
@@ -78,7 +81,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="rounded-xl border border-[--color-hairline] bg-[--color-surface] px-3 py-2.5 text-[--color-ink] outline-none focus:border-[--color-sage]"
+            className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-3 py-2.5 text-[--color-ink] outline-none transition-colors focus:border-[--color-accent]"
           />
         </label>
         <label className="mb-3 flex flex-col gap-1.5">
@@ -86,7 +89,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
           <input
             value={email}
             disabled
-            className="rounded-xl border border-[--color-hairline] bg-[--color-surface-2] px-3 py-2.5 text-[--color-faint] outline-none"
+            className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface-2] px-3 py-2.5 text-[--color-faint] outline-none"
           />
         </label>
         <label className="flex flex-col gap-1.5">
@@ -94,7 +97,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
           <select
             value={tz}
             onChange={(e) => setTz(e.target.value)}
-            className="rounded-xl border border-[--color-hairline] bg-[--color-surface] px-3 py-2.5 text-[--color-ink] outline-none focus:border-[--color-sage]"
+            className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-3 py-2.5 text-[--color-ink] outline-none transition-colors focus:border-[--color-accent]"
           >
             {TIMEZONES.map((z) => (
               <option key={z} value={z}>
@@ -109,12 +112,16 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
             type="button"
             onClick={save}
             disabled={busy}
-            className="pill px-6 py-2.5 font-semibold text-white transition-transform active:scale-95 disabled:opacity-60"
-            style={{ background: "var(--color-sage)" }}
+            className="press pill bg-[--color-ink] px-6 py-2.5 font-semibold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-60"
           >
             {busy ? "…" : "حفظ"}
           </button>
-          {saved && <span className="text-sm text-[--color-sage-ink]">تم الحفظ ✓</span>}
+          {saved && (
+            <span className="inline-flex items-center gap-1 text-sm font-medium text-[--color-success-ink]">
+              <Icon name="check" size={16} />
+              تم الحفظ
+            </span>
+          )}
         </div>
       </section>
 
@@ -130,6 +137,8 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
       <div className="mt-6 flex justify-center">
         <LogoutButton />
       </div>
+
+      <BottomNav />
     </main>
   );
 }

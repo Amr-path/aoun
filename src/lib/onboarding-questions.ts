@@ -51,7 +51,7 @@ export const QUESTIONS: Question[] = [
     title: "ما الذي تودّ أن يعتني به عون معك؟",
     subtitle: "اختر ما يلامسك هذا العام (واحد أو أكثر).",
     options: [
-      { value: "spiritual", label: "صفاءٌ داخلي", hint: "تأمّلٌ وامتنانٌ وهدوء", emoji: "🧘" },
+      { value: "spiritual", label: "صفاءٌ داخلي", hint: "امتنانٌ وسكينةٌ وهدوء", emoji: "🕊️" },
       { value: "physical", label: "حيوية الجسد", hint: "حركةٌ وماءٌ وطاقة", emoji: "🌿" },
       { value: "mental", label: "صفاء الذهن", hint: "تركيزٌ وقراءةٌ وهدوء", emoji: "🧠" },
       { value: "sleep", label: "راحةٌ ونوم", hint: "ليلٌ هادئ ونهارٌ نشط", emoji: "😴" },

@@ -23,13 +23,13 @@ export default function FrequencyToggle({ frequency, weekdays, onChange }: Props
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="pill inline-flex bg-[--color-surface-2] p-1 text-sm">
+      <div className="pill inline-flex bg-[--color-surface-2] p-1 text-sm shadow-[var(--shadow-top)]">
         <button
           type="button"
           onClick={setDaily}
-          className={`pill px-4 py-1.5 transition-colors ${
+          className={`pill press px-4 py-1.5 transition-colors ${
             frequency === "daily"
-              ? "bg-[--color-surface] font-semibold text-[--color-ink] shadow-sm"
+              ? "bg-[--color-accent-soft] font-semibold text-[--color-accent-ink] shadow-[var(--shadow-1)]"
               : "text-[--color-muted]"
           }`}
         >
@@ -38,9 +38,9 @@ export default function FrequencyToggle({ frequency, weekdays, onChange }: Props
         <button
           type="button"
           onClick={setWeekly}
-          className={`pill px-4 py-1.5 transition-colors ${
+          className={`pill press px-4 py-1.5 transition-colors ${
             frequency === "weekly"
-              ? "bg-[--color-surface] font-semibold text-[--color-ink] shadow-sm"
+              ? "bg-[--color-accent-soft] font-semibold text-[--color-accent-ink] shadow-[var(--shadow-1)]"
               : "text-[--color-muted]"
           }`}
         >
@@ -58,9 +58,9 @@ export default function FrequencyToggle({ frequency, weekdays, onChange }: Props
                 type="button"
                 onClick={() => toggleDay(d)}
                 aria-pressed={on}
-                className={`grid h-9 w-9 place-items-center rounded-xl text-sm transition-all active:scale-90 ${
+                className={`press grid h-9 w-9 place-items-center rounded-[--radius-sm] text-sm font-medium transition-all ${
                   on
-                    ? "bg-[--color-sage] font-bold text-white"
+                    ? "bg-[--color-accent-soft] font-bold text-[--color-accent-ink] shadow-[var(--shadow-top)]"
                     : "bg-[--color-surface-2] text-[--color-muted] hover:bg-[--color-surface-3]"
                 }`}
               >

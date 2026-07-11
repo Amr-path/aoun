@@ -9,7 +9,7 @@ const TARGET = 7;
 const FOUNDATIONAL = new Set(["water_2l", "sleep_7", "walk_30"]);
 
 /** عادات تناسب الطاقة المنخفضة (لطيفة) مقابل المرتفعة (مجهدة). */
-const LOW_ENERGY = new Set(["sleep_7", "water_2l", "meditate", "gratitude"]);
+const LOW_ENERGY = new Set(["sleep_7", "water_2l", "gratitude"]);
 const HIGH_ENERGY = new Set(["move_body", "deep_focus", "walk_30", "sunlight", "learn"]);
 
 /** يحسب درجة ملاءمة قالبٍ لإجابات التشخيص (أعلى = أنسب). */
@@ -85,7 +85,7 @@ export function personalizeTimes(
   wakeTime?: string
 ): HabitTemplate[] {
   if (!wakeTime || !/^\d{2}:\d{2}$/.test(wakeTime)) return templates.map((t) => ({ ...t }));
-  const morningKeys = new Set(["meditate", "no_phone_morning"]);
+  const morningKeys = new Set(["no_phone_morning"]);
   return templates.map((t) => {
     if (morningKeys.has(t.key)) {
       return { ...t, scheduledAt: addMinutes(wakeTime, 20) };

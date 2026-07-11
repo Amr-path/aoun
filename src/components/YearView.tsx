@@ -3,7 +3,19 @@
 import { useState } from "react";
 import ContributionGrid from "./ContributionGrid";
 import GardenGrid from "./GardenGrid";
+import Icon from "./ui/Icon";
 import type { DayCell } from "@/lib/analytics";
+
+// شعارٌ صغيرٌ للشبكة (٢×٢) بديلٌ نظيفٌ للإيموجي.
+function GridGlyph() {
+  return (
+    <span className="grid grid-cols-2 gap-[2px]" aria-hidden>
+      {Array.from({ length: 4 }).map((_, i) => (
+        <span key={i} className="h-[5px] w-[5px] rounded-[1.5px] bg-current" />
+      ))}
+    </span>
+  );
+}
 
 export default function YearView({ days }: { days: DayCell[] }) {
   const [mode, setMode] = useState<"garden" | "grid">("garden");
@@ -14,24 +26,26 @@ export default function YearView({ days }: { days: DayCell[] }) {
         <button
           type="button"
           onClick={() => setMode("garden")}
-          className={`pill px-4 py-1.5 transition-colors ${
+          className={`press pill inline-flex items-center gap-1.5 px-4 py-1.5 transition-colors ${
             mode === "garden"
-              ? "bg-[--color-surface] font-semibold text-[--color-ink] shadow-sm"
+              ? "bg-[--color-surface] font-semibold text-[--color-accent-ink] shadow-sm"
               : "text-[--color-muted]"
           }`}
         >
-          🌷 حديقة
+          <Icon name="leaf" size={16} />
+          حديقة
         </button>
         <button
           type="button"
           onClick={() => setMode("grid")}
-          className={`pill px-4 py-1.5 transition-colors ${
+          className={`press pill inline-flex items-center gap-1.5 px-4 py-1.5 transition-colors ${
             mode === "grid"
-              ? "bg-[--color-surface] font-semibold text-[--color-ink] shadow-sm"
+              ? "bg-[--color-surface] font-semibold text-[--color-accent-ink] shadow-sm"
               : "text-[--color-muted]"
           }`}
         >
-          ▦ شبكة
+          <GridGlyph />
+          شبكة
         </button>
       </div>
       {mode === "garden" ? <GardenGrid days={days} /> : <ContributionGrid days={days} />}

@@ -168,6 +168,7 @@
 html {
   height: 100%;
   background: var(--color-cream);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -232,7 +233,9 @@ h1, h2, h3 {
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-top), var(--shadow-1);
     transition: box-shadow var(--dur-med) var(--ease-out),
-      transform var(--dur-med) var(--ease-out);
+      transform var(--dur-med) var(--ease-out),
+      background-color var(--dur-med) var(--ease-out),
+      border-color var(--dur-med) var(--ease-out);
   }
   .lift:hover {
     transform: translateY(-2px);

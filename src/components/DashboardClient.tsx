@@ -67,56 +67,58 @@ export default function DashboardClient({
 
   return (
     <>
-      <main className="mx-auto w-full max-w-lg px-5 pb-32 pt-4">
+      <main className="mx-auto w-full max-w-lg px-5 pb-32 pt-3">
         {/* شريط علوي نحيف */}
-        <div className="flex h-11 items-center justify-between">
-          <Logo size={32} withWordmark />
+        <div className="flex h-10 items-center justify-between">
+          <Logo size={30} withWordmark />
           <Link
             href="/settings"
             aria-label="الإعدادات"
-            className="press grid h-10 w-10 place-items-center rounded-[--radius-md] border border-[--color-hairline-soft] bg-[--color-surface] text-[--color-muted] shadow-[var(--shadow-top),var(--shadow-1)]"
+            className="press grid h-9 w-9 place-items-center rounded-[--radius-md] border border-[--color-hairline-soft] bg-[--color-surface] text-[--color-muted] shadow-[var(--shadow-top),var(--shadow-1)]"
           >
-            <Icon name="settings" size={20} />
+            <Icon name="settings" size={19} />
           </Link>
         </div>
 
         {/* الترويسة */}
-        <p className="mt-4 text-[13px] font-medium text-[--color-muted]">{dateLabel}</p>
-        <h1 className="mt-1 font-[family-name:var(--font-display)] text-[30px] font-extrabold leading-tight text-[--color-ink]">
-          {greeting}
-          {userName ? `، ${userName}` : ""}
-        </h1>
+        <div className="mt-3 flex items-baseline justify-between gap-3">
+          <h1 className="font-[family-name:var(--font-display)] text-[24px] font-bold leading-tight text-[--color-ink]">
+            {greeting}
+            {userName ? `، ${userName}` : ""}
+          </h1>
+          <span className="shrink-0 text-[12px] font-medium text-[--color-faint]">{dateLabel}</span>
+        </div>
 
         {/* هيرو «زهرة اليوم» */}
         <BloomHero done={doneCount} due={dueCount} streak={s.streakCount} level={level} />
 
-        {/* بذرةُ اليوم */}
-        <p className="mt-4 text-center text-[13.5px] italic leading-relaxed text-[--color-muted]">
-          « {seed} »
+        {/* بذرةُ اليوم — سطرٌ هامسٌ صغير */}
+        <p className="mt-2.5 truncate text-center text-[12px] italic text-[--color-faint]">
+          {seed}
         </p>
 
         {/* رسالة تعافٍ عند العودة بعد انقطاع */}
         {recovery && (
           <div
-            className="mt-4 flex items-start gap-3 rounded-[--radius-card] p-4"
+            className="mt-3 flex items-start gap-2.5 rounded-[--radius-card] p-3.5"
             style={{ background: "var(--color-accent-soft)" }}
           >
-            <Icon name="leaf" size={18} className="mt-0.5 shrink-0 text-[--color-accent-ink]" />
-            <p className="text-[13.5px] leading-relaxed text-[--color-accent-ink]">{recovery}</p>
+            <Icon name="leaf" size={17} className="mt-0.5 shrink-0 text-[--color-accent-ink]" />
+            <p className="text-[13px] leading-relaxed text-[--color-accent-ink]">{recovery}</p>
           </div>
         )}
 
         {/* قسم العادات */}
-        <div className="mb-3 mt-7 flex items-center justify-between">
-          <h2 className="font-[family-name:var(--font-display)] text-[18px] font-bold text-[--color-ink]">
+        <div className="mb-2.5 mt-5 flex items-center justify-between">
+          <h2 className="font-[family-name:var(--font-display)] text-[16px] font-bold text-[--color-ink]">
             عاداتك اليوم
           </h2>
-          <span className="tabular text-[13px] font-semibold text-[--color-muted]">
+          <span className="tabular text-[12.5px] font-semibold text-[--color-muted]">
             {ar(doneCount)} / {ar(dueCount)}
           </span>
         </div>
 
-        <section className="flex flex-col gap-3">
+        <section className="flex flex-col gap-2.5">
           {pending.map((h, i) => (
             <div key={h.id} className="animate-rise" style={{ animationDelay: `${i * 45}ms` }}>
               <HabitCard habit={h} />

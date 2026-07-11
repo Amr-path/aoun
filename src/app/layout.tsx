@@ -1,15 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Readex_Pro } from "next/font/google";
+import { Almarai } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { BRAND } from "@/lib/constants";
 import SWRegister from "@/components/SWRegister";
 
-// خطٌّ واحد موحّد: Readex Pro — حديثٌ ناعمٌ دافئٌ عالي الوضوح، للنصّ والعناوين معاً.
-const arabic = Readex_Pro({
+// خطٌّ واحد موحّد: Almarai — عربيٌّ دافئٌ واضح، للنصّ والعناوين معاً.
+const arabic = Almarai({
   variable: "--font-arabic",
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["arabic"],
+  weight: ["300", "400", "700", "800"],
   display: "swap",
 });
 

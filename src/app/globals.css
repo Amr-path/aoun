@@ -1,0 +1,296 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════
+   عون — نظام التصميم (ساج وكريمي)
+   فلسفة: هادئ، دافئ، طبيعي، وأنيق — مع تفاعل حيويّ مبهج.
+   ═══════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* الخطوط */
+  --font-sans: var(--font-arabic), "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-display: var(--font-display), var(--font-arabic), sans-serif;
+
+  /* الأسطح الدافئة */
+  --color-cream: #f7f4ef;
+  --color-bg: #f4f0e8;
+  --color-surface: #fffdfa;
+  --color-surface-2: #f3eee6;
+  --color-surface-3: #eae3d6;
+  --color-border: #e8e1d4;
+  --color-hairline: #dbd2c2;
+  --color-hairline-soft: rgba(60, 50, 40, 0.08);
+
+  /* النصوص */
+  --color-ink: #2e2e2b;
+  --color-muted: #726d63;
+  --color-faint: #a29b8f;
+
+  /* لكنات هادئة (accent) — كل لكنة: أساسي / حبر داكن / خلفية ناعمة */
+  --color-sage: #6fa07c;
+  --color-sage-ink: #3f6149;
+  --color-sage-soft: #e5eee6;
+
+  --color-clay: #d0895f;
+  --color-clay-ink: #8a4c30;
+  --color-clay-soft: #f6e7dc;
+
+  --color-lavender: #9b8bd4;
+  --color-lavender-ink: #554a83;
+  --color-lavender-soft: #ece8f6;
+
+  --color-sky: #5aa6bf;
+  --color-sky-ink: #2c6376;
+  --color-sky-soft: #e1eff3;
+
+  --color-amber: #e0a94e;
+  --color-amber-ink: #8a6316;
+  --color-amber-soft: #f8eed6;
+
+  --color-blush: #d98ba6;
+  --color-blush-ink: #8a4560;
+  --color-blush-soft: #f7e4eb;
+
+  /* أنصاف الأقطار */
+  --radius-card: 1.25rem;
+  --radius-chip: 0.875rem;
+  --radius-pill: 999px;
+
+  /* الحركة */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ظلالٌ دافئة طبقية + مدد حركة موحّدة (رموز خارج @theme) */
+:root {
+  --shadow-1: 0 1px 2px rgba(72, 60, 50, 0.05), 0 8px 24px rgba(72, 60, 50, 0.07);
+  --shadow-2: 0 2px 6px rgba(72, 60, 50, 0.06), 0 18px 40px rgba(72, 60, 50, 0.11);
+  --shadow-top: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  --dur-fast: 150ms;
+  --dur-med: 240ms;
+  --dur-slow: 420ms;
+}
+
+/* ─── الأساس ─────────────────────────────────────────────────── */
+:root {
+  color-scheme: light;
+}
+
+/* ─── الوضع الليلي الهادئ (Dusk) — دافئ منخفض الإضاءة، لا أسود صريح ─── */
+:root[data-theme="dusk"] {
+  color-scheme: dark;
+  --color-cream: #1c1a17;
+  --color-bg: #1c1a17;
+  --color-surface: #24211d;
+  --color-surface-2: #2b2723;
+  --color-surface-3: #35302a;
+  --color-border: #3a352e;
+  --color-hairline: #4a443c;
+  --color-hairline-soft: rgba(255, 255, 255, 0.06);
+  --color-ink: #f0ece4;
+  --color-muted: #b0a89b;
+  --color-faint: #7d766a;
+
+  --color-sage: #7cae88;
+  --color-sage-ink: #b7d6bf;
+  --color-sage-soft: #223027;
+  --color-clay: #dd9a72;
+  --color-clay-ink: #f0c3a6;
+  --color-clay-soft: #33261d;
+  --color-lavender: #a99ce0;
+  --color-lavender-ink: #cfc6f0;
+  --color-lavender-soft: #2a2540;
+  --color-sky: #6fbdd6;
+  --color-sky-ink: #b3dcea;
+  --color-sky-soft: #1f2e34;
+  --color-amber: #e6b25f;
+  --color-amber-ink: #f2d29b;
+  --color-amber-soft: #33291a;
+  --color-blush: #e19bb2;
+  --color-blush-ink: #f0c6d3;
+  --color-blush-soft: #331f28;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.35), 0 18px 40px rgba(0, 0, 0, 0.45);
+  --shadow-top: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+:root[data-theme="dusk"] body::after {
+  opacity: 0.02;
+  mix-blend-mode: soft-light;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  height: 100%;
+  background: var(--color-cream);
+}
+
+body {
+  position: relative;
+  min-height: 100%;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  background: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* أجواءٌ متحرّكة هادئة: هالاتٌ لونية تطفو ببطء خلف المحتوى */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(42rem 30rem at 20% 12%, rgba(155, 139, 212, 0.16), transparent 60%),
+    radial-gradient(40rem 28rem at 85% 18%, rgba(111, 160, 124, 0.16), transparent 60%),
+    radial-gradient(38rem 30rem at 60% 92%, rgba(224, 169, 78, 0.11), transparent 62%);
+  animation: ambient-float 24s ease-in-out infinite alternate;
+}
+
+@keyframes ambient-float {
+  from { transform: translate3d(-2%, -1%, 0) scale(1); }
+  to { transform: translate3d(2%, 2%, 0) scale(1.06); }
+}
+
+/* حبيبات ورقية شبه خفيّة تمنح دفء «الورق المصنوع يدوياً» */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* الطباعة: تباعد أحرفٍ محكم للعناوين + إيقاع عربي مريح */
+h1,
+h2 {
+  letter-spacing: -0.015em;
+}
+
+.tabular,
+.streak,
+.score {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* ─── مرافق ───────────────────────────────────────────────────── */
+@layer components {
+  .card {
+    background: var(--color-surface);
+    border: 0.5px solid var(--color-hairline-soft);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-top), var(--shadow-1);
+    transition: box-shadow var(--dur-med) var(--ease-out),
+      transform var(--dur-med) var(--ease-out);
+  }
+  /* رفعٌ لطيف عند التمرير للبطاقات التفاعلية */
+  .lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-top), var(--shadow-2);
+  }
+  .icon-chip {
+    border-radius: var(--radius-chip);
+    display: grid;
+    place-items: center;
+  }
+
+  .pill {
+    border-radius: var(--radius-pill);
+  }
+
+  /* حلقة لطيفة ملوّنة عند التفعيل — دون توهّج نيون */
+  .ring-accent {
+    box-shadow:
+      0 0 0 1.5px var(--accent, var(--color-sage)),
+      0 12px 30px -16px var(--accent, var(--color-sage));
+  }
+}
+
+/* ─── حركات مبهجة ─────────────────────────────────────────────── */
+@keyframes pop-check {
+  0% { transform: scale(1); }
+  35% { transform: scale(0.82); }
+  70% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+@keyframes fill-sweep {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes confetti {
+  0% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
+  100% { opacity: 0; transform: translate(var(--dx, 0), var(--dy, 0)) scale(0.4) rotate(var(--rot, 180deg)); }
+}
+
+@keyframes cheer-in {
+  0% { opacity: 0; transform: translateY(16px) scale(0.9); }
+  60% { transform: translateY(-4px) scale(1.03); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-6deg); }
+  75% { transform: rotate(6deg); }
+}
+
+/* تنفّسٌ هادئ لحلقة النتيجة عند اكتمال اليوم */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.025); }
+}
+.animate-breathe { animation: breathe 4s ease-in-out infinite; }
+
+/* نبضة هالة عند الإنجاز */
+@keyframes halo-pulse {
+  0% { opacity: 0; transform: scale(0.92); }
+  30% { opacity: 0.22; }
+  100% { opacity: 0; transform: scale(1.06); }
+}
+
+/* تفتّح بتلات الشعار (الهبوط السينمائي) */
+@keyframes petal-in {
+  0% { opacity: 0; transform: rotate(var(--rot, 0deg)) scale(0.2); }
+  100% { opacity: 0.92; transform: rotate(var(--rot, 0deg)) scale(1); }
+}
+
+.animate-pop { animation: pop-check 0.45s var(--ease-spring); }
+.animate-rise { animation: rise-in 0.55s var(--ease-soft) both; }
+.animate-cheer { animation: cheer-in 0.5s var(--ease-spring) both; }
+.animate-wiggle { animation: wiggle 0.4s var(--ease-soft); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* شريط تمرير رفيع دافئ */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-3);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::selection { background: var(--color-sage-soft); }

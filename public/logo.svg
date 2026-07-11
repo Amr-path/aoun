@@ -1,0 +1,17 @@
+<svg width="272" height="96" viewBox="0 0 272 96" xmlns="http://www.w3.org/2000/svg" font-family="Cairo, 'IBM Plex Sans Arabic', sans-serif">
+  <g transform="translate(184 24)">
+    <rect x="0" y="0" width="48" height="48" rx="14" fill="#6fa07c"/>
+    <g fill="#f7f4ef" opacity="0.92">
+      <path d="M24 23 C 19.5 17 19.5 11 24 6 C 28.5 11 28.5 17 24 23 Z" transform="rotate(0 24 24)"/>
+      <path d="M24 23 C 19.5 17 19.5 11 24 6 C 28.5 11 28.5 17 24 23 Z" transform="rotate(51.43 24 24)"/>
+      <path d="M24 23 C 19.5 17 19.5 11 24 6 C 28.5 11 28.5 17 24 23 Z" transform="rotate(102.86 24 24)"/>
+      <path d="M24 23 C 19.5 17 19.5 11 24 6 C 28.5 11 28.5 17 24 23 Z" transform="rotate(154.29 24 24)"/>
+      <path d="M24 23 C 19.5 17 19.5 11 24 6 C 28.5 11 28.5 17 24 23 Z" transform="rotate(205.71 24 24)"/>
+      <path d="M24 23 C 19.5 17 19.5 11 24 6 C 28.5 11 28.5 17 24 23 Z" transform="rotate(257.14 24 24)"/>
+      <path d="M24 23 C 19.5 17 19.5 11 24 6 C 28.5 11 28.5 17 24 23 Z" transform="rotate(308.57 24 24)"/>
+    </g>
+    <circle cx="24" cy="24" r="3" fill="#3f6149"/>
+  </g>
+  <text x="160" y="54" text-anchor="end" font-size="42" font-weight="800" fill="#2e2e2b">عون</text>
+  <text x="160" y="76" text-anchor="end" font-size="14" font-weight="500" fill="#726d63">رفيقك للاستمرار</text>
+</svg>

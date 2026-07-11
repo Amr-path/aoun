@@ -1,0 +1,136 @@
+// عون — مخطط قاعدة البيانات (PostgreSQL للتطوير والإنتاج).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────
+// المستخدم
+// ─────────────────────────────────────────────────────────────
+model User {
+  id             String    @id @default(cuid())
+  email          String?   @unique
+  name           String?
+  // كلمة المرور (bcrypt hash) — قد تكون فارغة لحسابات OAuth مستقبلاً
+  password       String?
+  // نتيجة التشخيص الأولي (5 أسئلة) محفوظة كـ JSON نصّي
+  diagnostic     String?
+  onboardedAt    DateTime?
+  timezone       String    @default("Asia/Riyadh")
+  locale         String    @default("ar")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  habits         Habit[]
+  dailyLogs      DailyLog[]
+  score          UserScore?
+  pushSubs       PushSubscription[]
+  reflections    Reflection[]
+}
+
+// ─────────────────────────────────────────────────────────────
+// العادة — يُحدّ المستخدم بسبعِ عادات فعّالة كحدٍّ أقصى (يُفرض في طبقة الخدمة)
+// ─────────────────────────────────────────────────────────────
+model Habit {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title             String
+  emoji             String   @default("✨")
+  // "daily" | "weekly"
+  frequency         String   @default("daily")
+  // أيام الأسبوع للتكرار المخصص: مصفوفة JSON [0..6] حيث 0=الأحد
+  weekdays          String   @default("[0,1,2,3,4,5,6]")
+  // الوقت المجدول HH:mm (24h)
+  scheduledAt       String   @default("08:00")
+
+  // ناتج تنقيح الـLLM
+  apiRefined        Boolean  @default(false)
+  microSteps        String   @default("[]") // مصفوفة JSON من الخطوات الصغيرة
+  reminderOffsetMin Int      @default(30)   // قبل الموعد بكم دقيقة
+
+  colorKey          String   @default("mint") // mint | orange | purple
+  position          Int      @default(0)      // ترتيب البطاقة (0..6)
+  archived          Boolean  @default(false)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  dailyLogs         DailyLog[]
+
+  @@index([userId, archived])
+}
+
+// ─────────────────────────────────────────────────────────────
+// سجلّ يومي لكل عادة
+// ─────────────────────────────────────────────────────────────
+model DailyLog {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  habitId     String
+  habit       Habit     @relation(fields: [habitId], references: [id], onDelete: Cascade)
+
+  // تاريخ اليوم بصيغة YYYY-MM-DD (بتوقيت المستخدم) لتفادي التباس المناطق الزمنية
+  date        String
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+
+  @@unique([habitId, date])
+  @@index([userId, date])
+}
+
+// ─────────────────────────────────────────────────────────────
+// نتيجة المستخدم (GPS) وحالة الـstreak
+// ─────────────────────────────────────────────────────────────
+model UserScore {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  currentScore   Int      @default(0)   // 0..100 لليوم الحالي
+  streakCount    Int      @default(0)   // أيام متتالية بأداء مقبول
+  bestStreak     Int      @default(0)
+  totalXp        Int      @default(0)   // نقاط الخبرة التراكمية
+  lastScoredDate String?                // آخر يوم احتُسب (YYYY-MM-DD)
+
+  updatedAt      DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────────────────────────
+// اشتراك Web Push (VAPID) — لمحرك الإشعارات
+// ─────────────────────────────────────────────────────────────
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// ─────────────────────────────────────────────────────────────
+// تأمّل مسائي — طقس مراجعة اليوم (مزاج + ملاحظة)
+// ─────────────────────────────────────────────────────────────
+model Reflection {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      String   // YYYY-MM-DD بتوقيت المستخدم
+  mood      Int      // 1..5
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, date])
+  @@index([userId])
+}

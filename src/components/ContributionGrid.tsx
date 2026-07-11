@@ -1,0 +1,50 @@
+// عون — شبكة السنة (٣٦٥ يوماً) على طراز الحدائق: كثافة الساج = اتساقك.
+import { weekdayOf } from "@/lib/date";
+import type { DayCell } from "@/lib/analytics";
+
+const LEVELS = [
+  "var(--color-surface-2)",
+  "#cfe3d4",
+  "#a3cbab",
+  "#7bb083",
+  "#5c8a68",
+];
+
+export default function ContributionGrid({ days }: { days: DayCell[] }) {
+  if (!days.length) return null;
+  const lead = weekdayOf(days[0].date);
+  const cells: (DayCell | null)[] = [...Array(lead).fill(null), ...days];
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="overflow-x-auto pb-1">
+        <div
+          className="grid grid-flow-col gap-[3px]"
+          style={{ gridTemplateRows: "repeat(7, 1fr)" }}
+        >
+          {cells.map((c, i) => (
+            <span
+              key={i}
+              title={c ? `${c.date} · ${c.completed}/${c.due}` : undefined}
+              className="h-[11px] w-[11px] rounded-[3px]"
+              style={{ background: c ? LEVELS[c.level] : "transparent" }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* المفتاح */}
+      <div className="flex items-center gap-1.5 text-[11px] text-[--color-faint]">
+        <span>أقل</span>
+        {LEVELS.map((c, i) => (
+          <span
+            key={i}
+            className="h-[11px] w-[11px] rounded-[3px]"
+            style={{ background: c }}
+          />
+        ))}
+        <span>أكثر</span>
+      </div>
+    </div>
+  );
+}

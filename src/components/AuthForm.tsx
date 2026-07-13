@@ -2,7 +2,7 @@
 // عون — نموذج الدخول/التسجيل.
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Logo from "./Logo";
+import FlowerMark from "./FlowerMark";
 
 export default function AuthForm() {
   const router = useRouter();
@@ -44,11 +44,11 @@ export default function AuthForm() {
   return (
     <div className="w-full max-w-sm">
       <div className="mb-8 flex flex-col items-center text-center">
-        <Logo variant="badge" size={64} animated className="mb-4" />
-        <h1 className="font-[family-name:var(--font-display)] text-2xl font-black text-[--color-ink]">
+        <FlowerMark size={64} className="mb-4" />
+        <h1 className="font-[family-name:var(--font-display)] text-[26px] font-extrabold text-[--color-ink]">
           {isRegister ? "أنشئ حسابك" : "أهلاً بعودتك"}
         </h1>
-        <p className="mt-1 text-sm text-[--color-muted]">
+        <p className="mt-1.5 text-sm text-[--color-muted]">
           {isRegister ? "ابدأ رحلتك مع عون" : "واصِل مداومتك"}
         </p>
       </div>
@@ -86,7 +86,11 @@ export default function AuthForm() {
         <button
           type="submit"
           disabled={busy}
-          className="press pill mt-2 bg-[--color-ink] py-3.5 text-center font-bold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-60"
+          className="press mt-2 rounded-full py-3.5 text-center font-bold text-[--color-cream] disabled:opacity-60"
+          style={{
+            background: "linear-gradient(180deg,#eba04c,#e0913a 60%,#cf7f2c)",
+            boxShadow: "0 10px 22px -8px rgba(200,122,40,.5), inset 0 1px 0 rgba(255,255,255,.35)",
+          }}
         >
           {busy ? "…" : isRegister ? "إنشاء الحساب" : "دخول"}
         </button>

@@ -1,53 +1,11 @@
 import Link from "next/link";
-
-// شعار عون: زهرةٌ من سبع بتلاتٍ ملوّنة تتفتّح واحدةً بعد الأخرى.
-const PETALS = [
-  { a: 0, c: ["#8fc49a", "#5c9a64"] },
-  { a: 51.43, c: ["#84b8de", "#4e93c4"] },
-  { a: 102.86, c: ["#dcb0c9", "#d07ea0"] },
-  { a: 154.29, c: ["#eec173", "#d9a23c"] },
-  { a: 205.71, c: ["#8fcabf", "#3e9088"] },
-  { a: 257.14, c: ["#b7b4e2", "#7c7fd0"] },
-  { a: 308.57, c: ["#e2ac86", "#ce7f52"] },
-];
-const PETAL_D = "M 100 86 C 80 66.2, 80 38.5, 100 20 C 120 38.5, 120 66.2, 100 86 Z";
+import FlowerMark from "@/components/FlowerMark";
 
 const GLOW =
   "radial-gradient(95% 46% at 50% -8%, rgba(224,145,58,.11), transparent 62%)," +
   "radial-gradient(66% 34% at 80% 12%, rgba(226,166,133,.11), transparent 64%)," +
   "radial-gradient(70% 40% at 14% 20%, rgba(124,127,208,.08), transparent 62%)," +
   "radial-gradient(90% 46% at 50% 110%, rgba(92,154,100,.07), transparent 60%)";
-
-function FlowerMark() {
-  return (
-    <svg viewBox="0 0 200 200" width={82} height={82} className="lp-mark mb-5" aria-hidden>
-      <defs>
-        {PETALS.map((p, i) => (
-          <radialGradient key={i} id={`lp${i}`} cx="0.5" cy="0.3" r="0.7">
-            <stop offset="0" stopColor={p.c[0]} />
-            <stop offset="1" stopColor={p.c[1]} />
-          </radialGradient>
-        ))}
-      </defs>
-      {PETALS.map((p, i) => (
-        <g key={i} transform={`rotate(${p.a} 100 100)`}>
-          <path
-            className="lp-petal"
-            style={{ animationDelay: `${(0.15 + i * 0.15).toFixed(2)}s` }}
-            d={PETAL_D}
-            fill={`url(#lp${i})`}
-            stroke="#fff"
-            strokeWidth={1}
-          />
-        </g>
-      ))}
-      <g className="lp-core">
-        <circle cx="100" cy="100" r="15" fill="#fffdfa" />
-        <circle cx="100" cy="100" r="9" fill="#e0913a" />
-      </g>
-    </svg>
-  );
-}
 
 // لقطة منتجٍ مصغّرة من داخل التطبيق تطفو أسفل الصفحة.
 function ProductPeek() {
@@ -138,7 +96,7 @@ export default function Home() {
     <main className="relative mx-auto flex w-full max-w-lg flex-1 flex-col items-center overflow-hidden px-7 pb-0 pt-16 text-center">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10" style={{ background: GLOW }} />
 
-      <FlowerMark />
+      <FlowerMark className="mb-5" />
 
       <h1 className="font-[family-name:var(--font-display)] text-[38px] font-extrabold leading-[1.1] tracking-tight text-[--color-ink]">
         رفيقُك

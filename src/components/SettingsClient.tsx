@@ -125,6 +125,31 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
         </div>
       </section>
 
+      {/* الترقية إلى عون بلس */}
+      <Link
+        href="/plus"
+        className="press mt-4 flex items-center gap-3 rounded-[--radius-card] p-4"
+        style={{
+          background: "var(--color-accent-soft)",
+          border: "1px solid var(--color-accent)",
+          boxShadow: "var(--shadow-top), var(--shadow-1)",
+        }}
+      >
+        <span
+          className="grid h-10 w-10 shrink-0 place-items-center rounded-[--radius-md]"
+          style={{ background: "linear-gradient(180deg,#eba04c,#e0913a 60%,#cf7f2c)" }}
+        >
+          <Icon name="spark" size={18} className="text-[--color-cream]" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-bold text-[--color-accent-ink]">عون بلس</span>
+          <span className="block text-xs text-[--color-accent-ink] opacity-80">
+            افتح كامل التجربة وادعم التطوير
+          </span>
+        </span>
+        <Icon name="chevron" size={18} className="text-[--color-accent-ink]" />
+      </Link>
+
       {/* المظهر */}
       <div className="mt-4">
         <ThemeToggle />

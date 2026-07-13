@@ -1,6 +1,5 @@
 "use client";
 // عون — الشاشة الرئيسية: شريطٌ علويّ نحيف + هيرو «زهرة اليوم» + قائمةٌ تفرز نفسها + شريطٌ سفليّ.
-import Link from "next/link";
 import { useEffect, useRef } from "react";
 import type { DashboardData } from "@/lib/habits";
 import { useDashboard } from "@/store/dashboard";
@@ -9,6 +8,7 @@ import { BRAND } from "@/lib/constants";
 import { ar } from "@/lib/numerals";
 import Logo from "./Logo";
 import Icon from "./ui/Icon";
+import FlowerMark from "./FlowerMark";
 import BloomHero from "./BloomHero";
 import HabitCard from "./HabitCard";
 import AddHabit from "./AddHabit";
@@ -68,16 +68,9 @@ export default function DashboardClient({
   return (
     <>
       <main className="mx-auto w-full max-w-lg px-5 pb-32 pt-3">
-        {/* شريط علوي نحيف */}
-        <div className="flex h-10 items-center justify-between">
+        {/* شريط علوي نحيف — الإعدادات تُفتح من الشريط السفليّ (أُزيل الترس المكرّر). */}
+        <div className="flex h-10 items-center">
           <Logo size={30} withWordmark />
-          <Link
-            href="/settings"
-            aria-label="الإعدادات"
-            className="press grid h-9 w-9 place-items-center rounded-[--radius-md] border border-[--color-hairline-soft] bg-[--color-surface] text-[--color-muted] shadow-[var(--shadow-top),var(--shadow-1)]"
-          >
-            <Icon name="settings" size={19} />
-          </Link>
         </div>
 
         {/* الترويسة */}
@@ -92,9 +85,11 @@ export default function DashboardClient({
         {/* هيرو «زهرة اليوم» */}
         <BloomHero habits={view.filter((h) => h.dueToday)} streak={s.streakCount} level={level} />
 
-        {/* بذرةُ اليوم — سطرٌ هامسٌ صغير */}
-        <p className="mt-2.5 truncate text-center text-[12px] italic text-[--color-faint]">
-          {seed}
+        {/* بذرةُ اليوم — داخل قُلادةٍ لطيفة بتباينٍ أوضح (بلا قصّ). */}
+        <p className="mt-2.5 text-center">
+          <span className="inline-block rounded-full bg-[--color-surface-2] px-3 py-1 text-[13px] italic text-[--color-muted]">
+            {seed}
+          </span>
         </p>
 
         {/* رسالة تعافٍ عند العودة بعد انقطاع */}
@@ -119,13 +114,26 @@ export default function DashboardClient({
         </div>
 
         <section className="flex flex-col gap-2">
+          {/* حالة فارغة حقيقية بدل سطرٍ رماديّ باهت */}
+          {view.length === 0 && (
+            <div className="mb-1 flex flex-col items-center gap-3 rounded-[--radius-card] border border-dashed border-[--color-hairline] px-6 py-9 text-center">
+              <FlowerMark size={56} />
+              <p className="text-[15px] font-semibold text-[--color-ink]">ابدأ حديقتك اليوم</p>
+              <p className="max-w-[16rem] text-[13px] leading-relaxed text-[--color-muted]">
+                أضِف أوّل عادةٍ صغيرة — سطرٌ واحد يكفي، وسنحوّله إلى خطواتٍ لطيفة.
+              </p>
+            </div>
+          )}
+
           {pending.map((h, i) => (
             <div key={h.id} className="animate-rise" style={{ animationDelay: `${i * 45}ms` }}>
               <HabitCard habit={h} />
             </div>
           ))}
 
-          {view.length < BRAND.maxHabits && <AddHabit />}
+          <div id="add-habit" className="scroll-mt-24">
+            {view.length < BRAND.maxHabits && <AddHabit />}
+          </div>
 
           {doneList.length > 0 && (
             <div className="my-1 flex items-center gap-3 px-1 text-[12px] font-semibold text-[--color-faint]">
@@ -141,10 +149,6 @@ export default function DashboardClient({
             </div>
           ))}
         </section>
-
-        {view.length === 0 && (
-          <p className="mt-16 text-center text-[--color-muted]">لا عادات بعد.</p>
-        )}
 
         <AmbientPulse />
         <RewardPop />

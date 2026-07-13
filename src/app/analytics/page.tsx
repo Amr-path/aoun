@@ -8,17 +8,35 @@ import { weeklyNarrative } from "@/lib/narrative";
 import YearView from "@/components/YearView";
 import WeeklyChart from "@/components/WeeklyChart";
 import BadgesSection from "@/components/BadgesSection";
-import LogoutButton from "@/components/LogoutButton";
 import BottomNav from "@/components/BottomNav";
-import Icon from "@/components/ui/Icon";
+import Icon, { type IconName } from "@/components/ui/Icon";
 import { earnedCount } from "@/lib/badges";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "رحلتك" };
 
-function Stat({ label, value }: { label: string; value: number }) {
+function Stat({
+  label,
+  value,
+  icon,
+  tint,
+}: {
+  label: string;
+  value: number;
+  icon: IconName;
+  tint: string;
+}) {
   return (
     <div className="card p-4">
+      <span
+        className="icon-chip mb-2 grid h-8 w-8"
+        style={{
+          background: `var(--color-${tint}-soft)`,
+          color: `var(--color-${tint}-ink)`,
+        }}
+      >
+        <Icon name={icon} size={16} />
+      </span>
       <p className="text-[13px] text-[--color-muted]">{label}</p>
       <p className="score tabular mt-1 font-[family-name:var(--font-display)] text-3xl font-black text-[--color-ink]">
         {ar(value)}
@@ -47,24 +65,21 @@ export default async function AnalyticsPage() {
             رحلتك
           </h1>
         </div>
-        <div className="flex items-center gap-2">
-          <LogoutButton />
-          <Link
-            href="/dashboard"
-            className="press pill inline-flex items-center gap-1 border border-[--color-border] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] transition-colors hover:bg-[--color-surface-2]"
-          >
-            <Icon name="chevron" size={16} className="scale-x-[-1]" />
-            اللوحة
-          </Link>
-        </div>
+        <Link
+          href="/dashboard"
+          className="press pill inline-flex items-center gap-1 border border-[--color-border] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] transition-colors hover:bg-[--color-surface-2]"
+        >
+          <Icon name="chevron" size={16} className="scale-x-[-1]" />
+          اللوحة
+        </Link>
       </div>
 
       {/* ملخّص */}
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat label="مداومة حالية" value={a.currentStreak} />
-        <Stat label="أفضل مداومة" value={a.bestStreak} />
-        <Stat label="أيام نشطة" value={a.activeDays} />
-        <Stat label="أيام مثالية" value={a.perfectDays} />
+        <Stat label="مداومة حالية" value={a.currentStreak} icon="leaf" tint="sage" />
+        <Stat label="أفضل مداومة" value={a.bestStreak} icon="spark" tint="amber" />
+        <Stat label="أيام نشطة" value={a.activeDays} icon="check" tint="sky" />
+        <Stat label="أيام مثالية" value={a.perfectDays} icon="sun" tint="clay" />
       </section>
 
       {/* لمحة أسبوعك */}

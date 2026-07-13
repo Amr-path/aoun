@@ -10,21 +10,22 @@ import BottomNav from "./BottomNav";
 import Icon from "@/components/ui/Icon";
 import Spinner from "@/components/ui/Spinner";
 
-const TIMEZONES = [
-  "Asia/Riyadh",
-  "Asia/Dubai",
-  "Asia/Kuwait",
-  "Asia/Qatar",
-  "Asia/Baghdad",
-  "Asia/Amman",
-  "Asia/Beirut",
-  "Africa/Cairo",
-  "Africa/Khartoum",
-  "Africa/Casablanca",
-  "Africa/Algiers",
-  "Africa/Tunis",
-  "Europe/London",
-  "America/New_York",
+// أسماء عربية + إزاحة تقريبية (قد تختلف بساعةٍ صيفاً في المناطق التي تطبّق التوقيت الصيفي).
+const TIMEZONES: { id: string; label: string }[] = [
+  { id: "Asia/Riyadh", label: "الرياض (GMT+3)" },
+  { id: "Asia/Dubai", label: "دبي (GMT+4)" },
+  { id: "Asia/Kuwait", label: "الكويت (GMT+3)" },
+  { id: "Asia/Qatar", label: "الدوحة (GMT+3)" },
+  { id: "Asia/Baghdad", label: "بغداد (GMT+3)" },
+  { id: "Asia/Amman", label: "عمّان (GMT+3)" },
+  { id: "Asia/Beirut", label: "بيروت (GMT+2)" },
+  { id: "Africa/Cairo", label: "القاهرة (GMT+2)" },
+  { id: "Africa/Khartoum", label: "الخرطوم (GMT+2)" },
+  { id: "Africa/Casablanca", label: "الدار البيضاء (GMT+1)" },
+  { id: "Africa/Algiers", label: "الجزائر (GMT+1)" },
+  { id: "Africa/Tunis", label: "تونس (GMT+1)" },
+  { id: "Europe/London", label: "لندن (GMT+0)" },
+  { id: "America/New_York", label: "نيويورك (GMT−5)" },
 ];
 
 interface Props {
@@ -101,8 +102,8 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
             className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-3 py-2.5 text-[--color-ink] outline-none transition-colors focus:border-[--color-accent]"
           >
             {TIMEZONES.map((z) => (
-              <option key={z} value={z}>
-                {z}
+              <option key={z.id} value={z.id}>
+                {z.label}
               </option>
             ))}
           </select>

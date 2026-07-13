@@ -57,7 +57,7 @@ export default function PlusClient() {
           عون
           <span
             className="rounded-full px-3 py-1 text-[15px] font-bold text-[--color-cream]"
-            style={{ background: "linear-gradient(180deg,#eba04c,#e0913a 60%,#cf7f2c)" }}
+            style={{ background: "var(--grad-cta)" }}
           >
             بلس
           </span>
@@ -106,36 +106,38 @@ export default function PlusClient() {
           onClick={() => setPlan("annual")}
           badge="الأفضل قيمة"
           title="سنويّ"
-          price={`﷼${ar(49)}`}
+          price={`${ar(49)} ﷼`}
           unit="/ سنة"
-          hint={`≈ ﷼${ar(4)} شهرياً`}
+          hint={`≈ ${ar(4)} ﷼ شهرياً`}
         />
         <PlanCard
           active={plan === "lifetime"}
           onClick={() => setPlan("lifetime")}
           title="مدى الحياة"
-          price={`﷼${ar(129)}`}
+          price={`${ar(129)} ﷼`}
           unit="مرّة واحدة"
           hint="بلا اشتراكٍ متكرّر"
         />
       </div>
 
+      {/* الدفع غير مُفعّل بعد — زرٌّ صادق «أعلِمني» بدل «اشترك» الموهم. */}
       <button
         type="button"
         onClick={() => setNote(true)}
-        className="press mt-4 w-full rounded-full py-3.5 text-center text-[15.5px] font-bold text-[--color-cream]"
+        className="press mt-4 flex w-full items-center justify-center gap-2 rounded-full py-3.5 text-center text-[15.5px] font-bold text-[--color-cream]"
         style={{
-          background: "linear-gradient(180deg,#eba04c,#e0913a 60%,#cf7f2c)",
+          background: "var(--grad-cta)",
           boxShadow: "0 10px 22px -8px rgba(200,122,40,.5), inset 0 1px 0 rgba(255,255,255,.35)",
         }}
       >
-        {plan === "annual" ? `اشترك سنوياً — ﷼${ar(49)}` : `احصل عليه مدى الحياة — ﷼${ar(129)}`}
+        <Icon name="bell" size={18} />
+        أعلِمني عند الإطلاق
       </button>
 
       {note && (
         <p className="mt-3 flex items-center justify-center gap-2 text-center text-[13px] text-[--color-muted]">
-          <Icon name="clock" size={15} className="text-[--color-accent-ink]" />
-          الدفع سيُفعّل قريباً عبر وسائل محليّة (مدى / STC Pay / Apple Pay). شكراً لدعمك عون.
+          <Icon name="check" size={15} className="text-[--color-success-ink]" />
+          الدفع لم يُفعّل بعد. استمتع بعون مجّانًا الآن، وسنعلن عن «بلس» قريبًا عبر وسائل محليّة (مدى / STC Pay / Apple Pay).
         </p>
       )}
 

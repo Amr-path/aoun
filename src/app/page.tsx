@@ -1,5 +1,12 @@
 import Link from "next/link";
 import FlowerMark from "@/components/FlowerMark";
+import Icon, { type IconName } from "@/components/ui/Icon";
+
+const PILLARS: { icon: IconName; title: string; body: string }[] = [
+  { icon: "spark", title: "تركيزٌ لا تشتّت", body: "قلّةٌ تُتقنها خيرٌ من قائمةٍ تُرهقك وتتركها." },
+  { icon: "leaf", title: "مداومةٌ تنمو", body: "كل يومٍ يضيف بتلةً؛ حديقتك تحكي رحلتك بصمت." },
+  { icon: "sun", title: "هدوءٌ يوميّ", body: "تذكيراتٌ لطيفة ولحظاتُ احتفاءٍ صغيرة، بلا ضجيج." },
+];
 
 const GLOW =
   "radial-gradient(95% 46% at 50% -8%, rgba(224,145,58,.11), transparent 62%)," +
@@ -98,13 +105,13 @@ export default function Home() {
 
       <FlowerMark size={72} className="mb-3" />
 
-      <h1 className="font-[family-name:var(--font-display)] text-[29px] font-extrabold leading-[1.15] tracking-tight text-[--color-ink]">
+      <h1 className="font-[family-name:var(--font-display)] text-[29px] font-extrabold leading-[1.2] text-[--color-ink]">
         رفيقُك
         <br />
         <span className="text-[--color-accent-ink]">للاستمرار.</span>
       </h1>
 
-      <p className="mt-3 max-w-[288px] text-[14.5px] leading-relaxed text-[--color-muted]">
+      <p className="mt-3 max-w-[288px] text-[15px] leading-relaxed text-[--color-muted]">
         سبعُ عاداتٍ فقط، تكفيك عامَك كلَّه. لا قوائمَ مرهقة، ولا تشتّت — بل ما يبني استمرارَك، بهدوء.
       </p>
 
@@ -113,21 +120,77 @@ export default function Home() {
           href="/login"
           className="press rounded-full px-6 py-3 text-[15px] font-bold text-[--color-cream]"
           style={{
-            background: "linear-gradient(180deg,#eba04c,#e0913a 60%,#cf7f2c)",
+            background: "var(--grad-cta)",
             boxShadow: "0 10px 22px -8px rgba(200,122,40,.5), inset 0 1px 0 rgba(255,255,255,.35)",
           }}
         >
           ابدأ رحلتك
         </Link>
-        <Link
-          href="/login"
+        <a
+          href="#why"
           className="press rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-6 py-3 text-[15px] font-bold text-[--color-ink] shadow-[var(--shadow-1)]"
         >
-          دخول
-        </Link>
+          تعرّف أكثر
+        </a>
       </div>
 
+      <p className="mt-3 text-[13px] text-[--color-muted]">
+        لديك حساب؟{" "}
+        <Link href="/login" className="font-semibold text-[--color-accent-ink] hover:underline">
+          سجّل الدخول
+        </Link>
+      </p>
+
       <ProductPeek />
+
+      {/* لماذا سبعٌ فقط — الفلسفة */}
+      <section id="why" className="mt-20 w-full max-w-md scroll-mt-8">
+        <h2 className="font-[family-name:var(--font-display)] text-[22px] font-extrabold text-[--color-ink]">
+          لماذا سبعٌ فقط؟
+        </h2>
+        <p className="mx-auto mt-3 max-w-[340px] text-[14px] leading-relaxed text-[--color-muted]">
+          لأن الاستمرار لا يولد من القوائم الطويلة، بل من قِلّةٍ تُتقنها. سبعُ عاداتٍ
+          تغطّي أركان يومك دون أن تُثقلك — فتبقى معك عامًا كاملًا.
+        </p>
+        <div className="mt-8 grid gap-3 text-right sm:grid-cols-3">
+          {PILLARS.map((p) => (
+            <div key={p.title} className="card p-4">
+              <span className="icon-chip mb-2.5 grid h-9 w-9 bg-[--color-accent-soft] text-[--color-accent-ink]">
+                <Icon name={p.icon} size={18} />
+              </span>
+              <h3 className="text-[14px] font-bold text-[--color-ink]">{p.title}</h3>
+              <p className="mt-1 text-[12.5px] leading-relaxed text-[--color-muted]">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* دعوة أخيرة */}
+      <section className="mt-16 w-full max-w-md">
+        <div className="card flex flex-col items-center p-8 text-center">
+          <FlowerMark size={52} className="mb-3" />
+          <h2 className="font-[family-name:var(--font-display)] text-[20px] font-extrabold text-[--color-ink]">
+            ابدأ عامك بهدوء
+          </h2>
+          <p className="mt-2 max-w-[300px] text-[13.5px] leading-relaxed text-[--color-muted]">
+            سبعُ عاداتٍ، حديقةٌ تنمو معك، ورفيقٌ لا يزحمك. مجّانًا بلا حدٍّ زمنيّ.
+          </p>
+          <Link
+            href="/login"
+            className="press mt-5 rounded-full px-7 py-3 text-[15px] font-bold text-[--color-cream]"
+            style={{
+              background: "var(--grad-cta)",
+              boxShadow: "0 10px 22px -8px rgba(200,122,40,.5), inset 0 1px 0 rgba(255,255,255,.35)",
+            }}
+          >
+            ابدأ رحلتك
+          </Link>
+        </div>
+      </section>
+
+      <footer className="mb-4 mt-12 pb-8 text-center text-[12px] text-[--color-faint]">
+        عون — رفيقُك للاستمرار · صُنع بعناية
+      </footer>
     </main>
   );
 }

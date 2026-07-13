@@ -30,7 +30,6 @@ model User {
   dailyLogs      DailyLog[]
   score          UserScore?
   pushSubs       PushSubscription[]
-  reflections    Reflection[]
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -55,7 +54,7 @@ model Habit {
   microSteps        String   @default("[]") // مصفوفة JSON من الخطوات الصغيرة
   reminderOffsetMin Int      @default(30)   // قبل الموعد بكم دقيقة
 
-  colorKey          String   @default("mint") // mint | orange | purple
+  colorKey          String   @default("sage") // sage | teal | sky | lavender | blush | clay | amber
   position          Int      @default(0)      // ترتيب البطاقة (0..6)
   archived          Boolean  @default(false)
 
@@ -115,22 +114,5 @@ model PushSubscription {
   auth      String
   createdAt DateTime @default(now())
 
-  @@index([userId])
-}
-
-// ─────────────────────────────────────────────────────────────
-// تأمّل مسائي — طقس مراجعة اليوم (مزاج + ملاحظة)
-// ─────────────────────────────────────────────────────────────
-model Reflection {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  date      String   // YYYY-MM-DD بتوقيت المستخدم
-  mood      Int      // 1..5
-  note      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([userId, date])
   @@index([userId])
 }

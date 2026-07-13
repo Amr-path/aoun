@@ -3,7 +3,7 @@
 // API routes ومن مكوّنات الخادم — وستُستهلَك مستقبلاً من تطبيق الجوال عبر نفس الـAPI.
 import "server-only";
 import { prisma } from "./db";
-import { HABIT_LIBRARY, DEFAULT_SEVEN_KEYS, BRAND } from "./constants";
+import { BRAND } from "./constants";
 import { todayKey, lastNDays, isDueOn } from "./date";
 import {
   computeDailyScore,
@@ -22,7 +22,6 @@ import type {
   DiagnosticAnswers,
 } from "./types";
 
-const DEMO_EMAIL = "demo@aoun.app";
 const HISTORY_DAYS = 90;
 
 type HabitRow = {
@@ -64,45 +63,6 @@ function safeJson<T>(raw: string, fallback: T): T {
   } catch {
     return fallback;
   }
-}
-
-/** يضمن وجود مستخدم تجريبي (بلا مصادقة بعد) مع السبع عادات وسجلّ نتيجة. */
-export async function getOrCreateDemoUser(): Promise<string> {
-  const existing = await prisma.user.findUnique({
-    where: { email: DEMO_EMAIL },
-    select: { id: true },
-  });
-  if (existing) return existing.id;
-
-  const user = await prisma.user.create({
-    data: {
-      email: DEMO_EMAIL,
-      name: "مستخدم تجريبي",
-      onboardedAt: new Date(),
-      score: { create: {} },
-    },
-    select: { id: true },
-  });
-
-  const templates = DEFAULT_SEVEN_KEYS.map(
-    (k) => HABIT_LIBRARY.find((h) => h.key === k)!
-  ).slice(0, BRAND.maxHabits);
-
-  await prisma.habit.createMany({
-    data: templates.map((t, i) => ({
-      userId: user.id,
-      title: t.title,
-      emoji: t.emoji,
-      frequency: t.frequency,
-      weekdays: JSON.stringify(t.weekdays),
-      scheduledAt: t.scheduledAt,
-      microSteps: JSON.stringify(t.microSteps),
-      colorKey: t.colorKey,
-      position: i,
-    })),
-  });
-
-  return user.id;
 }
 
 export interface DashboardData {

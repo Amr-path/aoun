@@ -1,17 +1,22 @@
 "use client";
-// عون — «زهرة اليوم» مُصغّرة وهادئة: حلقة تقدّم + كسر + رقاقتا المداومة والمستوى.
+// عون — «زهرة اليوم» تُبنى بتلةً بلونها كلّما أنهيت عادة؛ كلّ بتلةٍ عادةٌ من عاداتك المستحقّة.
 import { ar } from "@/lib/numerals";
+import { accentOf, accentSoftOf } from "@/lib/colors";
 import Icon from "./ui/Icon";
 
+interface HabitLite {
+  id: string;
+  colorKey: string;
+  completedToday: boolean;
+}
+
 interface Props {
-  done: number;
-  due: number;
+  habits: HabitLite[];
   streak: number;
   level: number;
 }
 
-const R = 33;
-const C = 2 * Math.PI * R;
+const PETAL_D = "M100 92 C82 72 84 40 100 16 C116 40 118 72 100 92 Z";
 
 function statusText(done: number, due: number): { title: string; sub: string } {
   if (due === 0) return { title: "لا عادات اليوم", sub: "استرِح — وغداً نبدأ برفق." };
@@ -24,10 +29,12 @@ function statusText(done: number, due: number): { title: string; sub: string } {
   };
 }
 
-export default function BloomHero({ done, due, streak, level }: Props) {
-  const ratio = due > 0 ? Math.min(done / due, 1) : 0;
+export default function BloomHero({ habits, streak, level }: Props) {
+  const due = habits.length;
+  const done = habits.filter((h) => h.completedToday).length;
   const allDone = due > 0 && done >= due;
   const { title, sub } = statusText(done, due);
+  const n = Math.max(due, 1);
 
   return (
     <div
@@ -42,39 +49,40 @@ export default function BloomHero({ done, due, streak, level }: Props) {
         style={{ background: "radial-gradient(circle, rgba(224,145,58,0.10), transparent 70%)" }}
       />
 
-      {/* الحلقة + الكسر */}
+      {/* زهرة اليوم — بتلةٌ لكل عادة، تتفتّح بلونها عند إنجازها */}
       <div
-        className={`relative grid h-[84px] w-[84px] shrink-0 place-items-center ${allDone ? "animate-breathe" : ""}`}
+        className={`relative grid h-[92px] w-[92px] shrink-0 place-items-center ${allDone ? "animate-breathe" : ""}`}
       >
-        <svg width="84" height="84" viewBox="0 0 84 84" aria-hidden>
-          <defs>
-            <linearGradient id="aoun-sunrise" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stopColor="#f2c06e" />
-              <stop offset="0.55" stopColor="#e19a45" />
-              <stop offset="1" stopColor="#cf813f" />
-            </linearGradient>
-          </defs>
-          <circle cx="42" cy="42" r={R} fill="none" stroke="var(--color-surface-2)" strokeWidth="8" />
-          <circle
-            cx="42"
-            cy="42"
-            r={R}
-            fill="none"
-            stroke="url(#aoun-sunrise)"
-            strokeWidth="8"
-            strokeLinecap="round"
-            strokeDasharray={C}
-            strokeDashoffset={C * (1 - ratio)}
-            transform="rotate(-90 42 42)"
-            style={{ transition: "stroke-dashoffset .7s var(--ease-soft)" }}
-          />
+        <svg width="92" height="92" viewBox="0 0 200 200" aria-hidden>
+          {due === 0 && <circle cx="100" cy="100" r="18" fill="var(--color-surface-3)" />}
+          {habits.map((h, i) => {
+            const accent = accentOf(h.colorKey);
+            const soft = accentSoftOf(h.colorKey);
+            const dn = h.completedToday;
+            return (
+              <g key={h.id} transform={`rotate(${(i * 360) / n} 100 100)`}>
+                <path
+                  d={PETAL_D}
+                  style={{
+                    fill: dn ? accent : soft,
+                    stroke: dn ? "#fffdfa" : accent,
+                    strokeWidth: dn ? 1.5 : 1.4,
+                    strokeOpacity: dn ? 0.9 : 0.45,
+                    opacity: dn ? 0.96 : 0.5,
+                    transformBox: "fill-box",
+                    transformOrigin: "center bottom",
+                    transform: dn ? "scale(1)" : "scale(0.78)",
+                    transition:
+                      "transform .55s var(--ease-spring), opacity .4s ease, fill .4s ease, stroke .4s ease",
+                  }}
+                />
+              </g>
+            );
+          })}
+          {/* قلبٌ ذهبيّ */}
+          <circle cx="100" cy="100" r="15" fill="#fffdfa" />
+          <circle cx="100" cy="100" r="9.5" fill="var(--color-accent)" />
         </svg>
-        <span className="absolute flex flex-col items-center">
-          <b className="score font-[family-name:var(--font-display)] text-[19px] font-extrabold leading-none text-[--color-ink]">
-            {ar(done)} / {ar(due)}
-          </b>
-          <span className="mt-0.5 text-[10px] text-[--color-muted]">اليوم</span>
-        </span>
       </div>
 
       {/* النص + الرقاقات */}
@@ -84,6 +92,12 @@ export default function BloomHero({ done, due, streak, level }: Props) {
         </p>
         <p className="mt-0.5 text-[12.5px] leading-relaxed text-[--color-muted]">{sub}</p>
         <div className="mt-2 flex flex-wrap gap-1.5">
+          <span className="inline-flex items-center gap-1 rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-2.5 py-1 text-[12px] font-semibold text-[--color-muted]">
+            <span className="score text-[--color-ink]">
+              {ar(done)} / {ar(due)}
+            </span>
+            اليوم
+          </span>
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-2.5 py-1 text-[12px] font-semibold text-[--color-muted]">
             <Icon name="leaf" size={13} className="text-[--color-sage]" />
             <span className="streak text-[--color-ink]">{ar(streak)}</span> مداومة

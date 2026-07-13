@@ -90,7 +90,7 @@ export default function DashboardClient({
         </div>
 
         {/* هيرو «زهرة اليوم» */}
-        <BloomHero done={doneCount} due={dueCount} streak={s.streakCount} level={level} />
+        <BloomHero habits={view.filter((h) => h.dueToday)} streak={s.streakCount} level={level} />
 
         {/* بذرةُ اليوم — سطرٌ هامسٌ صغير */}
         <p className="mt-2.5 truncate text-center text-[12px] italic text-[--color-faint]">

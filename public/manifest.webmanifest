@@ -1,4 +1,5 @@
 {
+  "id": "/",
   "name": "عون — رفيقك للاستمرار",
   "short_name": "عون",
   "description": "سبع عادات فقط طوال العام، لأقصى تركيز وثبات.",
@@ -6,12 +7,26 @@
   "dir": "rtl",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f7f4ef",
-  "theme_color": "#f7f4ef",
+  "background_color": "#faf6f0",
+  "theme_color": "#faf6f0",
   "orientation": "portrait",
   "icons": [
     { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
     { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "لوحة اليوم",
+      "short_name": "اللوحة",
+      "url": "/dashboard",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "رحلتك",
+      "short_name": "التحليلات",
+      "url": "/analytics",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
   ]
 }

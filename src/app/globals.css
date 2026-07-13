@@ -25,7 +25,8 @@
   /* النصوص */
   --color-ink: #221f1b;
   --color-muted: #6b655c;
-  --color-faint: #9b9184;
+  /* تباين AA: كان #9b9184 (‏2.88:1 — فاشل) والآن ‎4.82:1 على الكريمي */
+  --color-faint: #736c61;
 
   /* اللون التوقيعي: الآذريون (ضوءٌ يُنبت) — أساسي / حبر / ناعم */
   --color-accent: #e0913a;
@@ -92,9 +93,20 @@
   --shadow-top: inset 0 1px 0 rgba(255, 255, 255, 0.7);
   --glow-accent: 0 0 40px -6px rgba(224, 145, 58, 0.45);
   --grad-sunrise: linear-gradient(135deg, #f0b75c 0%, #e0913a 55%, #d06e3c 100%);
+  /* تدرّج الأزرار الرئيسية الموحّد — استبدل التدرّجات الـinline المكرّرة به. */
+  --grad-cta: linear-gradient(180deg, #eba04c 0%, #e0913a 60%, #cf7f2c 100%);
   --dur-fast: 130ms;
   --dur-med: 240ms;
   --dur-slow: 420ms;
+
+  /* سلّم خطوط موحّد — يستبدل الأحجام الكسرية (text-[14.5px]) تدريجياً في المكوّنات. */
+  --fs-12: 0.75rem;
+  --fs-14: 0.875rem;
+  --fs-16: 1rem;
+  --fs-20: 1.25rem;
+  --fs-24: 1.5rem;
+  --fs-30: 1.875rem;
+  --fs-36: 2.25rem;
 }
 
 :root {
@@ -115,7 +127,8 @@
   --color-hairline-soft: rgba(255, 255, 255, 0.06);
   --color-ink: #f1ece3;
   --color-muted: #ada598;
-  --color-faint: #7a7264;
+  /* تباين AA في الوضع الليلي: كان #7a7264 (‏3.80:1) والآن ‎5.02:1 */
+  --color-faint: #8f8676;
 
   --color-accent: #e9a24e;
   --color-accent-ink: #f3c888;
@@ -216,8 +229,21 @@ body::after {
 }
 
 /* الطباعة */
+/* العربية تريد تباعداً محايداً؛ التقارب السالب يضغط وصلات الحروف ويضرّ بالمقروئية. */
 h1, h2, h3 {
-  letter-spacing: -0.012em;
+  letter-spacing: normal;
+}
+
+/* Almarai لا يوفّر وزن 900؛ نمنع السماكة الزائفة بجعل font-black وزناً حقيقياً (800). */
+.font-black {
+  font-weight: 800;
+}
+
+/* حلقة تركيز واضحة للوحة المفاتيح — كانت غائبة كلياً (أكبر فجوة وصول). */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 3px;
 }
 
 .tabular,

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { BRAND } from "@/lib/constants";
 import type { OnboardingHabitInput } from "@/lib/habits";
 import { accentOf, accentSoftOf, accentInkOf } from "@/lib/colors";
+import { ar } from "@/lib/numerals";
 import Icon from "@/components/ui/Icon";
 
 export interface DraftHabit extends OnboardingHabitInput {
@@ -31,6 +32,7 @@ export default function ReviewStep({
 }: Props) {
   const [text, setText] = useState("");
   const [adding, setAdding] = useState(false);
+  const [confirmId, setConfirmId] = useState<string | null>(null);
   const full = habits.length >= BRAND.maxHabits;
 
   const submitCustom = async () => {
@@ -88,17 +90,41 @@ export default function ReviewStep({
               )}
               <p className="tabular mt-1 flex items-center gap-1.5 text-xs text-[--color-faint]">
                 <Icon name="clock" size={13} className="text-[--color-faint]" />
-                {h.scheduledAt} · {h.frequency === "daily" ? "يومي" : "أيام محدّدة"}
+                {ar(h.scheduledAt)} · {h.frequency === "daily" ? "يومي" : "أيام محدّدة"}
               </p>
             </div>
-            <button
-              type="button"
-              onClick={() => onRemove(h.uid)}
-              aria-label={`إزالة ${h.title}`}
-              className="press grid h-8 w-8 shrink-0 place-items-center rounded-full text-[--color-faint] transition-colors hover:bg-[--color-danger-soft] hover:text-[--color-danger-ink]"
-            >
-              <Icon name="close" size={16} />
-            </button>
+            {confirmId === h.uid ? (
+              <div className="flex shrink-0 items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    onRemove(h.uid);
+                    setConfirmId(null);
+                  }}
+                  aria-label={`تأكيد إزالة ${h.title}`}
+                  className="press grid h-8 w-8 place-items-center rounded-full bg-[--color-danger-soft] text-[--color-danger-ink]"
+                >
+                  <Icon name="check" size={16} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setConfirmId(null)}
+                  aria-label="إلغاء"
+                  className="press grid h-8 w-8 place-items-center rounded-full text-[--color-faint] hover:bg-[--color-surface-2]"
+                >
+                  <Icon name="close" size={16} />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setConfirmId(h.uid)}
+                aria-label={`إزالة ${h.title}`}
+                className="press grid h-8 w-8 shrink-0 place-items-center rounded-full text-[--color-faint] transition-colors hover:bg-[--color-danger-soft] hover:text-[--color-danger-ink]"
+              >
+                <Icon name="close" size={16} />
+              </button>
+            )}
           </div>
         ))}
       </div>

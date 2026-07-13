@@ -21,6 +21,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
   const [editing, setEditing] = useState(false);
   const [burst, setBurst] = useState(false);
   const [title, setTitle] = useState(habit.title);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const accent = accentOf(habit.colorKey);
   const soft = accentSoftOf(habit.colorKey);
@@ -71,7 +72,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
           <div className="mt-0.5 flex items-center gap-1.5 text-[11.5px] text-[--color-muted]">
             <span className="tabular inline-flex items-center gap-1">
               <Icon name="clock" size={12} className="text-[--color-faint]" />
-              {habit.scheduledAt}
+              {ar(habit.scheduledAt)}
             </span>
             <span aria-hidden>·</span>
             <span>{habit.frequency === "daily" ? "يومي" : "أيام محدّدة"}</span>
@@ -89,41 +90,46 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
         </div>
 
         {/* زرّ الإتمام + هالة */}
+        {/* هدف لمس ≥44px (المعيار) مع إبقاء الدائرة المرئية 26px عبر padding شفاف. */}
         <button
           type="button"
           onClick={onCheck}
           aria-pressed={done}
           aria-label={done ? "إلغاء الإتمام" : "تحديد كمُنجز"}
-          className={`relative grid h-[26px] w-[26px] shrink-0 place-items-center rounded-full border-[1.5px] transition-transform active:scale-90 ${
-            done ? "animate-pop" : ""
-          }`}
-          style={{
-            borderColor: done ? accent : "color-mix(in srgb, " + accent + " 55%, transparent)",
-            background: done ? accent : "transparent",
-            color: done ? "#fff" : accent,
-          }}
+          className="group grid h-11 w-11 shrink-0 place-items-center rounded-full"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <path
-              d="M20 6 9 17l-5-5"
-              stroke="currentColor"
-              strokeWidth="2.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              style={{
-                strokeDasharray: 26,
-                strokeDashoffset: done ? 0 : 26,
-                transition: "stroke-dashoffset 0.35s var(--ease-soft)",
-              }}
-            />
-          </svg>
-          {burst && (
-            <span
-              aria-hidden
-              className="pointer-events-none absolute -inset-2 rounded-full"
-              style={{ background: accent, animation: "halo-pulse 0.55s var(--ease-soft) forwards" }}
-            />
-          )}
+          <span
+            className={`relative grid h-[26px] w-[26px] place-items-center rounded-full border-[1.5px] transition-transform group-active:scale-90 ${
+              done ? "animate-pop" : ""
+            }`}
+            style={{
+              borderColor: done ? accent : "color-mix(in srgb, " + accent + " 55%, transparent)",
+              background: done ? accent : "transparent",
+              color: done ? "#fff" : accent,
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path
+                d="M20 6 9 17l-5-5"
+                stroke="currentColor"
+                strokeWidth="2.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{
+                  strokeDasharray: 26,
+                  strokeDashoffset: done ? 0 : 26,
+                  transition: "stroke-dashoffset 0.35s var(--ease-soft)",
+                }}
+              />
+            </svg>
+            {burst && (
+              <span
+                aria-hidden
+                className="pointer-events-none absolute -inset-2 rounded-full"
+                style={{ background: accent, animation: "halo-pulse 0.55s var(--ease-soft) forwards" }}
+              />
+            )}
+          </span>
         </button>
       </div>
 
@@ -226,15 +232,38 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
             onChange={(f, w) => setFrequency(habit.id, f, w)}
           />
 
-          {/* حذف */}
-          <button
-            type="button"
-            onClick={() => removeHabit(habit.id)}
-            className="inline-flex items-center gap-1.5 self-start text-sm font-medium text-[--color-danger-ink] transition-opacity hover:opacity-70"
-          >
-            <Icon name="trash" size={15} />
-            حذف العادة
-          </button>
+          {/* حذف — بتأكيدٍ يمنع محو سجلّ المداومة بلمسةٍ خاطئة واحدة */}
+          {!confirmDelete ? (
+            <button
+              type="button"
+              onClick={() => setConfirmDelete(true)}
+              className="inline-flex items-center gap-1.5 self-start text-sm font-medium text-[--color-danger-ink] transition-opacity hover:opacity-70"
+            >
+              <Icon name="trash" size={15} />
+              حذف العادة
+            </button>
+          ) : (
+            <div className="flex flex-wrap items-center gap-2.5 self-start">
+              <span className="text-sm text-[--color-danger-ink]">
+                حذفٌ نهائيّ؟ يمسح سجلّ المداومة.
+              </span>
+              <button
+                type="button"
+                onClick={() => removeHabit(habit.id)}
+                className="press pill inline-flex items-center gap-1.5 bg-[--color-danger] px-4 py-1.5 text-sm font-bold text-white"
+              >
+                <Icon name="trash" size={14} />
+                نعم، احذف
+              </button>
+              <button
+                type="button"
+                onClick={() => setConfirmDelete(false)}
+                className="press pill border border-[--color-hairline] px-4 py-1.5 text-sm font-medium text-[--color-muted]"
+              >
+                إلغاء
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -180,9 +180,10 @@ export default function AddHabit() {
           <button
             type="button"
             onClick={() => setCustom(true)}
-            className="self-start text-sm font-medium text-[--color-accent-ink] hover:underline"
+            className="inline-flex items-center gap-1 self-start text-sm font-medium text-[--color-accent-ink] hover:underline"
           >
-            أو أنشئ عادةً مخصّصة ←
+            أو أنشئ عادةً مخصّصة
+            <Icon name="chevron" size={14} />
           </button>
         </>
       ) : (

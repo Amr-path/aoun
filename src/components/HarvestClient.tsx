@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import * as htmlToImage from "html-to-image";
 import { ar } from "@/lib/numerals";
+import Icon from "@/components/ui/Icon";
 
 const PETAL = "M60 52 C 47 42 47 24 60 11 C 73 24 73 42 60 52 Z";
 // حديقةُ العادات السبع — بلوحةٍ ثابتة تُطابق الهوية الجديدة (تصدير PNG متّسق)
@@ -64,9 +65,10 @@ export default function HarvestClient({
         </h1>
         <Link
           href="/analytics"
-          className="pill border border-[--color-border] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink]"
+          className="pill inline-flex items-center gap-1.5 border border-[--color-border] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink]"
         >
-          ← رجوع
+          <Icon name="chevron" size={15} className="scale-x-[-1]" />
+          رجوع
         </Link>
       </div>
 

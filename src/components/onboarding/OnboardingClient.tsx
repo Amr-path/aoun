@@ -128,7 +128,8 @@ export default function OnboardingClient() {
             aria-label="رجوع"
             className="press card grid h-10 w-10 shrink-0 place-items-center rounded-full text-[--color-muted] transition-colors hover:text-[--color-ink]"
           >
-            <Icon name="chevron" size={18} />
+            {/* رجوع في RTL يشير يميناً — نعكس السهم المتّجه يساراً. */}
+            <Icon name="chevron" size={18} className="scale-x-[-1]" />
           </button>
         )}
         <div className="h-2 flex-1 overflow-hidden rounded-full bg-[--color-surface-2] shadow-[inset_0_1px_2px_rgba(35,28,20,0.06)]">

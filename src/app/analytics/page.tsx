@@ -53,7 +53,7 @@ export default async function AnalyticsPage() {
             href="/dashboard"
             className="press pill inline-flex items-center gap-1 border border-[--color-border] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] transition-colors hover:bg-[--color-surface-2]"
           >
-            <Icon name="chevron" size={16} />
+            <Icon name="chevron" size={16} className="scale-x-[-1]" />
             اللوحة
           </Link>
         </div>

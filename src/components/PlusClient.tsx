@@ -46,7 +46,7 @@ export default function PlusClient() {
           className="press grid h-9 w-9 place-items-center rounded-[--radius-md] border border-[--color-hairline-soft] bg-[--color-surface] text-[--color-muted] shadow-[var(--shadow-top),var(--shadow-1)]"
           aria-label="رجوع"
         >
-          <Icon name="chevron" size={18} />
+          <Icon name="chevron" size={18} className="scale-x-[-1]" />
         </Link>
       </div>
 

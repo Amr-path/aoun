@@ -75,6 +75,17 @@ export const onboardingBodySchema = z.object({
   habits: z.array(onboardingHabitInputSchema).min(1).max(7),
 });
 
+/** مفتاح تاريخ YYYY-MM-DD. */
+export const dateKeySchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, "التاريخ يجب أن يكون YYYY-MM-DD");
+
+/** جسم تسجيل حالة عادة في يوم. */
+export const logHabitSchema = z.object({
+  date: dateKeySchema,
+  completed: z.boolean(),
+});
+
 /** يتحقّق أن السلسلة مُعرّف IANA صالح لمنطقة زمنية. */
 export function isValidTimeZone(tz: string): boolean {
   try {

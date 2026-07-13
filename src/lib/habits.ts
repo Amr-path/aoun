@@ -4,7 +4,7 @@
 import "server-only";
 import { prisma } from "./db";
 import { BRAND } from "./constants";
-import { todayKey, lastNDays, isDueOn } from "./date";
+import { todayKey, dateKeyOffset, isDueOn } from "./date";
 import {
   computeDailyScore,
   qualifiesForStreak,
@@ -12,6 +12,7 @@ import {
   computeOverallStreak,
   computeTotalXp,
 } from "./scoring";
+import { summarizeHistory, HISTORY_WINDOW_DAYS } from "./history";
 import type {
   Habit,
   HabitWithStatus,
@@ -22,7 +23,10 @@ import type {
   DiagnosticAnswers,
 } from "./types";
 
-const HISTORY_DAYS = 90;
+/** العادة أو المورد المطلوب غير موجود (أو ليس مملوكاً للمستخدم) → 404. */
+export class NotFoundError extends Error {}
+/** تجاوز الحدّ الأقصى للعادات الفعّالة → 409. */
+export class HabitLimitError extends Error {}
 
 type HabitRow = {
   id: string;
@@ -73,8 +77,14 @@ export interface DashboardData {
 
 /** يبني لوحة التحكم: العادات مع حالتها اليومية + النتيجة العامة. */
 export async function getDashboard(userId: string): Promise<DashboardData> {
-  const tz = "Asia/Riyadh";
+  // «اليوم» يُحسب بتوقيت المستخدم لا بتوقيت الرياض الثابت (تصحيح انحراف حتى 8 ساعات).
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { timezone: true },
+  });
+  const tz = user?.timezone || "Asia/Riyadh";
   const today = todayKey(tz);
+  const windowStart = dateKeyOffset(today, -(HISTORY_WINDOW_DAYS - 1));
 
   const [rows, logs] = (await Promise.all([
     prisma.habit.findMany({
@@ -82,7 +92,7 @@ export async function getDashboard(userId: string): Promise<DashboardData> {
       orderBy: { position: "asc" },
     }),
     prisma.dailyLog.findMany({
-      where: { userId, completed: true },
+      where: { userId, completed: true, date: { gte: windowStart } },
       select: { habitId: true, date: true },
     }),
   ])) as [HabitRow[], { habitId: string; date: string }[]];
@@ -117,30 +127,15 @@ export async function getDashboard(userId: string): Promise<DashboardData> {
   const currentScore = computeDailyScore(dueToday.length, completedTodayCount);
   const todayQualifies = qualifiesForStreak(currentScore);
 
-  // مسح التاريخ لحساب الأيام المؤهّلة + أفضل streak + الأيام المثالية.
-  const days = lastNDays(HISTORY_DAYS, tz); // تصاعدي شامل اليوم
-  const qualifyingDates = new Set<string>();
-  let bestStreak = 0;
-  let run = 0;
-  let perfectDays = 0;
-
-  for (const day of days) {
-    const dueThatDay = habits.filter((h) => isDueOn(h.frequency, h.weekdays, day));
-    const completedSet = completedByDay.get(day) ?? new Set<string>();
-    const completedCount = dueThatDay.filter((h) => completedSet.has(h.id)).length;
-    const score =
-      day === today ? currentScore : computeDailyScore(dueThatDay.length, completedCount);
-
-    if (dueThatDay.length > 0 && completedCount >= dueThatDay.length) perfectDays++;
-
-    if (qualifiesForStreak(score)) {
-      if (day !== today) qualifyingDates.add(day);
-      run++;
-      bestStreak = Math.max(bestStreak, run);
-    } else {
-      run = 0;
-    }
-  }
+  // مسح نافذة تاريخية واحدة متّسقة مع التحليلات (تُحسب XP من نفس النافذة).
+  const { qualifyingDates, bestStreak, perfectDays } = summarizeHistory(
+    habits,
+    completedByDay,
+    today,
+    tz,
+    HISTORY_WINDOW_DAYS,
+    currentScore // الحالة التفاؤلية لليوم
+  );
 
   const streakCount = computeOverallStreak(qualifyingDates, today, todayQualifies);
   const totalCompletions = logs.length;
@@ -154,15 +149,7 @@ export async function getDashboard(userId: string): Promise<DashboardData> {
     lastScoredDate: today,
   };
 
-  // تحديث الحالة المُخزّنة (cache) دون حجب الاستجابة على الأخطاء.
-  await prisma.userScore
-    .upsert({
-      where: { userId },
-      update: { ...score },
-      create: { userId, ...score },
-    })
-    .catch(() => void 0);
-
+  // GET لا يكتب في القاعدة: أُزيل upsert لـ UserScore (قيمته لا يقرؤها أحد).
   return { dateKey: today, habits: withStatus, score };
 }
 
@@ -177,7 +164,7 @@ export async function setHabitStatus(
     where: { id: habitId, userId },
     select: { id: true },
   });
-  if (!habit) throw new Error("العادة غير موجودة");
+  if (!habit) throw new NotFoundError("العادة غير موجودة");
 
   await prisma.dailyLog.upsert({
     where: { habitId_date: { habitId, date } },
@@ -262,7 +249,7 @@ export async function updateHabit(
     where: { id: habitId, userId },
     select: { id: true },
   });
-  if (!owned) throw new Error("العادة غير موجودة");
+  if (!owned) throw new NotFoundError("العادة غير موجودة");
 
   await prisma.habit.update({
     where: { id: habitId },
@@ -287,24 +274,26 @@ export async function createHabit(
   userId: string,
   input: OnboardingHabitInput
 ): Promise<DashboardData> {
-  const count = await prisma.habit.count({ where: { userId, archived: false } });
-  if (count >= BRAND.maxHabits) {
-    throw new Error(`الحدّ الأقصى ${BRAND.maxHabits} عادات`);
-  }
-
-  await prisma.habit.create({
-    data: {
-      userId,
-      title: input.title,
-      emoji: input.emoji,
-      frequency: input.frequency,
-      weekdays: JSON.stringify(input.weekdays),
-      scheduledAt: input.scheduledAt,
-      microSteps: JSON.stringify(input.microSteps),
-      colorKey: input.colorKey,
-      apiRefined: input.apiRefined ?? false,
-      position: count,
-    },
+  // transaction ذرّية: عدّ + إنشاء معاً حتى لا يتجاوز طلبان متزامنان الحدّ.
+  await prisma.$transaction(async (tx) => {
+    const count = await tx.habit.count({ where: { userId, archived: false } });
+    if (count >= BRAND.maxHabits) {
+      throw new HabitLimitError(`الحدّ الأقصى ${BRAND.maxHabits} عادات`);
+    }
+    await tx.habit.create({
+      data: {
+        userId,
+        title: input.title,
+        emoji: input.emoji,
+        frequency: input.frequency,
+        weekdays: JSON.stringify(input.weekdays),
+        scheduledAt: input.scheduledAt,
+        microSteps: JSON.stringify(input.microSteps),
+        colorKey: input.colorKey,
+        apiRefined: input.apiRefined ?? false,
+        position: count,
+      },
+    });
   });
 
   return getDashboard(userId);
@@ -319,7 +308,7 @@ export async function deleteHabit(
     where: { id: habitId, userId },
     select: { id: true },
   });
-  if (!owned) throw new Error("العادة غير موجودة");
+  if (!owned) throw new NotFoundError("العادة غير موجودة");
 
   await prisma.habit.delete({ where: { id: habitId } });
   return getDashboard(userId);

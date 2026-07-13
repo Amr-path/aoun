@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createHabit } from "@/lib/habits";
+import { createHabit, HabitLimitError } from "@/lib/habits";
 import { getUserId } from "@/lib/auth";
 import { parseJson, onboardingHabitInputSchema } from "@/lib/validation";
 
@@ -18,8 +18,10 @@ export async function POST(req: Request) {
     const data = await createHabit(userId, input);
     return NextResponse.json(data);
   } catch (err) {
-    const msg = err instanceof Error ? err.message : "تعذّر إنشاء العادة";
+    if (err instanceof HabitLimitError) {
+      return NextResponse.json({ error: err.message, code: "habit_limit" }, { status: 409 });
+    }
     console.error("habit POST", err);
-    return NextResponse.json({ error: msg, code: "server_error" }, { status: 400 });
+    return NextResponse.json({ error: "تعذّر إنشاء العادة", code: "server_error" }, { status: 500 });
   }
 }

@@ -1,8 +1,9 @@
 // عون — طبقة حساب التحليلات: شبكة السنة (٣٦٥ يوماً) + الاتساق الأسبوعي + ملخّص.
 import "server-only";
 import { prisma } from "./db";
-import { todayKey, lastNDays, isDueOn } from "./date";
-import { computeDailyScore, qualifiesForStreak, computeOverallStreak } from "./scoring";
+import { todayKey, dateKeyOffset } from "./date";
+import { qualifiesForStreak, computeOverallStreak } from "./scoring";
+import { summarizeHistory, HISTORY_WINDOW_DAYS } from "./history";
 import type { Frequency, Weekday } from "./types";
 
 export interface DayCell {
@@ -46,8 +47,14 @@ function levelOf(due: number, completed: number): number {
 }
 
 export async function getAnalytics(userId: string): Promise<Analytics> {
-  const tz = "Asia/Riyadh";
+  // «اليوم» بتوقيت المستخدم؛ ونافذة 365 يوماً موحّدة مع اللوحة.
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { timezone: true },
+  });
+  const tz = user?.timezone || "Asia/Riyadh";
   const today = todayKey(tz);
+  const windowStart = dateKeyOffset(today, -(HISTORY_WINDOW_DAYS - 1));
 
   const [rows, logs] = (await Promise.all([
     prisma.habit.findMany({
@@ -55,7 +62,7 @@ export async function getAnalytics(userId: string): Promise<Analytics> {
       select: { id: true, frequency: true, weekdays: true },
     }),
     prisma.dailyLog.findMany({
-      where: { userId, completed: true },
+      where: { userId, completed: true, date: { gte: windowStart } },
       select: { date: true, habitId: true },
     }),
   ])) as [HabitRow[], { date: string; habitId: string }[]];
@@ -74,33 +81,15 @@ export async function getAnalytics(userId: string): Promise<Analytics> {
     activeDates.add(l.date);
   }
 
-  const dayKeys = lastNDays(365, tz);
-  const days: DayCell[] = [];
-  const qualifyingDates = new Set<string>();
-  let bestStreak = 0;
-  let run = 0;
-  let perfectDays = 0;
-  let todayScore = 0;
+  const { days: dayStats, qualifyingDates, bestStreak, perfectDays, todayScore } =
+    summarizeHistory(habits, completedByDay, today, tz, HISTORY_WINDOW_DAYS);
 
-  for (const date of dayKeys) {
-    const due = habits.filter((h) => isDueOn(h.frequency, h.weekdays, date));
-    const doneSet = completedByDay.get(date) ?? new Set<string>();
-    const completed = due.filter((h) => doneSet.has(h.id)).length;
-    const score = computeDailyScore(due.length, completed);
-
-    if (date === today) todayScore = score;
-    if (due.length > 0 && completed >= due.length) perfectDays++;
-
-    if (qualifiesForStreak(score)) {
-      if (date !== today) qualifyingDates.add(date);
-      run++;
-      bestStreak = Math.max(bestStreak, run);
-    } else {
-      run = 0;
-    }
-
-    days.push({ date, level: levelOf(due.length, completed), completed, due: due.length });
-  }
+  const days: DayCell[] = dayStats.map((d) => ({
+    date: d.date,
+    level: levelOf(d.due, d.completed),
+    completed: d.completed,
+    due: d.due,
+  }));
 
   const currentStreak = computeOverallStreak(
     qualifyingDates,
@@ -109,14 +98,12 @@ export async function getAnalytics(userId: string): Promise<Analytics> {
   );
 
   // اتساق آخر 8 أسابيع (متوسّط النتيجة اليومية لكل أسبوع).
-  const last56 = days.slice(-56);
+  const last56 = dayStats.slice(-56);
   const weeks: WeekPoint[] = [];
   for (let w = 0; w < 8; w++) {
     const chunk = last56.slice(w * 7, w * 7 + 7);
     if (chunk.length === 0) continue;
-    const avg =
-      chunk.reduce((sum, d) => sum + computeDailyScore(d.due, d.completed), 0) /
-      chunk.length;
+    const avg = chunk.reduce((sum, d) => sum + d.score, 0) / chunk.length;
     weeks.push({ index: w + 1, score: Math.round(avg) });
   }
 

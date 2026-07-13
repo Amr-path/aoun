@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { updateHabit, deleteHabit } from "@/lib/habits";
+import { updateHabit, deleteHabit, NotFoundError } from "@/lib/habits";
 import { getUserId } from "@/lib/auth";
 import { parseJson, habitPatchSchema } from "@/lib/validation";
 
@@ -19,6 +19,9 @@ export async function PATCH(
     const data = await updateHabit(userId, id, patch);
     return NextResponse.json(data);
   } catch (err) {
+    if (err instanceof NotFoundError) {
+      return NextResponse.json({ error: err.message, code: "not_found" }, { status: 404 });
+    }
     console.error("habit PATCH", err);
     return NextResponse.json({ error: "تعذّر تعديل العادة", code: "server_error" }, { status: 500 });
   }
@@ -36,6 +39,9 @@ export async function DELETE(
     const data = await deleteHabit(userId, id);
     return NextResponse.json(data);
   } catch (err) {
+    if (err instanceof NotFoundError) {
+      return NextResponse.json({ error: err.message, code: "not_found" }, { status: 404 });
+    }
     console.error("habit DELETE", err);
     return NextResponse.json({ error: "تعذّر حذف العادة", code: "server_error" }, { status: 500 });
   }

@@ -180,6 +180,8 @@ body {
   background: var(--color-cream);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* تفادي جزيرة الآيفون/شريط الحالة العلوي (safe area) */
+  padding-top: env(safe-area-inset-top);
 }
 
 /* أجواءٌ متحرّكة هادئة بألوان الهوية الجديدة (آذريون/إيرِس/ورق) */

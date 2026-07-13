@@ -16,7 +16,7 @@ function ProductPeek() {
   ];
   return (
     <div
-      className="lp-peek mt-10 w-[272px] rounded-t-[26px] border border-b-0 border-[--color-hairline-soft] bg-[--color-surface] px-4 pt-4"
+      className="lp-peek mt-7 w-[302px] rounded-t-[26px] border border-b-0 border-[--color-hairline-soft] bg-[--color-surface] px-4 pt-4"
       style={{
         boxShadow:
           "inset 0 1px 0 rgba(255,255,255,.7), 0 30px 60px -24px rgba(60,44,26,.4), 0 12px 28px -16px rgba(60,44,26,.3)",
@@ -93,22 +93,22 @@ function ProductPeek() {
 
 export default function Home() {
   return (
-    <main className="relative mx-auto flex w-full max-w-lg flex-1 flex-col items-center overflow-hidden px-7 pb-0 pt-16 text-center">
+    <main className="relative mx-auto flex w-full max-w-lg flex-1 flex-col items-center overflow-hidden px-6 pb-0 pt-5 text-center">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10" style={{ background: GLOW }} />
 
-      <FlowerMark className="mb-5" />
+      <FlowerMark size={72} className="mb-3" />
 
-      <h1 className="font-[family-name:var(--font-display)] text-[38px] font-extrabold leading-[1.1] tracking-tight text-[--color-ink]">
+      <h1 className="font-[family-name:var(--font-display)] text-[29px] font-extrabold leading-[1.15] tracking-tight text-[--color-ink]">
         رفيقُك
         <br />
         <span className="text-[--color-accent-ink]">للاستمرار.</span>
       </h1>
 
-      <p className="mt-4 max-w-[300px] text-[15.5px] leading-relaxed text-[--color-muted]">
+      <p className="mt-3 max-w-[288px] text-[14.5px] leading-relaxed text-[--color-muted]">
         سبعُ عاداتٍ فقط، تكفيك عامَك كلَّه. لا قوائمَ مرهقة، ولا تشتّت — بل ما يبني استمرارَك، بهدوء.
       </p>
 
-      <div className="mt-7 flex items-center gap-2.5">
+      <div className="mt-5 flex items-center gap-2.5">
         <Link
           href="/login"
           className="press rounded-full px-6 py-3 text-[15px] font-bold text-[--color-cream]"

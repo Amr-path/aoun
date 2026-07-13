@@ -8,7 +8,8 @@ export const dynamic = "force-dynamic";
 export async function GET(req: Request) {
   const secret = process.env.CRON_SECRET;
   const auth = req.headers.get("authorization");
-  if (secret && secret !== "change-me-please" && auth !== `Bearer ${secret}`) {
+  // fail-closed: بلا سرٍّ صالح مضبوط، المسار مرفوض دائماً — لا يصبح عاماً أبداً.
+  if (!secret || secret === "change-me-please" || auth !== `Bearer ${secret}`) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   try {

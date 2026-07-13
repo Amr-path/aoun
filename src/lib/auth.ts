@@ -6,9 +6,26 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 const COOKIE = "aoun_session";
-const secretKey = new TextEncoder().encode(
-  process.env.AUTH_SECRET || "dev-secret-change-me"
-);
+const DEV_FALLBACK_SECRET = "dev-secret-change-me";
+
+/**
+ * يحلّ سرّ توقيع الجلسات. يرمي خطأً عند الإقلاع في الإنتاج إذا كان السرّ
+ * غائباً أو ما زال بالقيمة الافتراضية — حتى لا تُوقَّع الجلسات بنصّ معروف للجميع.
+ */
+function resolveAuthSecret(): Uint8Array {
+  const secret = process.env.AUTH_SECRET;
+  if (!secret || secret === DEV_FALLBACK_SECRET) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error(
+        "AUTH_SECRET مطلوب في الإنتاج ولا يجوز استخدام القيمة الافتراضية."
+      );
+    }
+    return new TextEncoder().encode(DEV_FALLBACK_SECRET);
+  }
+  return new TextEncoder().encode(secret);
+}
+
+const secretKey = resolveAuthSecret();
 
 export function hashPassword(pw: string): Promise<string> {
   return bcrypt.hash(pw, 10);

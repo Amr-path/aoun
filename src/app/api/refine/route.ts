@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
 import { refineHabit } from "@/lib/refiner";
+import { getUserId } from "@/lib/auth";
 import type { RefineHabitRequest } from "@/lib/types";
 
 // POST /api/refine — يحوّل نصّ عادة خام إلى عادة منقّحة عبر طبقة الـLLM.
 export async function POST(req: Request) {
   try {
+    // مصادقة أولاً: النداء يستهلك مفتاح LLM مدفوع، فلا يُترك مكشوفاً لمجهول.
+    const userId = await getUserId();
+    if (!userId) {
+      return NextResponse.json({ error: "غير مسجّل" }, { status: 401 });
+    }
     const body = (await req.json()) as RefineHabitRequest;
     if (!body?.rawText || !body.rawText.trim()) {
       return NextResponse.json({ error: "النص مطلوب" }, { status: 400 });

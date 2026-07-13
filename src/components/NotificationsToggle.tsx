@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { pushStatus, enablePush, disablePush, type PushStatus } from "@/lib/push-client";
 import Icon from "@/components/ui/Icon";
+import Spinner from "@/components/ui/Spinner";
 
 export default function NotificationsToggle() {
   const [status, setStatus] = useState<PushStatus>("unsupported");
@@ -87,7 +88,13 @@ export default function NotificationsToggle() {
           disabled={busy}
           className="press pill shrink-0 bg-[--color-ink] px-5 py-2 text-sm font-semibold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-50"
         >
-          {busy ? "…" : "تفعيل"}
+          {busy ? (
+            <span className="inline-flex items-center justify-center">
+              <Spinner size={16} />
+            </span>
+          ) : (
+            "تفعيل"
+          )}
         </button>
       ) : null}
     </div>

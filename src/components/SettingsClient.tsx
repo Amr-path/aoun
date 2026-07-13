@@ -8,6 +8,7 @@ import NotificationsToggle from "./NotificationsToggle";
 import LogoutButton from "./LogoutButton";
 import BottomNav from "./BottomNav";
 import Icon from "@/components/ui/Icon";
+import Spinner from "@/components/ui/Spinner";
 
 const TIMEZONES = [
   "Asia/Riyadh",
@@ -114,7 +115,13 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
             disabled={busy}
             className="press pill bg-[--color-ink] px-6 py-2.5 font-semibold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-60"
           >
-            {busy ? "…" : "حفظ"}
+            {busy ? (
+              <span className="inline-flex items-center justify-center">
+                <Spinner />
+              </span>
+            ) : (
+              "حفظ"
+            )}
           </button>
           {saved && (
             <span className="inline-flex items-center gap-1 text-sm font-medium text-[--color-success-ink]">

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import FlowerMark from "./FlowerMark";
+import Spinner from "@/components/ui/Spinner";
 
 export default function AuthForm() {
   const router = useRouter();
@@ -92,7 +93,15 @@ export default function AuthForm() {
             boxShadow: "0 10px 22px -8px rgba(200,122,40,.5), inset 0 1px 0 rgba(255,255,255,.35)",
           }}
         >
-          {busy ? "…" : isRegister ? "إنشاء الحساب" : "دخول"}
+          {busy ? (
+            <span className="inline-flex items-center justify-center">
+              <Spinner />
+            </span>
+          ) : isRegister ? (
+            "إنشاء الحساب"
+          ) : (
+            "دخول"
+          )}
         </button>
       </form>
 

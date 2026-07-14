@@ -4,7 +4,7 @@
 import { create } from "zustand";
 import type { DashboardData, OnboardingHabitInput } from "@/lib/habits";
 import type { HabitWithStatus, UserScore, Frequency, Weekday, ColorKey } from "@/lib/types";
-import { computeDailyScore, qualifiesForStreak, xpForCompletion } from "@/lib/scoring";
+import { computeDailyScore, xpForCompletion } from "@/lib/scoring";
 import {
   COMPLETION_QUOTES,
   isMilestone,
@@ -57,7 +57,38 @@ function recomputeScore(habits: HabitWithStatus[], prev: UserScore): UserScore {
   return { ...prev, currentScore: computeDailyScore(due.length, done) };
 }
 
-export const useDashboard = create<DashboardState>((set, get) => ({
+export const useDashboard = create<DashboardState>((set, get) => {
+  // مساعد موحّد يزيل تكرار «تفاؤلي → PATCH → مزامنة → تراجع» في تعديلات العادة.
+  const mutateHabit = async (
+    habitId: string,
+    optimisticPatch: Partial<HabitWithStatus>,
+    body: Record<string, unknown>,
+    recompute = false
+  ): Promise<void> => {
+    const { habits, score } = get();
+    const optimistic = habits.map((h) =>
+      h.id === habitId ? { ...h, ...optimisticPatch } : h
+    );
+    set(
+      recompute
+        ? { habits: optimistic, score: recomputeScore(optimistic, score) }
+        : { habits: optimistic }
+    );
+    try {
+      const res = await fetch(`/api/habits/${habitId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) throw new Error("failed");
+      const data = (await res.json()) as DashboardData;
+      set({ habits: data.habits, score: data.score });
+    } catch {
+      set({ habits, score });
+    }
+  };
+
+  return {
   dateKey: "",
   habits: [],
   score: EMPTY_SCORE,
@@ -136,66 +167,13 @@ export const useDashboard = create<DashboardState>((set, get) => ({
     }
   },
 
-  setFrequency: async (habitId, frequency, weekdays) => {
-    const { habits, score } = get();
-    const optimistic = habits.map((h) =>
-      h.id === habitId ? { ...h, frequency, weekdays } : h
-    );
-    set({ habits: optimistic, score: recomputeScore(optimistic, score) });
+  setFrequency: (habitId, frequency, weekdays) =>
+    mutateHabit(habitId, { frequency, weekdays }, { frequency, weekdays }, true),
 
-    try {
-      const res = await fetch(`/api/habits/${habitId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ frequency, weekdays }),
-      });
-      if (!res.ok) throw new Error("failed");
-      const data = (await res.json()) as DashboardData;
-      set({ habits: data.habits, score: data.score });
-    } catch {
-      set({ habits, score });
-    }
-  },
+  setSchedule: (habitId, scheduledAt) =>
+    mutateHabit(habitId, { scheduledAt }, { scheduledAt }),
 
-  setSchedule: async (habitId, scheduledAt) => {
-    const { habits, score } = get();
-    const optimistic = habits.map((h) =>
-      h.id === habitId ? { ...h, scheduledAt } : h
-    );
-    set({ habits: optimistic });
-
-    try {
-      const res = await fetch(`/api/habits/${habitId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ scheduledAt }),
-      });
-      if (!res.ok) throw new Error("failed");
-      const data = (await res.json()) as DashboardData;
-      set({ habits: data.habits, score: data.score });
-    } catch {
-      set({ habits, score });
-    }
-  },
-
-  patchHabit: async (habitId, patch) => {
-    const { habits, score } = get();
-    const optimistic = habits.map((h) => (h.id === habitId ? { ...h, ...patch } : h));
-    set({ habits: optimistic });
-
-    try {
-      const res = await fetch(`/api/habits/${habitId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(patch),
-      });
-      if (!res.ok) throw new Error("failed");
-      const data = (await res.json()) as DashboardData;
-      set({ habits: data.habits, score: data.score });
-    } catch {
-      set({ habits, score });
-    }
-  },
+  patchHabit: (habitId, patch) => mutateHabit(habitId, patch, patch),
 
   addHabit: async (input) => {
     try {
@@ -229,6 +207,5 @@ export const useDashboard = create<DashboardState>((set, get) => ({
   },
 
   clearReward: () => set({ reward: null }),
-}));
-
-export { qualifiesForStreak };
+  };
+});

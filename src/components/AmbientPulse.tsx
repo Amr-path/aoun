@@ -10,6 +10,10 @@ export default function AmbientPulse() {
 
   useEffect(() => {
     if (!reward) return;
+    // وميض الشاشة الكامل للإنجازات الكبرى فقط (محطّة أو إكمال اليوم) — لا لكل إتمام،
+    // فالهالة المحلّية في البطاقة + قصاصات المكافأة تكفيان للاحتفاء اليوميّ.
+    const dayComplete = useDashboard.getState().score.currentScore >= 100;
+    if (!reward.milestone && !dayComplete) return;
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setPulse({ id: reward.id, color: accentOf(reward.colorKey) });
     const t = window.setTimeout(() => setPulse(null), 950);

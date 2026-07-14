@@ -145,7 +145,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
       >
         <span
           className="grid h-10 w-10 shrink-0 place-items-center rounded-[--radius-md]"
-          style={{ background: "linear-gradient(180deg,#eba04c,#e0913a 60%,#cf7f2c)" }}
+          style={{ background: "var(--grad-cta)" }}
         >
           <Icon name="spark" size={18} className="text-[--color-cream]" />
         </span>

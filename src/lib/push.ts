@@ -26,19 +26,22 @@ export interface PushPayload {
   tag?: string;
 }
 
-type SubRow = { endpoint: string; p256dh: string; auth: string };
+export type PushSub = { endpoint: string; p256dh: string; auth: string };
 
-/** يرسل إشعاراً لكل أجهزة المستخدم، ويحذف الاشتراكات المنتهية. */
-export async function sendPushToUser(
-  userId: string,
-  payload: PushPayload
-): Promise<number> {
-  if (!configure()) return 0;
-
-  const subs = (await prisma.pushSubscription.findMany({
+/** يجلب اشتراكات أجهزة المستخدم (مرّة واحدة، لتفادي N+1 داخل حلقات الإرسال). */
+export async function getUserPushSubs(userId: string): Promise<PushSub[]> {
+  return (await prisma.pushSubscription.findMany({
     where: { userId },
     select: { endpoint: true, p256dh: true, auth: true },
-  })) as SubRow[];
+  })) as PushSub[];
+}
+
+/** يرسل إشعاراً لمجموعة اشتراكاتٍ مُجهّزة مسبقاً، ويحذف المنتهية. */
+export async function sendPushToSubs(
+  subs: PushSub[],
+  payload: PushPayload
+): Promise<number> {
+  if (!configure() || subs.length === 0) return 0;
 
   let sent = 0;
   await Promise.all(
@@ -63,4 +66,14 @@ export async function sendPushToUser(
     })
   );
   return sent;
+}
+
+/** يرسل إشعاراً لكل أجهزة المستخدم (يجلب الاشتراكات ثم يرسل). */
+export async function sendPushToUser(
+  userId: string,
+  payload: PushPayload
+): Promise<number> {
+  if (!configure()) return 0;
+  const subs = await getUserPushSubs(userId);
+  return sendPushToSubs(subs, payload);
 }

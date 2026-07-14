@@ -3,7 +3,7 @@
 import "server-only";
 import { prisma } from "./db";
 import { todayKey, isDueOn } from "./date";
-import { sendPushToUser } from "./push";
+import { getUserPushSubs, sendPushToSubs } from "./push";
 import { MISSED_NUDGE } from "./messages";
 import type { Weekday, Frequency } from "./types";
 
@@ -76,7 +76,8 @@ export async function runReminders(windowMin = 5): Promise<{
     const today = todayKey(tz);
     const now = nowMinutes(tz);
 
-    const [rows, logs] = (await Promise.all([
+    // اشتراكات الجهاز تُجلب مرّة واحدة لكل مستخدم (بدل مرّةٍ لكل عادة مستحقّة).
+    const [rows, logs, subs] = (await Promise.all([
       prisma.habit.findMany({
         where: { userId: u.id, archived: false },
         select: {
@@ -92,7 +93,11 @@ export async function runReminders(windowMin = 5): Promise<{
         where: { userId: u.id, date: today, completed: true },
         select: { habitId: true },
       }),
-    ])) as [HabitRow[], { habitId: string }[]];
+      getUserPushSubs(u.id),
+    ])) as [HabitRow[], { habitId: string }[], Awaited<ReturnType<typeof getUserPushSubs>>];
+
+    // بلا أجهزةٍ مشتركة لا داعي لفحص العادات.
+    if (subs.length === 0) continue;
 
     const done = new Set(logs.map((l) => l.habitId));
 
@@ -105,7 +110,7 @@ export async function runReminders(windowMin = 5): Promise<{
 
       // تذكيرٌ قبل الموعد.
       if (inWindow(now, sched - offset, windowMin)) {
-        const sent = await sendPushToUser(u.id, {
+        const sent = await sendPushToSubs(subs, {
           title: "عون — تذكيرٌ لطيف",
           body: reminderBody(h.title, offset),
           url: "/dashboard",
@@ -116,7 +121,7 @@ export async function runReminders(windowMin = 5): Promise<{
 
       // نداءٌ لطيف عند الفوات (بعد الموعد بساعتين) إن لم تُنجَز.
       if (!done.has(h.id) && inWindow(now, sched + 120, windowMin)) {
-        const sent = await sendPushToUser(u.id, {
+        const sent = await sendPushToSubs(subs, {
           title: `عون — ${h.title}`,
           body: MISSED_NUDGE,
           url: "/dashboard",

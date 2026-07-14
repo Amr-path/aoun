@@ -9,6 +9,7 @@ import LogoutButton from "./LogoutButton";
 import BottomNav from "./BottomNav";
 import Icon from "@/components/ui/Icon";
 import Spinner from "@/components/ui/Spinner";
+import { useToast } from "@/store/toast";
 
 // أسماء عربية + إزاحة تقريبية (قد تختلف بساعةٍ صيفاً في المناطق التي تطبّق التوقيت الصيفي).
 const TIMEZONES: { id: string; label: string }[] = [
@@ -38,21 +39,21 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
   const [name, setName] = useState(initialName);
   const [tz, setTz] = useState(initialTz);
   const [busy, setBusy] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const toast = useToast((s) => s.show);
 
   const save = async () => {
     setBusy(true);
-    setSaved(false);
     try {
       const res = await fetch("/api/user", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, timezone: tz }),
       });
-      if (res.ok) {
-        setSaved(true);
-        window.setTimeout(() => setSaved(false), 2500);
-      }
+      toast(res.ok ? "تم حفظ التغييرات" : "تعذّر الحفظ، حاول مجدداً", {
+        kind: res.ok ? "success" : "error",
+      });
+    } catch {
+      toast("تعذّر الاتصال", { kind: "error" });
     } finally {
       setBusy(false);
     }
@@ -124,12 +125,6 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
               "حفظ"
             )}
           </button>
-          {saved && (
-            <span className="inline-flex items-center gap-1 text-sm font-medium text-[--color-success-ink]">
-              <Icon name="check" size={16} />
-              تم الحفظ
-            </span>
-          )}
         </div>
       </section>
 

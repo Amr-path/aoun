@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import "./globals.css";
 import { BRAND } from "@/lib/constants";
 import SWRegister from "@/components/SWRegister";
+import Toaster from "@/components/ui/Toaster";
 
 // الجسم: Almarai — عربيٌّ دافئٌ واضح.
 const arabic = Almarai({
@@ -71,6 +72,7 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col">
         <SWRegister />
         {children}
+        <Toaster />
       </body>
     </html>
   );

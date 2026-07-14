@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { pushStatus, enablePush, disablePush, type PushStatus } from "@/lib/push-client";
 import Icon from "@/components/ui/Icon";
 import Spinner from "@/components/ui/Spinner";
+import { useToast } from "@/store/toast";
 
 export default function NotificationsToggle() {
   const [status, setStatus] = useState<PushStatus>("unsupported");
   const [busy, setBusy] = useState(false);
-  const [sent, setSent] = useState(false);
+  const toast = useToast((s) => s.show);
 
   useEffect(() => {
     // قراءة قدرة المتصفح تتم بعد التركيب فقط (لا تتوفّر في الخادم).
@@ -34,10 +35,11 @@ export default function NotificationsToggle() {
 
   const test = async () => {
     setBusy(true);
-    await fetch("/api/push/test", { method: "POST" });
+    const res = await fetch("/api/push/test", { method: "POST" });
     setBusy(false);
-    setSent(true);
-    window.setTimeout(() => setSent(false), 2500);
+    toast(res.ok ? "أرسلنا إشعاراً تجريبياً" : "تعذّر الإرسال", {
+      kind: res.ok ? "success" : "error",
+    });
   };
 
   return (
@@ -52,9 +54,7 @@ export default function NotificationsToggle() {
         <h3 className="font-semibold text-[--color-ink]">تذكيراتٌ لطيفة</h3>
         <p className="mt-0.5 text-xs text-[--color-muted]">
           {status === "granted"
-            ? sent
-              ? "أرسلنا إشعاراً تجريبياً ✓"
-              : "مُفعّلة — سنذكّرك قبل موعد كل عادة بلطف."
+            ? "مُفعّلة — سنذكّرك قبل موعد كل عادة بلطف."
             : status === "denied"
               ? "الإشعارات محظورة من المتصفح — فعّلها من إعداداته."
               : "فعّلها لتصلك تذكيراتٌ قبل موعد كل عادة."}

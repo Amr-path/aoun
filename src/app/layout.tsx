@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Almarai, Baloo_Bhaijaan_2, Amiri } from "next/font/google";
+import { Almarai, Baloo_Bhaijaan_2 } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { BRAND } from "@/lib/constants";
@@ -19,14 +19,6 @@ const display = Baloo_Bhaijaan_2({
   variable: "--font-display-arabic",
   subsets: ["arabic"],
   weight: ["500", "600", "700", "800"],
-  display: "swap",
-});
-
-// الاقتباسات: Amiri — نسخٌ كلاسيكي يمنح «بذرة اليوم» روح المخطوطة.
-const quote = Amiri({
-  variable: "--font-quote-arabic",
-  subsets: ["arabic"],
-  weight: ["400", "700"],
   display: "swap",
 });
 
@@ -75,7 +67,7 @@ export default async function RootLayout({
       lang="ar"
       dir="rtl"
       data-theme={theme}
-      className={`${arabic.variable} ${display.variable} ${quote.variable} h-full antialiased`}
+      className={`${arabic.variable} ${display.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <SWRegister />

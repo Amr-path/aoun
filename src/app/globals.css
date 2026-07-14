@@ -11,7 +11,8 @@
   /* الخطوط */
   --font-sans: var(--font-arabic), "Almarai", system-ui, sans-serif;
   --font-display: var(--font-display-arabic), var(--font-arabic), "Almarai", sans-serif;
-  --font-quote: var(--font-quote-arabic), "Amiri", var(--font-arabic), serif;
+  /* «الاقتباس» صار بخطّ الجسم نفسه — التراثي لم يعد يناسب روح «واحة» */
+  --font-quote: var(--font-arabic), "Almarai", system-ui, sans-serif;
 
   /* رمالُ الواحة — أسطح دافئة مشمسة */
   --color-cream: #fbf0dc;      /* خلفية الصفحة */

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Almarai, El_Messiri } from "next/font/google";
+import { Almarai, Cairo } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { BRAND } from "@/lib/constants";
@@ -13,11 +13,11 @@ const arabic = Almarai({
   display: "swap",
 });
 
-// العناوين: El Messiri — خطُّ عرضٍ عربيٌّ ذو شخصيةٍ دافئة يُزاوج مع Almarai.
-const display = El_Messiri({
+// العناوين: Cairo — خطُّ عرضٍ عربيٌّ معاصر بأوزانٍ كاملة (حتى 900).
+const display = Cairo({
   variable: "--font-display-arabic",
   subsets: ["arabic"],
-  weight: ["400", "600", "700"],
+  weight: ["600", "700", "800", "900"],
   display: "swap",
 });
 

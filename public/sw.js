@@ -1,8 +1,13 @@
 /* eslint-disable */
 // عون — عامل الخدمة: عملٌ دون اتصال (تخزين مؤقّت) + إشعارات Web Push.
 
-const CACHE = "aoun-v1";
+const CACHE = "aoun-v2";
 const PRECACHE = ["/", "/offline", "/manifest.webmanifest", "/icons/icon-192.png"];
+
+// يُخزَّن فقط ما هو استجابةٌ ناجحة أساسية (نفس الأصل) — لا صفحات 500/الأخطاء.
+function isCacheable(res) {
+  return res && res.ok && res.status === 200 && res.type === "basic";
+}
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -19,22 +24,27 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+// مسح الكاش عند الخروج (خصوصية الأجهزة المشتركة) — يُستدعى من زرّ الخروج.
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "clear-cache") {
+    event.waitUntil(caches.delete(CACHE));
+  }
+});
+
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  // التنقّل بين الصفحات: الشبكة أولاً، ثم المخزّن، ثم صفحة عدم الاتصال.
+  // التنقّل بين الصفحات: الشبكة فقط، ثم صفحة عدم الاتصال عند الفشل.
+  // لا نُخزّن استجابات التنقّل: قد تحوي HTML مصادَقاً (اللوحة باسم المستخدم)
+  // يبقى في Cache Storage بعد الخروج على جهازٍ مشترك.
   if (req.mode === "navigate") {
     event.respondWith(
-      fetch(req)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(req, copy));
-          return res;
-        })
-        .catch(() => caches.match(req).then((r) => r || caches.match("/offline")))
+      fetch(req).catch(() =>
+        caches.match(req).then((r) => r || caches.match("/offline"))
+      )
     );
     return;
   }
@@ -50,8 +60,10 @@ self.addEventListener("fetch", (event) => {
         (cached) =>
           cached ||
           fetch(req).then((res) => {
-            const copy = res.clone();
-            caches.open(CACHE).then((c) => c.put(req, copy));
+            if (isCacheable(res)) {
+              const copy = res.clone();
+              caches.open(CACHE).then((c) => c.put(req, copy));
+            }
             return res;
           })
       )

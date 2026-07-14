@@ -7,6 +7,10 @@ export default function LogoutButton() {
   const router = useRouter();
   const out = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
+    // امسح كاش الصفحات المصادَقة (خصوصية الأجهزة المشتركة).
+    if (typeof navigator !== "undefined") {
+      navigator.serviceWorker?.controller?.postMessage({ type: "clear-cache" });
+    }
     router.push("/login");
     router.refresh();
   };

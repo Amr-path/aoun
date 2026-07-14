@@ -2,7 +2,8 @@
 // المداومة على مدار العام. استعارةٌ أصيلة من الزخرفة العربية (الرَّوزيت/الوردة)
 // والنموّ الطبيعي: كل بتلةٍ عادة، والمركز نواةُ الثبات.
 
-const PETAL = "M24 23 C 19.5 17 19.5 11 24 6 C 28.5 11 28.5 17 24 23 Z";
+import { LOGO_PETAL as PETAL } from "@/lib/marks";
+
 const ANGLES = Array.from({ length: 7 }, (_, i) => (i * 360) / 7);
 
 interface Props {

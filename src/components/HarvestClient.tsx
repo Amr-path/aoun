@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import * as htmlToImage from "html-to-image";
 import { ar } from "@/lib/numerals";
+import { LOGO_PETAL } from "@/lib/marks";
 import Icon from "@/components/ui/Icon";
 
 const PETAL = "M60 52 C 47 42 47 24 60 11 C 73 24 73 42 60 52 Z";
@@ -104,7 +105,7 @@ export default function HarvestClient({
               {ANGLES.map((a) => (
                 <path
                   key={a}
-                  d="M24 23 C 19.5 17 19.5 11 24 6 C 28.5 11 28.5 17 24 23 Z"
+                  d={LOGO_PETAL}
                   transform={`rotate(${a.toFixed(2)} 24 24)`}
                 />
               ))}

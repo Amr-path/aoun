@@ -5,15 +5,26 @@ import type { DayCell } from "@/lib/analytics";
 
 const STEP = 14;
 const ROWS = 7;
-// سُلّم توقيعيّ من ذهب الآذريون: من برعمٍ باهت إلى زهرةٍ متوهّجة.
-const TINTS = ["", "#f2d4a0", "#ecb768", "#e0913a", "#c1762a"];
+// سُلّم توقيعيّ من ذهب الآذريون عبر color-mix على --color-accent — يستجيب لوضع «الغسق»
+// ويطابق ContributionGrid (بدل hex صلب لا يتغيّر ليلاً). يُطبَّق عبر style لا fill.
+const TINTS = [
+  "",
+  "color-mix(in srgb, var(--color-accent) 38%, var(--color-surface-2))",
+  "color-mix(in srgb, var(--color-accent) 62%, var(--color-surface-2))",
+  "color-mix(in srgb, var(--color-accent) 88%, var(--color-surface-2))",
+  "var(--color-accent)",
+];
 
 function mark(level: number, cx: number, cy: number, key: number | string): ReactNode {
   if (level <= 0) {
-    return <circle key={key} cx={cx} cy={cy} r={1.4} fill="#d8cfbf" opacity={0.55} />;
+    return (
+      <circle key={key} cx={cx} cy={cy} r={1.4} style={{ fill: "var(--color-hairline)" }} opacity={0.55} />
+    );
   }
   if (level <= 2) {
-    return <circle key={key} cx={cx} cy={cy} r={level === 1 ? 2.3 : 3} fill={TINTS[level]} />;
+    return (
+      <circle key={key} cx={cx} cy={cy} r={level === 1 ? 2.3 : 3} style={{ fill: TINTS[level] }} />
+    );
   }
   // زهرةٌ صغيرة للمستويات العليا
   const petals = level === 4 ? 6 : 5;
@@ -27,11 +38,11 @@ function mark(level: number, cx: number, cy: number, key: number | string): Reac
           cy={-ry}
           rx={1.4}
           ry={ry}
-          fill={TINTS[level]}
+          style={{ fill: TINTS[level] }}
           transform={`rotate(${(i * 360) / petals})`}
         />
       ))}
-      <circle cx={0} cy={0} r={1.3} fill="#fffdfa" />
+      <circle cx={0} cy={0} r={1.3} style={{ fill: "var(--color-surface)" }} />
     </g>
   );
 }

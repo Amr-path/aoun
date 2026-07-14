@@ -14,7 +14,8 @@ interface Props {
 export default function DiagnosticFlow({ question, answers, onChange, onAdvance }: Props) {
   const selectSingle = (value: string) => {
     onChange({ [question.id]: value } as Partial<DiagnosticAnswers>);
-    window.setTimeout(onAdvance, 240);
+    // مهلةٌ أطول (400ms) تترك فرصةً للتراجع عن لمسةٍ خاطئة قبل التقدّم التلقائي.
+    window.setTimeout(onAdvance, 400);
   };
 
   const toggleMulti = (value: string) => {

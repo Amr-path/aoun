@@ -94,8 +94,8 @@ export default function AddHabit() {
         >
           <Icon name="plus" />
         </span>
-        <span className="mt-2.5 text-sm font-semibold">ازرع بذرةً جديدة</span>
-        <span className="mt-0.5 text-xs text-[--color-faint]">بذرةٌ صغيرة تكفي</span>
+        <span className="mt-2.5 text-sm font-semibold">ازرع عادةً جديدة</span>
+        <span className="mt-0.5 text-xs text-[--color-faint]">ابدأها أصغرَ ممّا تظنّ</span>
       </button>
     );
   }
@@ -128,7 +128,7 @@ export default function AddHabit() {
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="ابحث عن عادة… (مثال: تركيز، نوم)"
+              placeholder="ابحث عن عادة: تركيز، نوم، قراءة…"
               className="w-full rounded-[--radius-md] border border-[--color-hairline] bg-[--color-surface] py-2.5 pe-4 ps-10 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-accent]"
             />
           </div>
@@ -177,7 +177,7 @@ export default function AddHabit() {
             })}
             {results.length === 0 && (
               <p className="py-4 text-center text-sm text-[--color-faint]">
-                لا نتائج — جرّب عادةً مخصّصة.
+                لا نتائج بهذا الاسم — أنشئها عادةً مخصّصة.
               </p>
             )}
           </div>
@@ -187,7 +187,7 @@ export default function AddHabit() {
             onClick={() => setCustom(true)}
             className="inline-flex items-center gap-1 self-start text-sm font-medium text-[--color-accent-ink] hover:underline"
           >
-            أو أنشئ عادةً مخصّصة
+            أو أنشئ عادتك بنفسك
             <Icon name="chevron" size={14} />
           </button>
         </>
@@ -205,7 +205,7 @@ export default function AddHabit() {
               onChange={(e) => setTitle(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && submitCustom()}
               autoFocus
-              placeholder="اسم العادة…"
+              placeholder="سمِّ عادتك…"
               className="flex-1 rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-3 py-2 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-accent]"
             />
           </div>
@@ -273,7 +273,7 @@ export default function AddHabit() {
               {busy ? (
                 <span className="inline-flex items-center justify-center gap-2">
                   <Spinner size={16} />
-                  يُضاف
+                  تُضاف…
                 </span>
               ) : (
                 "إضافة"

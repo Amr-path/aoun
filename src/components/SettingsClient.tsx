@@ -8,6 +8,7 @@ import ThemeToggle from "./ThemeToggle";
 import NotificationsToggle from "./NotificationsToggle";
 import LogoutButton from "./LogoutButton";
 import BottomNav from "./BottomNav";
+import HabitManager from "./HabitManager";
 import Icon from "@/components/ui/Icon";
 import Spinner from "@/components/ui/Spinner";
 import { useToast } from "@/store/toast";
@@ -139,6 +140,13 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
           </button>
         </div>
       </section>
+
+      {/* إدارة العادات — التعديل هنا فقط؛ اللوحة للإنجاز والأصل الثبات */}
+      <SectionLabel>عاداتك</SectionLabel>
+      <p className="-mt-1 mb-3 px-1 text-xs leading-relaxed text-[--color-faint]">
+        هنا وحدها تُعدَّل العادة أو تُحذف — أبقينا لوحتك اليومية للإنجاز فقط.
+      </p>
+      <HabitManager />
 
       {/* الترقية إلى عون بلس — بطاقةُ زبدةٍ طينية */}
       <Link

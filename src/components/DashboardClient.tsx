@@ -175,9 +175,9 @@ export default function DashboardClient({
           {view.length === 0 && (
             <div className="mb-1 flex flex-col items-center gap-3 rounded-[--radius-card] border-2 border-dashed border-[--color-hairline] px-6 py-9 text-center">
               <FlowerMark size={56} />
-              <p className="text-base font-semibold text-[--color-ink]">ابدأ حديقتك اليوم</p>
+              <p className="text-base font-semibold text-[--color-ink]">هنا تبدأ حديقتك</p>
               <p className="max-w-[16rem] text-sm leading-relaxed text-[--color-muted]">
-                أضِف أوّل عادةٍ صغيرة — سطرٌ واحد يكفي، وسنحوّله إلى خطواتٍ لطيفة.
+                أضِف عادتك الأولى، واجعلها أصغرَ ممّا تظنّ — فالصغيرةُ هي التي تبقى.
               </p>
             </div>
           )}
@@ -199,7 +199,7 @@ export default function DashboardClient({
                 <svg width="8" height="8" viewBox="0 0 10 10" aria-hidden className="text-[--color-accent]">
                   <circle cx="5" cy="5" r="3.5" fill="currentColor" />
                 </svg>
-                مكتمل اليوم
+                اكتملت اليوم
               </span>
               <span className="ornament-line rev" aria-hidden />
             </div>

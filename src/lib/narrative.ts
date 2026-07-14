@@ -58,7 +58,7 @@ export function whyFromDiagnostic(raw: string | null): string {
   }
 }
 
-/** رسالة تعافٍ لطيفة عند العودة بعد انقطاع، تستحضر «لماذا بدأت». */
+/** رسالة تعافٍ عند العودة بعد انقطاع: تعاطفٌ بلا لومٍ، وتذكيرٌ بـ«لماذا بدأت». */
 export function recoveryMessage(
   bestStreak: number,
   name: string | null,
@@ -67,7 +67,7 @@ export function recoveryMessage(
   const n = name || "صديقي";
   const streakPart =
     bestStreak >= 3
-      ? `واظبتَ ${ar(bestStreak)} يوماً من قبل، وتلك القدرة ما زالت فيك. `
+      ? `واظبتَ من قبل ${ar(bestStreak)} يوماً متّصلة، وتلك القدرة لم تغادرك. `
       : "";
-  return `أهلاً بعودتك يا ${n}. ${streakPart}تذكّر لماذا بدأت: ${why}. لنبدأ اليوم بخطوةٍ واحدة.`;
+  return `عدتَ يا ${n}، وهذا وحده يكفي اليوم. ${streakPart}ما بدأتَ من أجله ما زال يستحقّ: ${why}. خطوةٌ واحدة الآن، والباقي يتبع.`;
 }

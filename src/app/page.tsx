@@ -10,9 +10,9 @@ const CHIP_TONES = [
 ];
 
 const PILLARS: { icon: IconName; title: string; body: string }[] = [
-  { icon: "spark", title: "تركيزٌ لا تشتّت", body: "قلّةٌ تُتقنها خيرٌ من قائمةٍ تُرهقك وتتركها." },
-  { icon: "leaf", title: "مداومةٌ تنمو", body: "كل يومٍ يضيف بتلةً؛ حديقتك تحكي رحلتك بصمت." },
-  { icon: "sun", title: "هدوءٌ يوميّ", body: "تذكيراتٌ لطيفة ولحظاتُ احتفاءٍ صغيرة، بلا ضجيج." },
+  { icon: "spark", title: "قِلّةٌ تُتقَن", body: "سبعُ عاداتٍ حدّاً لا يُتجاوز. ما تُتقنه يبقى، وما يزدحم يُهجَر." },
+  { icon: "leaf", title: "أثرٌ يتراكم", body: "كلُّ يومٍ تفي فيه لنفسك يضيف إلى حديقتك — سجلٌّ حيٌّ يشهد لرحلتك بصمت." },
+  { icon: "sun", title: "صحبةٌ لا تزحم", body: "تذكيرٌ في وقته، وكلمةٌ في محلّها. لا إلحاح، ولا ضجيج، ولا شعورٌ بالذنب." },
 ];
 
 // فاصلٌ هادئ: خيطا خرزٍ حول حبّةٍ مرجانية طرية.
@@ -117,8 +117,8 @@ function ProductPeek() {
           </b>
         </div>
         <div className="min-w-0 flex-1 text-right">
-          <div className="text-xs font-bold text-[--color-ink]">أنت في الطريق</div>
-          <div className="mt-0.5 text-xs text-[--color-muted]">بقيت أربع عادات على اكتماله</div>
+          <div className="text-xs font-bold text-[--color-ink]">يومُك يكتمل</div>
+          <div className="mt-0.5 text-xs text-[--color-muted]">بقيت أربعُ عاداتٍ ليكتمل يومك</div>
           {/* خيطُ اليوم — التقدّم يُسكَب مرجانًا في قناةٍ طينية */}
           <div className="thread mt-2" aria-hidden>
             <i style={{ width: "43%" }} />
@@ -177,13 +177,13 @@ export default function Home() {
           <FlowerMark size={72} className="mb-4" />
 
           <h1 className="font-[family-name:var(--font-display)] text-5xl font-extrabold leading-[1.15]">
-            رفيقُك
+            الثباتُ،
             <br />
-            <span className="text-gild">للاستمرار.</span>
+            <span className="text-gild">لا الحماس.</span>
           </h1>
 
           <p className="quote-seed sky-muted mt-4 max-w-[300px] text-lg leading-relaxed">
-            سبعُ عاداتٍ فقط، تكفيك عامَك كلَّه. لا قوائمَ مرهقة، ولا تشتّت — بل ما يبني استمرارَك، بهدوء.
+            سبعُ عاداتٍ تكفيك، ورفيقٌ هادئ لا يزحم يومك. فالذي يصل ليس الأكثر حماسةً، بل الأكثر عودة.
           </p>
 
           <div className="mt-6 flex items-center gap-3">
@@ -218,8 +218,8 @@ export default function Home() {
           <span aria-hidden className="ornament-line rev" />
         </div>
         <p className="mx-auto mt-4 max-w-[340px] text-sm leading-relaxed text-[--color-muted]">
-          لأن الاستمرار لا يولد من القوائم الطويلة، بل من قِلّةٍ تُتقنها. سبعُ عاداتٍ
-          تغطّي أركان يومك دون أن تُثقلك — فتبقى معك عامًا كاملًا.
+          لأن عدوَّ الاستمرار هو الازدحام. سبعُ عاداتٍ تغطّي أركان يومك — جسدَك
+          وذهنَك وسكينتَك — وتترك لك متّسعًا لتعيش. وما زاد على ذلك حماسةٌ تستهلك نفسها.
         </p>
         <div className="mt-8 grid gap-4 text-right sm:grid-cols-3">
           {PILLARS.map((p, i) => (
@@ -259,7 +259,7 @@ export default function Home() {
               ابدأ عامك <span className="text-gild">بهدوء</span>
             </h2>
             <p className="quote-seed mt-2.5 max-w-[300px] text-base leading-relaxed text-[--color-muted]">
-              سبعُ عاداتٍ، حديقةٌ تنمو معك، ورفيقٌ لا يزحمك. مجّانًا بلا حدٍّ زمنيّ.
+              سبعُ عاداتٍ تختارها، وحديقةٌ تنمو باسمك، ورفيقٌ يحترم وقتك. مجّانًا، بلا حدٍّ زمنيّ.
             </p>
             <Link href="/login" className="btn-clay press mt-6 px-8 py-3.5 text-base font-bold">
               ابدأ رحلتك
@@ -270,7 +270,7 @@ export default function Home() {
 
       {/* التذييل — همسةٌ خافتة بلا ضجيج */}
       <footer className="mb-10 mt-14 w-full max-w-md text-center">
-        <p className="text-xs text-[--color-faint]">عون — رفيقُك للاستمرار · صُنع بعناية</p>
+        <p className="text-xs text-[--color-faint]">عون — رفيقُ الثبات · صُنع بعناية</p>
       </footer>
     </main>
   );

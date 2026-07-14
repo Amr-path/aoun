@@ -1,27 +1,18 @@
 "use client";
-// عون — بطاقة العادة: إتمامٌ لطيف بهالةٍ واحدة + تعديل كامل (عنوان، رمز، لون، وقت، تكرار، حذف).
+// عون — بطاقة العادة: سطرٌ مدمجٌ للإنجاز اليوميّ فقط.
+// لا تعديلَ هنا — الأصل في العادات الثبات، واللوحة مكان الفعل لا العبث.
+// إدارة العادات (تعديل/حذف) انتقلت إلى الإعدادات.
 import { useState } from "react";
 import type { HabitWithStatus } from "@/lib/types";
 import { useDashboard } from "@/store/dashboard";
-import { EMOJI_CHOICES } from "@/lib/constants";
-import { COLOR_KEYS } from "@/lib/types";
 import { accentOf, accentSoftOf, accentInkOf } from "@/lib/colors";
 import { streakStage } from "@/lib/messages";
 import { ar } from "@/lib/numerals";
 import Icon from "./ui/Icon";
-import FrequencyToggle from "./FrequencyToggle";
 
 export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
   const toggle = useDashboard((s) => s.toggle);
-  const setFrequency = useDashboard((s) => s.setFrequency);
-  const setSchedule = useDashboard((s) => s.setSchedule);
-  const patchHabit = useDashboard((s) => s.patchHabit);
-  const removeHabit = useDashboard((s) => s.removeHabit);
-
-  const [editing, setEditing] = useState(false);
   const [burst, setBurst] = useState(false);
-  const [title, setTitle] = useState(habit.title);
-  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const accent = accentOf(habit.colorKey);
   const soft = accentSoftOf(habit.colorKey);
@@ -37,15 +28,9 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
     toggle(habit.id);
   };
 
-  const commitTitle = () => {
-    const t = title.trim();
-    if (t && t !== habit.title) patchHabit(habit.id, { title: t });
-    else setTitle(habit.title);
-  };
-
   return (
     <div
-      className={`press card relative p-2.5 ${inactive ? "opacity-55" : ""}`}
+      className={`card relative px-3 py-2 ${inactive ? "opacity-55" : ""}`}
       style={done ? { background: soft } : undefined}
     >
       {/* شريطٌ جانبيّ عند الإتمام */}
@@ -57,58 +42,58 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
         />
       )}
 
-      <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-3">
         {/* رمز العادة داخل حلقة مداومةٍ تكتمل نحو ٣٠ يوماً */}
-        <span className="relative grid h-11 w-11 shrink-0 place-items-center">
+        <span className="relative grid h-10 w-10 shrink-0 place-items-center">
           {habit.streak > 0 && (
             <svg
               className="pointer-events-none absolute inset-0"
-              width="44"
-              height="44"
-              viewBox="0 0 44 44"
+              width="40"
+              height="40"
+              viewBox="0 0 40 40"
               aria-hidden
             >
-              <circle cx="22" cy="22" r="20" fill="none" stroke={accent} strokeOpacity="0.2" strokeWidth="3" />
+              <circle cx="20" cy="20" r="18" fill="none" stroke={accent} strokeOpacity="0.2" strokeWidth="2.5" />
               <circle
-                cx="22"
-                cy="22"
-                r="20"
+                cx="20"
+                cy="20"
+                r="18"
                 fill="none"
                 stroke={accent}
-                strokeWidth="3"
+                strokeWidth="2.5"
                 strokeLinecap="round"
-                strokeDasharray={2 * Math.PI * 20}
-                strokeDashoffset={2 * Math.PI * 20 * (1 - Math.min(habit.streak / 30, 1))}
-                transform="rotate(-90 22 22)"
+                strokeDasharray={2 * Math.PI * 18}
+                strokeDashoffset={2 * Math.PI * 18 * (1 - Math.min(habit.streak / 30, 1))}
+                transform="rotate(-90 20 20)"
                 style={{ transition: "stroke-dashoffset 0.7s var(--ease-soft)" }}
               />
             </svg>
           )}
           <span
-            className={`icon-chip h-9 w-9 rounded-full text-lg ${done ? "animate-jelly" : ""}`}
+            className={`icon-chip h-8 w-8 rounded-full text-base ${done ? "animate-jelly" : ""}`}
             style={{ background: done ? "var(--color-surface)" : soft }}
           >
             {habit.emoji}
           </span>
         </span>
 
-        {/* العنوان والوصف */}
+        {/* العنوان وسطرُ معلوماتٍ واحد */}
         <div className="min-w-0 flex-1">
           <h3
-            className={`truncate text-base font-semibold text-[--color-ink] ${done ? "done-title" : ""}`}
+            className={`truncate text-[15px] font-semibold leading-snug text-[--color-ink] ${done ? "done-title" : ""}`}
           >
             {habit.title}
           </h3>
-          <div className="mt-0.5 flex items-center gap-1.5 text-xs text-[--color-muted]">
+          <div className="mt-px flex items-center gap-1.5 text-xs text-[--color-muted]">
             <span className="tabular inline-flex items-center gap-1">
-              <Icon name="clock" size={12} className="text-[--color-faint]" />
+              <Icon name="clock" size={11} className="text-[--color-faint]" />
               {ar(habit.scheduledAt)}
             </span>
             <span aria-hidden>·</span>
             <span>{habit.frequency === "daily" ? "يومي" : "أيام محدّدة"}</span>
             {habit.streak > 0 && (
               <span
-                className="streak inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold"
+                className="streak inline-flex items-center gap-1 rounded-full px-2 py-px text-xs font-bold"
                 style={
                   habit.streak >= 7
                     ? {
@@ -127,8 +112,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
           </div>
         </div>
 
-        {/* زرّ الإتمام + هالة */}
-        {/* هدف لمس ≥44px (المعيار) مع إبقاء الدائرة المرئية 26px عبر padding شفاف. */}
+        {/* زرّ الإتمام الطيني — هدف لمس ≥44px */}
         <button
           type="button"
           onClick={onCheck}
@@ -176,152 +160,6 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
           </span>
         </button>
       </div>
-
-      {/* الخطوات الصغيرة */}
-      {habit.microSteps.length > 0 && !editing && (
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {habit.microSteps.map((step, i) => (
-            <span
-              key={i}
-              className="rounded-full bg-[--color-surface-2] px-2.5 py-1 text-xs text-[--color-muted]"
-              style={{ boxShadow: "inset 0 1.5px 3px rgba(0,0,0,.07)" }}
-            >
-              {step}
-            </span>
-          ))}
-        </div>
-      )}
-
-      <button
-        type="button"
-        onClick={() => setEditing((v) => !v)}
-        className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-[--color-faint] transition-colors hover:text-[--color-muted]"
-      >
-        <Icon name={editing ? "close" : "edit"} size={13} />
-        {editing ? "إغلاق" : "تعديل"}
-      </button>
-
-      {editing && (
-        <div className="mt-3 flex flex-col gap-4 border-t border-[--color-hairline-soft] pt-4">
-          {/* العنوان */}
-          <label className="flex flex-col gap-1.5">
-            <span className="text-xs text-[--color-muted]">العنوان</span>
-            <input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              onBlur={commitTitle}
-              onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
-              className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-3 py-2 text-[--color-ink] outline-none focus:border-[--color-accent]"
-            />
-          </label>
-
-          {/* الرمز */}
-          <div className="flex flex-col gap-1.5">
-            <span className="text-xs text-[--color-muted]">الرمز</span>
-            <div className="flex flex-wrap gap-1.5">
-              {EMOJI_CHOICES.map((e) => (
-                <button
-                  key={e}
-                  type="button"
-                  onClick={() => patchHabit(habit.id, { emoji: e })}
-                  aria-label={`الرمز ${e}`}
-                  className="grid h-11 w-11 place-items-center rounded-[--radius-sm] transition-transform active:scale-[0.97]"
-                >
-                  <span
-                    className={`grid h-9 w-9 place-items-center rounded-[--radius-sm] text-lg transition-all ${
-                      habit.emoji === e
-                        ? "scale-105 bg-[--color-surface-3] ring-2 ring-[--color-accent]"
-                        : "bg-[--color-surface-2] hover:bg-[--color-surface-3]"
-                    }`}
-                  >
-                    {e}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* اللون */}
-          <div className="flex flex-col gap-1.5">
-            <span className="text-xs text-[--color-muted]">اللون</span>
-            <div className="flex flex-wrap gap-2.5">
-              {COLOR_KEYS.map((c) => (
-                <button
-                  key={c}
-                  type="button"
-                  aria-label={`اللون ${c}`}
-                  onClick={() => patchHabit(habit.id, { colorKey: c })}
-                  className="grid h-11 w-11 place-items-center rounded-full transition-transform active:scale-[0.97]"
-                >
-                  <span
-                    className={`h-8 w-8 rounded-full transition-transform ${
-                      habit.colorKey === c ? "scale-110" : ""
-                    }`}
-                    style={{
-                      background: accentOf(c),
-                      boxShadow:
-                        habit.colorKey === c
-                          ? "0 0 0 2px var(--color-surface), 0 0 0 4px " + accentOf(c)
-                          : "inset 0 1.5px 0 rgba(255,255,255,.4)",
-                    }}
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* الوقت */}
-          <label className="flex items-center justify-between">
-            <span className="text-sm text-[--color-muted]">الوقت</span>
-            <input
-              type="time"
-              value={habit.scheduledAt}
-              onChange={(e) => setSchedule(habit.id, e.target.value)}
-              className="tabular rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-3 py-1.5 text-[--color-ink] outline-none"
-            />
-          </label>
-
-          {/* التكرار */}
-          <FrequencyToggle
-            frequency={habit.frequency}
-            weekdays={habit.weekdays}
-            onChange={(f, w) => setFrequency(habit.id, f, w)}
-          />
-
-          {/* حذف — بتأكيدٍ يمنع محو سجلّ المداومة بلمسةٍ خاطئة واحدة */}
-          {!confirmDelete ? (
-            <button
-              type="button"
-              onClick={() => setConfirmDelete(true)}
-              className="inline-flex items-center gap-1.5 self-start text-sm font-medium text-[--color-danger-ink] transition-opacity hover:opacity-70"
-            >
-              <Icon name="trash" size={15} />
-              حذف العادة
-            </button>
-          ) : (
-            <div className="flex flex-wrap items-center gap-2.5 self-start">
-              <span className="text-sm text-[--color-danger-ink]">
-                حذفٌ نهائيّ؟ يمسح سجلّ المداومة.
-              </span>
-              <button
-                type="button"
-                onClick={() => removeHabit(habit.id)}
-                className="press pill inline-flex items-center gap-1.5 bg-[--color-danger] px-4 py-1.5 text-sm font-bold text-white"
-              >
-                <Icon name="trash" size={14} />
-                نعم، احذف
-              </button>
-              <button
-                type="button"
-                onClick={() => setConfirmDelete(false)}
-                className="press pill border border-[--color-hairline] px-4 py-1.5 text-sm font-medium text-[--color-muted]"
-              >
-                إلغاء
-              </button>
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 }

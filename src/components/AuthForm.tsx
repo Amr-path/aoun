@@ -28,9 +28,9 @@ export default function AuthForm() {
     e.preventDefault();
     // تحقّق حقليّ inline قبل الإرسال.
     const fe: { email?: string; password?: string } = {};
-    if (!emailOk(email)) fe.email = "أدخل بريداً إلكترونياً صحيحاً";
+    if (!emailOk(email)) fe.email = "أدخِل بريداً إلكترونياً صحيحاً";
     if (!password) fe.password = "كلمة المرور مطلوبة";
-    else if (isRegister && password.length < 8) fe.password = "8 أحرف على الأقل";
+    else if (isRegister && password.length < 8) fe.password = "ثمانية أحرفٍ على الأقلّ";
     setFieldErr(fe);
     if (fe.email || fe.password) return;
 
@@ -46,14 +46,14 @@ export default function AuthForm() {
       });
       if (!res.ok) {
         const d = (await res.json().catch(() => ({}))) as { error?: string };
-        setErr(d.error || "حدث خطأ، حاول مجدداً");
+        setErr(d.error || "تعذّر إتمام الطلب — حاوِل مرّةً أخرى");
         setBusy(false);
         return;
       }
       router.push(isRegister ? "/onboarding" : "/dashboard");
       router.refresh();
     } catch {
-      setErr("تعذّر الاتصال");
+      setErr("تعذّر الاتصال — تحقّق من شبكتك ثم أعِد المحاولة");
       setBusy(false);
     }
   };
@@ -66,7 +66,7 @@ export default function AuthForm() {
           <span className="text-gild">{isRegister ? "أنشئ حسابك" : "أهلاً بعودتك"}</span>
         </h1>
         <p className="quote-seed mt-2 text-base text-[--color-muted]">
-          {isRegister ? "ابدأ رحلتك مع عون" : "واصِل مداومتك"}
+          {isRegister ? "أوّلُ يومٍ في مداومتك" : "أكمِل من حيث توقّفت"}
         </p>
       </div>
 

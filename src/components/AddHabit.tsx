@@ -211,11 +211,16 @@ export default function AddHabit() {
                 key={e}
                 type="button"
                 onClick={() => setEmoji(e)}
-                className={`press grid h-8 w-8 place-items-center rounded-[--radius-xs] text-base transition-all ${
-                  emoji === e ? "bg-[--color-surface-3] ring-2 ring-[--color-accent]" : "bg-[--color-surface-2]"
-                }`}
+                aria-label={`الرمز ${e}`}
+                className="press grid h-11 w-11 place-items-center rounded-[--radius-xs] transition-transform active:scale-[0.97]"
               >
-                {e}
+                <span
+                  className={`grid h-8 w-8 place-items-center rounded-[--radius-xs] text-base transition-colors ${
+                    emoji === e ? "bg-[--color-surface-3] ring-2 ring-[--color-accent]" : "bg-[--color-surface-2]"
+                  }`}
+                >
+                  {e}
+                </span>
               </button>
             ))}
           </div>
@@ -228,12 +233,16 @@ export default function AddHabit() {
                   type="button"
                   aria-label={`اللون ${c}`}
                   onClick={() => setColor(c)}
-                  className="h-7 w-7 rounded-full transition-transform active:scale-90"
-                  style={{
-                    background: accentOf(c),
-                    boxShadow: color === c ? "0 0 0 2px var(--color-surface), 0 0 0 4px " + accentOf(c) : "none",
-                  }}
-                />
+                  className="grid h-11 w-11 place-items-center rounded-full transition-transform active:scale-[0.97]"
+                >
+                  <span
+                    className="h-7 w-7 rounded-full"
+                    style={{
+                      background: accentOf(c),
+                      boxShadow: color === c ? "0 0 0 2px var(--color-surface), 0 0 0 4px " + accentOf(c) : "none",
+                    }}
+                  />
+                </button>
               ))}
             </div>
             <input

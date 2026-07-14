@@ -99,7 +99,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
           className="group grid h-11 w-11 shrink-0 place-items-center rounded-full"
         >
           <span
-            className={`relative grid h-[26px] w-[26px] place-items-center rounded-full border-[1.5px] transition-transform group-active:scale-90 ${
+            className={`relative grid h-[26px] w-[26px] place-items-center rounded-full border-[1.5px] transition-transform group-active:scale-[0.97] ${
               done ? "animate-pop" : ""
             }`}
             style={{
@@ -179,13 +179,18 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
                   key={e}
                   type="button"
                   onClick={() => patchHabit(habit.id, { emoji: e })}
-                  className={`grid h-9 w-9 place-items-center rounded-[--radius-sm] text-lg transition-all active:scale-90 ${
-                    habit.emoji === e
-                      ? "bg-[--color-surface-3] ring-2 ring-[--color-accent]"
-                      : "bg-[--color-surface-2] hover:bg-[--color-surface-3]"
-                  }`}
+                  aria-label={`الرمز ${e}`}
+                  className="grid h-11 w-11 place-items-center rounded-[--radius-sm] transition-transform active:scale-[0.97]"
                 >
-                  {e}
+                  <span
+                    className={`grid h-9 w-9 place-items-center rounded-[--radius-sm] text-lg transition-colors ${
+                      habit.emoji === e
+                        ? "bg-[--color-surface-3] ring-2 ring-[--color-accent]"
+                        : "bg-[--color-surface-2] hover:bg-[--color-surface-3]"
+                    }`}
+                  >
+                    {e}
+                  </span>
                 </button>
               ))}
             </div>
@@ -201,15 +206,19 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
                   type="button"
                   aria-label={`اللون ${c}`}
                   onClick={() => patchHabit(habit.id, { colorKey: c })}
-                  className="h-8 w-8 rounded-full transition-transform active:scale-90"
-                  style={{
-                    background: accentOf(c),
-                    boxShadow:
-                      habit.colorKey === c
-                        ? "0 0 0 2px var(--color-surface), 0 0 0 4px " + accentOf(c)
-                        : "none",
-                  }}
-                />
+                  className="grid h-11 w-11 place-items-center rounded-full transition-transform active:scale-[0.97]"
+                >
+                  <span
+                    className="h-8 w-8 rounded-full"
+                    style={{
+                      background: accentOf(c),
+                      boxShadow:
+                        habit.colorKey === c
+                          ? "0 0 0 2px var(--color-surface), 0 0 0 4px " + accentOf(c)
+                          : "none",
+                    }}
+                  />
+                </button>
               ))}
             </div>
           </div>

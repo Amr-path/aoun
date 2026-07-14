@@ -38,7 +38,7 @@ function ProductPeek() {
 
       <div
         className="mb-2.5 flex items-center gap-3 rounded-[--radius-md] border border-[--color-hairline-soft] p-2.5"
-        style={{ background: "linear-gradient(180deg,#fffdf9,#f4eee4)" }}
+        style={{ background: "linear-gradient(180deg, var(--color-surface), var(--color-bg))" }}
       >
         <div className="relative grid h-[56px] w-[56px] shrink-0 place-items-center">
           <svg width="56" height="56" viewBox="0 0 56 56">

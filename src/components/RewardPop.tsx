@@ -40,7 +40,7 @@ export default function RewardPop() {
         style={{
           background: "var(--color-surface)",
           borderColor: reward.milestone ? accent : "var(--color-border)",
-          boxShadow: "0 18px 44px -18px rgba(46,46,43,0.30)",
+          boxShadow: "var(--shadow-lg)",
         }}
       >
         {pieces.map((p, i) => (

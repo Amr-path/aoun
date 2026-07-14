@@ -2,7 +2,7 @@
 import { weekdayOf } from "@/lib/date";
 import type { DayCell } from "@/lib/analytics";
 
-// سُلّم توقيعيّ: من الورق الفارغ إلى أصفر «صخب» الكامل — درجاتٌ أجرأ تليق بالبروتاليزم.
+// سُلّم توقيعيّ: من العجين الفارغ إلى مرجان «واحة» الكامل — درجاتٌ حلوةٌ متدرّجة.
 const LEVELS = [
   "var(--color-surface-2)",
   "color-mix(in srgb, var(--color-accent) 30%, var(--color-surface-2))",
@@ -29,21 +29,21 @@ export default function ContributionGrid({ days }: { days: DayCell[] }) {
             <span
               key={i}
               title={c ? `${c.date} · ${c.completed}/${c.due}` : undefined}
-              className="h-[11px] w-[11px] rounded-[3.5px]"
+              className="h-[11px] w-[11px] rounded-[4.5px]"
               style={{ background: c ? LEVELS[c.level] : "transparent" }}
             />
           ))}
         </div>
       </div>
 
-      {/* المفتاح — ملصقٌ أبيض بحدٍّ حازم */}
+      {/* المفتاح — خرزةٌ بيضاء منفوخة بلا حدود */}
       <div className="flex items-center gap-2 text-xs text-[--color-faint]">
         <span>أقل</span>
-        <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[--color-border] bg-[--color-surface] px-2 py-1">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-[--color-surface] px-2.5 py-1 shadow-[inset_0_1.5px_0_rgba(255,255,255,0.6),0_2px_0_0_var(--edge)]">
           {LEVELS.map((c, i) => (
             <span
               key={i}
-              className="h-[11px] w-[11px] rounded-[3.5px]"
+              className="h-[11px] w-[11px] rounded-[4.5px]"
               style={{ background: c }}
             />
           ))}

@@ -15,18 +15,18 @@ function NavLink({ it, active }: { it: (typeof ITEMS)[number]; active: boolean }
     <Link
       href={it.href}
       aria-current={active ? "page" : undefined}
-      className={`press relative flex flex-col items-center gap-1 rounded-[--radius-md] border-2 px-4 py-2 text-xs font-bold transition-colors ${
+      className={`press relative flex flex-col items-center gap-1 rounded-2xl px-4 py-2 text-xs font-bold transition-colors ${
         active
-          ? "border-[--color-border] bg-[--color-accent-soft] text-[--color-accent-ink] shadow-[2.5px_2.5px_0_0_var(--color-border)]"
-          : "border-transparent text-[--color-faint]"
+          ? "bg-[--color-accent-soft] text-[--color-accent-ink] shadow-[inset_0_1.5px_0_rgba(255,255,255,.65),0_3px_0_0_var(--edge)]"
+          : "text-[--color-faint]"
       }`}
     >
       <Icon name={it.icon} size={21} />
       <span>{it.label}</span>
-      {/* مؤشّر الحالة النشطة — معيّن صلب */}
+      {/* مؤشّر الحالة النشطة — خرزة مرجانية صغيرة */}
       <span
         aria-hidden
-        className={`absolute -bottom-1 h-1.5 w-1.5 rotate-45 bg-[--color-accent] transition-opacity duration-300 ${
+        className={`absolute -bottom-1 h-1.5 w-1.5 rounded-full bg-[--color-accent] transition-opacity duration-300 ${
           active ? "opacity-100" : "opacity-0"
         }`}
       />
@@ -45,20 +45,13 @@ export default function BottomNav() {
         <NavLink it={ITEMS[0]} active={isActive(ITEMS[0].href)} />
         <NavLink it={ITEMS[1]} active={isActive(ITEMS[1].href)} />
 
-        {/* زرّ الإضافة المركزيّ — «خاتمٌ» ماسيّ مذهّب من روح النقش الثماني. */}
+        {/* زرّ الإضافة المركزيّ — كرة صلصالٍ مرجانية تغوص عند الضغط. */}
         <Link
           href="/dashboard#add-habit"
           aria-label="إضافة عادة"
-          className="press mx-1.5 grid h-11 w-11 shrink-0 rotate-45 place-items-center rounded-[13px] text-white"
-          style={{
-            background: "var(--grad-cta)",
-            border: "2.5px solid var(--color-border)",
-            boxShadow: "var(--shadow-1)",
-          }}
+          className="btn-clay mx-1.5 grid h-14 w-14 shrink-0 place-items-center rounded-full"
         >
-          <span className="-rotate-45">
-            <Icon name="plus" size={22} strokeWidth={2.4} />
-          </span>
+          <Icon name="plus" size={26} strokeWidth={2.4} />
         </Link>
 
         <NavLink it={ITEMS[2]} active={isActive(ITEMS[2].href)} />

@@ -86,14 +86,15 @@ export default function AddHabit() {
         className="card press grid place-items-center rounded-[--radius-card] border-2 border-dashed border-[--color-hairline] p-6 text-[--color-muted] transition-colors hover:border-[--color-accent] hover:text-[--color-accent-ink]"
       >
         <span
-          className="grid h-11 w-11 rotate-45 place-items-center rounded-[13px] border-2 border-[--color-border] text-[--color-accent-ink]"
-          style={{ background: "var(--color-accent-soft)", boxShadow: "2.5px 2.5px 0 0 var(--color-border)" }}
+          className="animate-bob grid h-11 w-11 place-items-center rounded-full text-[--color-accent-ink]"
+          style={{
+            background: "var(--color-accent-soft)",
+            boxShadow: "inset 0 1.5px 0 rgba(255,255,255,.6), 0 3px 0 0 var(--edge)",
+          }}
         >
-          <span className="-rotate-45 grid place-items-center">
-            <Icon name="plus" />
-          </span>
+          <Icon name="plus" />
         </span>
-        <span className="mt-2.5 text-sm font-semibold">ازرع عادةً جديدة</span>
+        <span className="mt-2.5 text-sm font-semibold">ازرع بذرةً جديدة</span>
         <span className="mt-0.5 text-xs text-[--color-faint]">بذرةٌ صغيرة تكفي</span>
       </button>
     );
@@ -219,8 +220,10 @@ export default function AddHabit() {
                 className="press grid h-11 w-11 place-items-center rounded-[--radius-xs] transition-transform active:scale-[0.97]"
               >
                 <span
-                  className={`grid h-8 w-8 place-items-center rounded-[--radius-xs] text-base transition-colors ${
-                    emoji === e ? "bg-[--color-surface-3] ring-2 ring-[--color-accent]" : "bg-[--color-surface-2]"
+                  className={`grid h-8 w-8 place-items-center rounded-[--radius-xs] text-base transition-all ${
+                    emoji === e
+                      ? "scale-105 bg-[--color-surface-3] ring-2 ring-[--color-accent]"
+                      : "bg-[--color-surface-2]"
                   }`}
                 >
                   {e}
@@ -240,10 +243,13 @@ export default function AddHabit() {
                   className="grid h-11 w-11 place-items-center rounded-full transition-transform active:scale-[0.97]"
                 >
                   <span
-                    className="h-7 w-7 rounded-full"
+                    className={`h-7 w-7 rounded-full transition-transform ${color === c ? "scale-110" : ""}`}
                     style={{
                       background: accentOf(c),
-                      boxShadow: color === c ? "0 0 0 2px var(--color-surface), 0 0 0 4px " + accentOf(c) : "none",
+                      boxShadow:
+                        color === c
+                          ? "0 0 0 2px var(--color-surface), 0 0 0 4px " + accentOf(c)
+                          : "inset 0 1.5px 0 rgba(255,255,255,.4)",
                     }}
                   />
                 </button>
@@ -262,8 +268,7 @@ export default function AddHabit() {
               type="button"
               onClick={submitCustom}
               disabled={busy || !title.trim()}
-              className="pill press flex-1 border-2 border-[--color-border] py-2.5 font-bold text-[#141414] shadow-[var(--glow-accent)] disabled:opacity-50 disabled:shadow-none"
-              style={{ background: "var(--grad-sunrise)" }}
+              className="btn-clay press flex-1 py-2.5 font-bold disabled:opacity-50"
             >
               {busy ? (
                 <span className="inline-flex items-center justify-center gap-2">

@@ -52,7 +52,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
       {done && (
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-y-2 start-0 w-[5px]"
+          className="pointer-events-none absolute inset-y-3 start-1.5 w-1 rounded-full"
           style={{ background: accent }}
         />
       )}
@@ -76,7 +76,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
                 fill="none"
                 stroke={accent}
                 strokeWidth="3"
-                strokeLinecap="butt"
+                strokeLinecap="round"
                 strokeDasharray={2 * Math.PI * 20}
                 strokeDashoffset={2 * Math.PI * 20 * (1 - Math.min(habit.streak / 30, 1))}
                 transform="rotate(-90 22 22)"
@@ -85,7 +85,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
             </svg>
           )}
           <span
-            className="icon-chip h-9 w-9 rounded-full text-lg"
+            className={`icon-chip h-9 w-9 rounded-full text-lg ${done ? "animate-jelly" : ""}`}
             style={{ background: done ? "var(--color-surface)" : soft }}
           >
             {habit.emoji}
@@ -113,10 +113,10 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
                   habit.streak >= 7
                     ? {
                         background: "var(--grad-sunrise)",
-                        color: "#141414",
-                        border: "2px solid var(--color-border)",
+                        color: "var(--color-amber-ink)",
+                        boxShadow: "inset 0 1px 0 rgba(255,255,255,.5)",
                       }
-                    : { background: soft, color: ink, border: "2px solid var(--color-border)" }
+                    : { background: soft, color: ink, boxShadow: "inset 0 1px 0 rgba(255,255,255,.5)" }
                 }
                 title={`مداومة ${streakStage(habit.streak).label}`}
               >
@@ -137,14 +137,15 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
           className="group grid h-11 w-11 shrink-0 place-items-center rounded-full"
         >
           <span
-            className={`relative grid h-[26px] w-[26px] place-items-center rounded-full border-[2.5px] transition-transform group-active:scale-[0.97] ${
+            className={`relative grid h-7 w-7 place-items-center rounded-full transition-transform group-active:translate-y-[2px] ${
               done ? "animate-pop" : ""
             }`}
             style={{
-              borderColor: "var(--color-border)",
               background: done ? accent : "var(--color-surface)",
               color: done ? "#fff" : accent,
-              boxShadow: done ? "none" : "2px 2px 0 0 var(--color-border)",
+              boxShadow: done
+                ? "inset 0 1.5px 0 rgba(255,255,255,.35), 0 3px 0 0 var(--edge)"
+                : "inset 0 1.5px 0 rgba(255,255,255,.85), 0 3px 0 0 var(--edge)",
             }}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -154,9 +155,13 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
                 strokeWidth="2.6"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                className={
+                  done
+                    ? "[stroke-dashoffset:0]"
+                    : "[stroke-dashoffset:26] group-hover:[stroke-dashoffset:0]"
+                }
                 style={{
                   strokeDasharray: 26,
-                  strokeDashoffset: done ? 0 : 26,
                   transition: "stroke-dashoffset 0.35s var(--ease-soft)",
                 }}
               />
@@ -178,7 +183,8 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
           {habit.microSteps.map((step, i) => (
             <span
               key={i}
-              className="pill bg-[--color-surface-2] px-2.5 py-1 text-xs text-[--color-muted]"
+              className="rounded-full bg-[--color-surface-2] px-2.5 py-1 text-xs text-[--color-muted]"
+              style={{ boxShadow: "inset 0 1.5px 3px rgba(0,0,0,.07)" }}
             >
               {step}
             </span>
@@ -222,9 +228,9 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
                   className="grid h-11 w-11 place-items-center rounded-[--radius-sm] transition-transform active:scale-[0.97]"
                 >
                   <span
-                    className={`grid h-9 w-9 place-items-center rounded-[--radius-sm] text-lg transition-colors ${
+                    className={`grid h-9 w-9 place-items-center rounded-[--radius-sm] text-lg transition-all ${
                       habit.emoji === e
-                        ? "bg-[--color-surface-3] ring-2 ring-[--color-accent]"
+                        ? "scale-105 bg-[--color-surface-3] ring-2 ring-[--color-accent]"
                         : "bg-[--color-surface-2] hover:bg-[--color-surface-3]"
                     }`}
                   >
@@ -248,13 +254,15 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
                   className="grid h-11 w-11 place-items-center rounded-full transition-transform active:scale-[0.97]"
                 >
                   <span
-                    className="h-8 w-8 rounded-full"
+                    className={`h-8 w-8 rounded-full transition-transform ${
+                      habit.colorKey === c ? "scale-110" : ""
+                    }`}
                     style={{
                       background: accentOf(c),
                       boxShadow:
                         habit.colorKey === c
                           ? "0 0 0 2px var(--color-surface), 0 0 0 4px " + accentOf(c)
-                          : "none",
+                          : "inset 0 1.5px 0 rgba(255,255,255,.4)",
                     }}
                   />
                 </button>

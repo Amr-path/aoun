@@ -1,5 +1,6 @@
 // عون — اتساق آخر ٨ أسابيع (متوسّط النتيجة اليومية).
-// أعمدةٌ بروتالية: الأسبوع الحالي والمكتمل بأصفر «صخب» الصريح، وسواها بسطحٍ أعمق — حدودٌ سميكة ولا وهج.
+// أعمدةُ «مصّاصات» طينية: قناةٌ غائرة يعلوها عمودٌ حلويٌّ مكتنز — الأسبوع الحالي والمكتمل
+// بتدرّج المرجان، وسواهما بأزرق السماء — بلا حدودٍ إطلاقاً وبارتدادةٍ مطاطية عند النموّ.
 import { ar } from "@/lib/numerals";
 import type { WeekPoint } from "@/lib/analytics";
 
@@ -16,13 +17,15 @@ export default function WeeklyChart({ weeks }: { weeks: WeekPoint[] }) {
         const gilded = current || w.score >= 100;
         return (
           <div key={w.index} className="flex flex-1 flex-col items-center gap-1.5">
-            <div className="flex h-full w-full items-end overflow-hidden rounded-[--radius-sm] bg-[--color-surface-2]">
+            <div className="flex h-full w-full items-end overflow-hidden rounded-full bg-[--color-surface-3] shadow-[inset_0_2px_3px_rgba(96,66,30,0.18)]">
               <div
-                className="w-full rounded-[--radius-sm] transition-[height] duration-700 ease-out"
+                className="w-full rounded-full transition-[height] duration-700"
                 style={{
-                  height: `${Math.max(w.score, 3)}%`,
-                  background: gilded ? "var(--color-accent)" : "var(--color-surface-3)",
-                  border: "2px solid var(--color-border)",
+                  height: `${Math.max(w.score, 6)}%`,
+                  background: gilded ? "var(--grad-cta)" : "var(--color-sky)",
+                  boxShadow:
+                    "inset 0 2px 0 rgba(255, 255, 255, 0.4), inset 0 -2px 0 rgba(0, 0, 0, 0.12)",
+                  transitionTimingFunction: "var(--ease-spring)",
                 }}
                 title={`${ar(w.score)}٪`}
               />

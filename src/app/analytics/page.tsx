@@ -31,24 +31,25 @@ function SectionTitle({ title, hint }: { title: string; hint?: string }) {
   );
 }
 
-// بطاقة إحصاءٍ بروتالية: إطارٌ سميك بظلٍّ قاسٍ، ملصقٌ مائل، ورقمٌ ضخمٌ مُظلَّل بالفسفوري.
+// بطاقة إحصاءٍ طينية: وجهٌ أبيض منفوخ بميلٍ لطيف، رقاقةُ حلوى، ورقمٌ ضخمٌ بلون سكّري —
+// والرقم البطل وحده يلبس تظليل الزبدة.
 function Stat({
   label,
   value,
   icon,
   tint,
   tilt,
+  gild,
 }: {
   label: string;
   value: number;
   icon: IconName;
   tint: string;
   tilt?: string;
+  gild?: boolean;
 }) {
   return (
-    <div
-      className={`gild-frame relative overflow-hidden rounded-[--radius-card] bg-[--color-surface] p-4 ${tilt ?? ""}`}
-    >
+    <div className={`card relative overflow-hidden p-4 ${tilt ?? ""}`}>
       <div
         aria-hidden
         className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.06]"
@@ -64,7 +65,12 @@ function Stat({
           <Icon name={icon} size={16} />
         </span>
         <p className="text-sm text-[--color-muted]">{label}</p>
-        <p className="score tabular text-gild mt-1 font-[family-name:var(--font-display)] text-4xl font-black">
+        <p
+          className={`score tabular mt-1 font-[family-name:var(--font-display)] text-4xl font-black ${
+            gild ? "text-gild" : ""
+          }`}
+          style={gild ? undefined : { color: `var(--color-${tint}-ink)` }}
+        >
           {ar(value)}
         </p>
       </div>
@@ -94,14 +100,14 @@ export default async function AnalyticsPage() {
         </div>
         <Link
           href="/dashboard"
-          className="press pill inline-flex items-center gap-1 border-2 border-[--color-border] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] shadow-[2.5px_2.5px_0_0_var(--color-border)] transition-colors hover:bg-[--color-surface-2]"
+          className="press pill inline-flex items-center gap-1 border border-[--color-hairline-soft] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] shadow-[var(--shadow-top),0_3px_0_0_var(--edge)] transition-colors hover:bg-[--color-surface-2]"
         >
           <Icon name="chevron" size={16} className="scale-x-[-1]" />
           اللوحة
         </Link>
       </div>
 
-      {/* سطرُ الافتتاح — كلمةٌ مُظلَّلة بالفسفوري بين خطّين حازمين */}
+      {/* سطرُ الافتتاح — كلمةٌ مُظلَّلة بالزبدة بين فاصلَي خرزٍ لطيفَين */}
       <div className="mb-6 flex items-center gap-3 px-2">
         <span className="ornament-line" aria-hidden />
         <p className="quote-seed whitespace-nowrap text-center text-[15px] text-[--color-muted]">
@@ -110,9 +116,16 @@ export default async function AnalyticsPage() {
         <span className="ornament-line rev" aria-hidden />
       </div>
 
-      {/* ملخّصٌ كجدار ملصقات — بطاقاتٌ مائلة بالتناوب */}
+      {/* ملخّصٌ كرفّ حلوى — بطاقاتٌ منفوخة تميل بالتناوب */}
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat label="مداومة حالية" value={a.currentStreak} icon="leaf" tint="sage" tilt="tilt-1" />
+        <Stat
+          label="مداومة حالية"
+          value={a.currentStreak}
+          icon="leaf"
+          tint="sage"
+          tilt="tilt-1"
+          gild
+        />
         <Stat label="أفضل مداومة" value={a.bestStreak} icon="spark" tint="amber" tilt="tilt-2" />
         <Stat label="أيام نشطة" value={a.activeDays} icon="check" tint="sky" tilt="tilt-2" />
         <Stat label="أيام مثالية" value={a.perfectDays} icon="sun" tint="clay" tilt="tilt-1" />
@@ -147,7 +160,7 @@ export default async function AnalyticsPage() {
       {/* مشاركة الحصاد */}
       <Link
         href="/harvest"
-        className="press pill mt-6 flex items-center justify-center gap-2 border-[2.5px] border-[--color-border] bg-[--color-accent] py-3.5 text-center font-bold text-[#141414] shadow-[var(--shadow-2)]"
+        className="btn-clay press mt-6 flex items-center justify-center gap-2 py-3.5 text-center font-bold"
       >
         <Icon name="spark" size={20} />
         شارك حصادك

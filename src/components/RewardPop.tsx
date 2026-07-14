@@ -36,12 +36,8 @@ export default function RewardPop() {
       role="status"
     >
       <div
-        className="animate-cheer relative flex items-center gap-3 rounded-[--radius-card] px-5 py-3"
-        style={{
-          background: reward.milestone ? "var(--color-accent-soft)" : "var(--color-surface)",
-          border: "2.5px solid var(--color-border)",
-          boxShadow: "var(--shadow-lg)",
-        }}
+        className="animate-cheer card relative flex items-center gap-3 rounded-[--radius-xl] px-5 py-3"
+        style={reward.milestone ? { background: "var(--color-accent-soft)" } : undefined}
       >
         {pieces.map((p, i) => (
           <span
@@ -60,16 +56,21 @@ export default function RewardPop() {
         ))}
 
         <span
-          className="grid h-11 w-11 place-items-center rounded-full text-lg font-black"
+          className={`grid h-11 w-11 place-items-center rounded-full text-lg font-black ${
+            reward.milestone ? "animate-jelly" : ""
+          }`}
           style={
             reward.milestone
               ? {
                   background: "var(--grad-sunrise)",
-                  color: "#141414",
-                  border: "2.5px solid var(--color-border)",
-                  boxShadow: "var(--glow-accent)",
+                  color: "var(--color-amber-ink)",
+                  boxShadow: "inset 0 1.5px 0 rgba(255,255,255,.6), 0 3px 0 0 var(--edge)",
                 }
-              : { background: soft, color: ink, border: "2.5px solid var(--color-border)" }
+              : {
+                  background: soft,
+                  color: ink,
+                  boxShadow: "inset 0 1.5px 0 rgba(255,255,255,.6), 0 3px 0 0 var(--edge)",
+                }
           }
         >
           {reward.milestone ? "✦" : `+${ar(reward.xp)}`}

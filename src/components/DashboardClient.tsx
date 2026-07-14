@@ -87,8 +87,8 @@ export default function DashboardClient({
             ) : null}
           </h1>
           <span
-            className="shrink-0 rounded-full border-2 border-[--color-border] bg-[--color-surface] px-2.5 py-1 text-xs font-bold text-[--color-ink]"
-            style={{ boxShadow: "2.5px 2.5px 0 0 var(--color-border)" }}
+            className="shrink-0 rounded-full bg-[--color-surface] px-3 py-1.5 text-xs font-bold text-[--color-ink]"
+            style={{ boxShadow: "inset 0 1.5px 0 rgba(255,255,255,.8), 0 3px 0 0 var(--edge)" }}
           >
             {dateLabel}
           </span>
@@ -106,8 +106,8 @@ export default function DashboardClient({
         <div className="mt-3.5 flex items-center gap-3 px-2">
           <span className="ornament-line" aria-hidden />
           <p
-            className="quote-seed tilt-2 max-w-[17rem] rounded-[--radius-md] border-2 border-[--color-border] bg-[--color-surface] px-3.5 py-2 text-center text-[15px] leading-relaxed text-[--color-muted]"
-            style={{ boxShadow: "2.5px 2.5px 0 0 var(--color-border)" }}
+            className="quote-seed tilt-2 max-w-[17rem] rounded-[--radius-md] bg-[--color-surface] px-3.5 py-2 text-center text-[15px] leading-relaxed text-[--color-muted]"
+            style={{ boxShadow: "inset 0 1.5px 0 rgba(255,255,255,.8), 0 3px 0 0 var(--edge)" }}
           >
             {seed}
           </p>
@@ -117,10 +117,10 @@ export default function DashboardClient({
         {/* رسالة تعافٍ عند العودة بعد انقطاع */}
         {recovery && (
           <div
-            className="mt-3 flex items-start gap-2.5 rounded-[--radius-card] border-2 border-[--color-border] p-3.5"
+            className="mt-3 flex items-start gap-2.5 rounded-[--radius-card] p-3.5"
             style={{
               background: "var(--color-accent-soft)",
-              boxShadow: "2.5px 2.5px 0 0 var(--color-border)",
+              boxShadow: "inset 0 1.5px 0 rgba(255,255,255,.55), 0 4px 0 0 var(--edge)",
             }}
           >
             <Icon name="leaf" size={17} className="mt-0.5 shrink-0 text-[--color-accent-ink]" />
@@ -137,15 +137,43 @@ export default function DashboardClient({
             {ar(doneCount)} / {ar(dueCount)}
           </span>
         </div>
-        <div className="thread mb-3" role="progressbar" aria-label="تقدّم اليوم"
-          aria-valuemin={0} aria-valuemax={dueCount} aria-valuenow={doneCount}>
-          <i style={{ width: dueCount ? `${(doneCount / dueCount) * 100}%` : "0%" }} />
+        {/* «خرزات اليوم» — خرزةٌ منتفخة لكلّ عادةٍ مستحقّة، تمتلئ واحدةً واحدة */}
+        <div
+          className="mb-3 flex min-h-4 flex-wrap items-center gap-2 px-1"
+          role="progressbar"
+          aria-label="خرزات اليوم"
+          aria-valuemin={0}
+          aria-valuemax={dueCount}
+          aria-valuenow={doneCount}
+        >
+          {Array.from({ length: dueCount }, (_, i) => {
+            const filled = i < doneCount;
+            return (
+              <span
+                key={i}
+                aria-hidden
+                className={`h-3.5 w-3.5 rounded-full ${filled ? "animate-bead" : ""}`}
+                style={
+                  filled
+                    ? {
+                        background: "var(--grad-cta)",
+                        boxShadow:
+                          "inset 0 1.5px 0 rgba(255,255,255,.5), 0 2px 0 0 var(--edge-accent)",
+                      }
+                    : {
+                        background: "var(--color-surface-3)",
+                        boxShadow: "inset 0 2px 3px rgba(0,0,0,.1)",
+                      }
+                }
+              />
+            );
+          })}
         </div>
 
         <section className="flex flex-col gap-2">
           {/* حالة فارغة حقيقية بدل سطرٍ رماديّ باهت */}
           {view.length === 0 && (
-            <div className="mb-1 flex flex-col items-center gap-3 rounded-[--radius-card] border-2 border-dashed border-[--color-border] px-6 py-9 text-center">
+            <div className="mb-1 flex flex-col items-center gap-3 rounded-[--radius-card] border-2 border-dashed border-[--color-hairline] px-6 py-9 text-center">
               <FlowerMark size={56} />
               <p className="text-base font-semibold text-[--color-ink]">ابدأ حديقتك اليوم</p>
               <p className="max-w-[16rem] text-sm leading-relaxed text-[--color-muted]">
@@ -169,7 +197,7 @@ export default function DashboardClient({
               <span className="ornament-line" aria-hidden />
               <span className="inline-flex items-center gap-1.5">
                 <svg width="8" height="8" viewBox="0 0 10 10" aria-hidden className="text-[--color-accent]">
-                  <rect x="2" y="2" width="6" height="6" transform="rotate(45 5 5)" fill="currentColor" />
+                  <circle cx="5" cy="5" r="3.5" fill="currentColor" />
                 </svg>
                 مكتمل اليوم
               </span>

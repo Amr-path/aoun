@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════
-   عون — نظام التصميم «صخب» (نيو-بروتاليزم عربي)
-   ألوانٌ صريحة مشبعة + حدودٌ سوداء سميكة + ظلالٌ قاسية مزاحة
-   + خطُّ عرضٍ ضخم. لا نعومة، لا ضباب — طاقةٌ صادقة.
+   عون — نظام التصميم «واحة» (طينيٌّ مرح — Claymorphism)
+   بطاقاتٌ منفوخة كأنها عُجنت باليد، حافةٌ سفلية تنسحق عند الضغط،
+   ألوانٌ دافئة لعوبة، وارتداداتٌ مطاطية «جيلي» عند كل إنجاز.
    أسماء الرموز ثابتة كي تنقلب كل الشاشات تلقائياً.
    ═══════════════════════════════════════════════════════════════ */
 
@@ -13,91 +13,96 @@
   --font-display: var(--font-display-arabic), var(--font-arabic), "Almarai", sans-serif;
   --font-quote: var(--font-quote-arabic), "Amiri", var(--font-arabic), serif;
 
-  /* الأسطح — عظمٌ دافئ وبطاقات بيضاء صريحة */
-  --color-cream: #f5efdd;      /* خلفية الصفحة */
-  --color-bg: #ece3cc;         /* غائر */
-  --color-surface: #ffffff;    /* بطاقة */
-  --color-surface-2: #f6efdd;  /* إدراج/مسار */
-  --color-surface-3: #eadfc4;  /* أعمق */
+  /* رمالُ الواحة — أسطح دافئة مشمسة */
+  --color-cream: #fbf0dc;      /* خلفية الصفحة */
+  --color-bg: #f4e4c4;         /* غائر */
+  --color-surface: #fffdf8;    /* بطاقة طينية */
+  --color-surface-2: #f9efdb;  /* إدراج/مسار */
+  --color-surface-3: #efdfbe;  /* أعمق */
   --color-elevated: #ffffff;
-  --color-border: #141414;     /* الحدود سوداء — هذا هو القانون */
-  --color-hairline: #141414;
-  --color-hairline-soft: rgba(20, 20, 20, 0.45);
+  --color-border: #ecd9b5;
+  --color-hairline: #e4cda1;
+  --color-hairline-soft: rgba(96, 66, 30, 0.14);
 
-  /* النصوص */
-  --color-ink: #141414;
-  --color-muted: #46402f;
-  --color-faint: #6b6350;
+  /* النصوص — كاكاو دافئ، لا أسود قاسٍ */
+  --color-ink: #46311a;
+  --color-muted: #7b6141;
+  --color-faint: #8d7351;
 
-  /* اللون التوقيعي: أصفر كهربائي + برتقالي ضربة */
-  --color-accent: #ffb800;
-  --color-accent-ink: #7a5200;
-  --color-accent-soft: #ffe9b0;
+  /* اللون التوقيعي: مرجانٌ عصيريّ */
+  --color-accent: #ee6a3c;
+  --color-accent-ink: #a03a14;
+  --color-accent-soft: #fde3d4;
 
   /* حالات دلالية */
-  --color-success: #2ec96e;
-  --color-success-ink: #0e7a3c;
-  --color-success-soft: #d9f6e4;
-  --color-danger: #ff4d4d;
-  --color-danger-ink: #b71c1c;
-  --color-danger-soft: #ffdcdc;
+  --color-success: #43b784;
+  --color-success-ink: #1e7a52;
+  --color-success-soft: #dcf4e8;
+  --color-danger: #e85a55;
+  --color-danger-ink: #b03230;
+  --color-danger-soft: #fbdedc;
 
-  /* حديقة العادات السبع — مشبعة صارخة */
-  --color-sage: #2ec96e;
-  --color-sage-ink: #0e7a3c;
-  --color-sage-soft: #d9f6e4;
+  /* حديقة العادات السبع — حلوى باستيل ناضجة */
+  --color-sage: #58c08a;
+  --color-sage-ink: #1f7a50;
+  --color-sage-soft: #def5e8;
 
-  --color-teal: #14c4b2;
-  --color-teal-ink: #0b7a6e;
-  --color-teal-soft: #d2f5f0;
+  --color-teal: #3abfb0;
+  --color-teal-ink: #147e72;
+  --color-teal-soft: #d7f3ef;
 
-  --color-sky: #3e9bff;
-  --color-sky-ink: #14509e;
-  --color-sky-soft: #dcebff;
+  --color-sky: #58a8f0;
+  --color-sky-ink: #1f6ab0;
+  --color-sky-soft: #ddedfc;
 
-  --color-lavender: #9b5de5;
-  --color-lavender-ink: #5c2ba8;
-  --color-lavender-soft: #ebdffb;
+  --color-lavender: #9d8beb;
+  --color-lavender-ink: #5f4db4;
+  --color-lavender-soft: #eae5fb;
 
-  --color-blush: #ff5d8f;
-  --color-blush-ink: #c21f56;
-  --color-blush-soft: #ffdee9;
+  --color-blush: #f286b0;
+  --color-blush-ink: #b8446f;
+  --color-blush-soft: #fde3ee;
 
-  --color-clay: #ff8a3d;
-  --color-clay-ink: #b54f0a;
-  --color-clay-soft: #ffe4d1;
+  --color-clay: #f09a5a;
+  --color-clay-ink: #b05e1e;
+  --color-clay-soft: #fce8d8;
 
-  --color-amber: #ffc53a;
-  --color-amber-ink: #8f6200;
-  --color-amber-soft: #fff0c7;
+  --color-amber: #f5be4b;
+  --color-amber-ink: #9a6e10;
+  --color-amber-soft: #fcf0d2;
 
-  /* أنصاف الأقطار — حاضرة لكن حازمة */
-  --radius-xs: 0.5rem;
-  --radius-sm: 0.625rem;
-  --radius-chip: 0.625rem;
-  --radius-md: 0.75rem;
-  --radius-card: 1rem;
-  --radius-xl: 1.25rem;
+  /* أنصاف الأقطار — منفوخة */
+  --radius-xs: 0.75rem;
+  --radius-sm: 0.875rem;
+  --radius-chip: 1rem;
+  --radius-md: 1.125rem;
+  --radius-card: 1.5rem;
+  --radius-xl: 1.875rem;
   --radius-pill: 999px;
 
-  /* الحركة — قصيرة وحاسمة */
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* الحركة — مطاطية */
+  --ease-spring: cubic-bezier(0.34, 1.8, 0.5, 1);
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* الظلال القاسية + رموز خارج @theme */
+/* حوافُّ الطين + ظلال ناعمة + رموز خارج @theme */
 :root {
-  --shadow-1: 4px 4px 0 0 var(--color-border);
-  --shadow-2: 6px 6px 0 0 var(--color-border);
-  --shadow-lg: 9px 9px 0 0 var(--color-border);
-  --shadow-top: 0 0 0 0 transparent;
-  --glow-accent: 4px 4px 0 0 var(--color-border);
-  --grad-sunrise: linear-gradient(135deg, #ffc53a, #ff9f1c);
-  --grad-cta: linear-gradient(180deg, #ff8a3d, #ff6b2c);
-  --dur-fast: 100ms;
-  --dur-med: 180ms;
-  --dur-slow: 320ms;
+  /* الحافة السفلية — سرُّ الإحساس الطيني */
+  --edge: #e6cfa3;
+  --edge-deep: #dbbf8d;
+  --edge-accent: #c74e1f;
+
+  --shadow-1: 0 4px 0 0 var(--edge), 0 10px 22px -10px rgba(122, 82, 32, 0.22);
+  --shadow-2: 0 5px 0 0 var(--edge-deep), 0 16px 30px -12px rgba(122, 82, 32, 0.26);
+  --shadow-lg: 0 6px 0 0 var(--edge-deep), 0 26px 50px -18px rgba(122, 82, 32, 0.32);
+  --shadow-top: inset 0 2px 0 rgba(255, 255, 255, 0.85);
+  --glow-accent: 0 5px 0 0 var(--edge-accent), 0 12px 24px -10px rgba(238, 106, 60, 0.5);
+  --grad-sunrise: linear-gradient(180deg, #f7c563, #f0a03f);
+  --grad-cta: linear-gradient(180deg, #f58b52, #ee6a3c);
+  --dur-fast: 120ms;
+  --dur-med: 220ms;
+  --dur-slow: 380ms;
 
   --fs-12: 0.75rem;
   --fs-14: 0.875rem;
@@ -112,58 +117,63 @@
   color-scheme: light;
 }
 
-/* ─── الوضع الليلي «الغسق» — بروتاليزم داكن: أسطحٌ فحمية وحدودٌ عاجيّة ─── */
+/* ─── الوضع الليلي «الغسق» — واحةٌ ليلية دافئة (كاكاو وقمر) ─── */
 :root[data-theme="dusk"] {
   color-scheme: dark;
-  --color-cream: #17141d;
-  --color-bg: #110f16;
-  --color-surface: #221e2b;
-  --color-surface-2: #2b2637;
-  --color-surface-3: #352e44;
-  --color-elevated: #2b2637;
-  --color-border: #f2ead7;
-  --color-hairline: #f2ead7;
-  --color-hairline-soft: rgba(242, 234, 215, 0.4);
-  --color-ink: #f6f0e1;
-  --color-muted: #c9c0ab;
-  --color-faint: #a49a83;
+  --color-cream: #211810;
+  --color-bg: #1a120b;
+  --color-surface: #2e2214;
+  --color-surface-2: #392a18;
+  --color-surface-3: #44331e;
+  --color-elevated: #392a18;
+  --color-border: #4c3a22;
+  --color-hairline: #57432a;
+  --color-hairline-soft: rgba(255, 232, 195, 0.13);
+  --color-ink: #f8edd9;
+  --color-muted: #cbb693;
+  --color-faint: #a68e69;
 
-  --color-accent: #ffc53a;
-  --color-accent-ink: #ffd97a;
-  --color-accent-soft: #3d3113;
+  --color-accent: #f58b52;
+  --color-accent-ink: #ffc7a6;
+  --color-accent-soft: #46220f;
 
-  --color-success: #3fe084;
-  --color-success-ink: #a5f2c8;
-  --color-success-soft: #12301f;
-  --color-danger: #ff6b6b;
-  --color-danger-ink: #ffb3b3;
-  --color-danger-soft: #3a1717;
+  --color-success: #55cc96;
+  --color-success-ink: #a9ebcc;
+  --color-success-soft: #163524;
+  --color-danger: #f07a72;
+  --color-danger-ink: #ffbcb5;
+  --color-danger-soft: #421d1a;
 
-  --color-sage: #3fe084;
-  --color-sage-ink: #a5f2c8;
-  --color-sage-soft: #12301f;
-  --color-teal: #25e0cc;
-  --color-teal-ink: #9ff0e7;
-  --color-teal-soft: #0e2f2b;
-  --color-sky: #5cadff;
-  --color-sky-ink: #b3d6ff;
-  --color-sky-soft: #14263e;
-  --color-lavender: #b47ef5;
-  --color-lavender-ink: #dcc3fb;
-  --color-lavender-soft: #291b3d;
-  --color-blush: #ff7ba6;
-  --color-blush-ink: #ffc0d5;
-  --color-blush-soft: #3a1725;
-  --color-clay: #ffa063;
-  --color-clay-ink: #ffcfae;
-  --color-clay-soft: #3a2313;
-  --color-amber: #ffd35c;
-  --color-amber-ink: #ffe6a3;
-  --color-amber-soft: #3a2e0f;
+  --color-sage: #64d49a;
+  --color-sage-ink: #b2eecd;
+  --color-sage-soft: #17352a;
+  --color-teal: #4cd4c3;
+  --color-teal-ink: #a8ece3;
+  --color-teal-soft: #123430;
+  --color-sky: #6cb6f5;
+  --color-sky-ink: #bcdcfa;
+  --color-sky-soft: #15293e;
+  --color-lavender: #ab9af2;
+  --color-lavender-ink: #d7cdfa;
+  --color-lavender-soft: #292044;
+  --color-blush: #f795bd;
+  --color-blush-ink: #fccbde;
+  --color-blush-soft: #3c1c2a;
+  --color-clay: #f5a869;
+  --color-clay-ink: #fbd4b1;
+  --color-clay-soft: #402512;
+  --color-amber: #f7ca62;
+  --color-amber-ink: #fbe3a8;
+  --color-amber-soft: #3d2f10;
 
-  --shadow-1: 4px 4px 0 0 rgba(0, 0, 0, 0.85);
-  --shadow-2: 6px 6px 0 0 rgba(0, 0, 0, 0.85);
-  --shadow-lg: 9px 9px 0 0 rgba(0, 0, 0, 0.85);
+  --edge: #171008;
+  --edge-deep: #120c06;
+  --edge-accent: #8f3510;
+  --shadow-1: 0 4px 0 0 var(--edge), 0 12px 26px -12px rgba(0, 0, 0, 0.6);
+  --shadow-2: 0 5px 0 0 var(--edge-deep), 0 18px 34px -14px rgba(0, 0, 0, 0.65);
+  --shadow-lg: 0 6px 0 0 var(--edge-deep), 0 28px 54px -20px rgba(0, 0, 0, 0.7);
+  --shadow-top: inset 0 2px 0 rgba(255, 255, 255, 0.07);
+  --glow-accent: 0 5px 0 0 var(--edge-accent), 0 12px 24px -10px rgba(245, 139, 82, 0.35);
 }
 
 * {
@@ -188,18 +198,39 @@ body {
   padding-top: env(safe-area-inset-top);
 }
 
-/* شبكة نقاطٍ صريحة بدل الضباب — أرضية ورشةٍ لا صالون */
+/* فقاعاتُ باستيل تسبح ببطء — هواءُ الواحة */
 body::before {
+  content: "";
+  position: fixed;
+  inset: -15%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(22rem 22rem at 85% 8%, rgba(245, 190, 75, 0.20), transparent 68%),
+    radial-gradient(18rem 18rem at 8% 30%, rgba(88, 192, 138, 0.16), transparent 68%),
+    radial-gradient(20rem 20rem at 75% 90%, rgba(242, 134, 176, 0.13), transparent 68%),
+    radial-gradient(14rem 14rem at 20% 85%, rgba(88, 168, 240, 0.12), transparent 68%);
+  animation: blob-drift 30s ease-in-out infinite alternate;
+}
+
+@keyframes blob-drift {
+  from { transform: translate3d(-1.5%, -1%, 0) scale(1); }
+  to { transform: translate3d(1.5%, 2%, 0) scale(1.05); }
+}
+
+/* نُقيطات خبزٍ خفيفة تمنح ملمس العجين */
+body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
+  opacity: 0.5;
   background-image: radial-gradient(
-    color-mix(in srgb, var(--color-ink) 16%, transparent) 1.4px,
-    transparent 1.5px
+    color-mix(in srgb, var(--color-ink) 7%, transparent) 1.6px,
+    transparent 1.7px
   );
-  background-size: 22px 22px;
+  background-size: 26px 26px;
 }
 
 /* الطباعة */
@@ -211,11 +242,11 @@ h1, h2, h3 {
   font-weight: 800;
 }
 
-/* تركيزٌ لا لبس فيه */
+/* تركيزٌ واضح ولطيف */
 :focus-visible {
-  outline: 3px solid var(--color-border);
+  outline: 3px solid var(--color-accent);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .tabular,
@@ -225,40 +256,57 @@ h1, h2, h3 {
   font-feature-settings: "tnum" 1;
 }
 
-/* ─── مرافق «صخب» ─────────────────────────────────────────────── */
+/* ─── مرافق «واحة» ────────────────────────────────────────────── */
 @layer components {
+  /* بطاقة طينية: وجهٌ أبيض منفوخ + لمعة علوية + حافة سفلية سميكة */
   .card {
     background: var(--color-surface);
-    border: 2.5px solid var(--color-border);
+    border: 1px solid var(--color-hairline-soft);
     border-radius: var(--radius-card);
-    box-shadow: var(--shadow-1);
+    box-shadow: var(--shadow-top), var(--shadow-1);
     transition: box-shadow var(--dur-fast) var(--ease-out),
       transform var(--dur-fast) var(--ease-out),
       background-color var(--dur-med) var(--ease-out);
   }
   .lift:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: var(--shadow-2);
+    transform: translateY(-2px) rotate(-0.3deg);
+    box-shadow: var(--shadow-top), var(--shadow-2);
   }
-  /* الضغط يُطبق الظلّ — إحساسُ زرٍّ ميكانيكي حقيقي */
+  /* الانسحاق الطيني: الضغط يُغرق العنصر في حافته السفلية */
   .press {
     transition: transform var(--dur-fast) var(--ease-soft),
       box-shadow var(--dur-fast) var(--ease-soft);
   }
   .press:active {
-    transform: translate(3px, 3px);
-    box-shadow: 0 0 0 0 var(--color-border);
+    transform: translateY(3px);
+    box-shadow: var(--shadow-top), 0 1px 0 0 var(--edge),
+      0 4px 10px -8px rgba(122, 82, 32, 0.2);
   }
-  /* حدٌّ بروتاليّ جاهز لأي عنصر */
+  /* زرٌّ طينيّ جاهز — مرجانيّ عصيري بحافةٍ تنسحق */
+  .btn-clay {
+    background: var(--grad-cta);
+    color: #fff;
+    border-radius: var(--radius-pill);
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.35), var(--glow-accent);
+    transition: transform var(--dur-fast) var(--ease-soft),
+      box-shadow var(--dur-fast) var(--ease-soft);
+  }
+  .btn-clay:active {
+    transform: translateY(4px);
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.35),
+      0 1px 0 0 var(--edge-accent), 0 4px 10px -8px rgba(238, 106, 60, 0.35);
+  }
   .brut {
-    border: 2.5px solid var(--color-border);
-    box-shadow: var(--shadow-1);
+    border: 1px solid var(--color-hairline-soft);
+    box-shadow: var(--shadow-top), var(--shadow-1);
   }
+  /* رقاقة أيقونة طينية: لمعةٌ فوق وغمازة تحت */
   .icon-chip {
     border-radius: var(--radius-chip);
     display: grid;
     place-items: center;
-    border: 2px solid var(--color-border);
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.6),
+      inset 0 -3px 0 rgba(96, 66, 30, 0.10);
   }
   .pill {
     border-radius: var(--radius-pill);
@@ -267,13 +315,14 @@ h1, h2, h3 {
     box-shadow: var(--glow-accent);
   }
   .ring-accent {
-    box-shadow: 0 0 0 2.5px var(--accent, var(--color-accent)), var(--shadow-1);
+    box-shadow: 0 0 0 2.5px var(--accent, var(--color-accent)),
+      var(--shadow-top), var(--shadow-1);
   }
-  /* الشريط السفلي: صلبٌ صريح — لا زجاج بعد اليوم */
+  /* الشريط السفلي: عجينة بيضاء عائمة */
   .glass {
-    background: var(--color-surface);
-    border: 2.5px solid var(--color-border) !important;
-    box-shadow: var(--shadow-2) !important;
+    background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
   }
   /* ملصقات مائلة */
   .tilt-1 { transform: rotate(-1.5deg); }
@@ -281,89 +330,129 @@ h1, h2, h3 {
   .tilt-3 { transform: rotate(-2.5deg); }
 }
 
-/* ─── لوحات «سماء اليوم» — ألوانٌ صريحة لكل وقت ─────────────── */
+/* ─── لوحات «سماء اليوم» — باستيل طينيّ لكل وقت ─────────────── */
 .sky-panel {
   position: relative;
   background: var(--sky-grad);
   color: var(--sky-ink);
-  border: 2.5px solid var(--color-border) !important;
-  box-shadow: var(--shadow-2);
+  border: 1px solid var(--color-hairline-soft);
+  box-shadow: var(--shadow-top), 0 5px 0 0 var(--sky-edge), 0 16px 30px -12px rgba(122, 82, 32, 0.24);
   transition: background var(--dur-slow) ease;
 }
 .sky-panel .sky-muted {
   color: var(--sky-muted);
 }
+/* رقاقة سماء: خرزة بيضاء منفوخة */
 .sky-chip {
-  background: var(--color-surface);
+  background: color-mix(in srgb, #ffffff 92%, var(--sky-grad-flat, transparent));
   color: var(--color-ink);
-  border: 2px solid var(--color-border);
-  box-shadow: 2.5px 2.5px 0 0 var(--color-border);
+  border: 0;
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.9),
+    0 3px 0 0 color-mix(in srgb, var(--sky-ink) 22%, transparent);
+}
+:root[data-theme="dusk"] .sky-chip {
+  background: rgba(255, 244, 224, 0.12);
+  color: var(--sky-ink);
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.1),
+    0 3px 0 0 rgba(0, 0, 0, 0.35);
 }
 
-/* فجر — ليلك صارخ */
+/* فجر — ليلك حالم */
 .sky-fajr {
-  --sky-grad: linear-gradient(180deg, #c7b9ff, #c7b9ff);
-  --sky-ink: #141414;
-  --sky-muted: rgba(20, 20, 20, 0.68);
+  --sky-grad: linear-gradient(180deg, #e9e2fc 0%, #f3e6ec 70%, #fbeedd 100%);
+  --sky-ink: #4a3d8f;
+  --sky-muted: #7a6cb5;
+  --sky-edge: #cfc4ec;
 }
-/* صباح — أصفر كهربائي */
+/* صباح — زبدة مشمسة */
 .sky-morning {
-  --sky-grad: linear-gradient(180deg, #ffd43a, #ffd43a);
-  --sky-ink: #141414;
-  --sky-muted: rgba(20, 20, 20, 0.68);
+  --sky-grad: linear-gradient(180deg, #fdeab9 0%, #fce3a4 100%);
+  --sky-ink: #7a5510;
+  --sky-muted: #a37f35;
+  --sky-edge: #ecd08a;
 }
-/* ظهيرة — سماويّ مشبع */
+/* ظهيرة — ماءُ البركة */
 .sky-noon {
-  --sky-grad: linear-gradient(180deg, #7de0ee, #7de0ee);
-  --sky-ink: #141414;
-  --sky-muted: rgba(20, 20, 20, 0.68);
+  --sky-grad: linear-gradient(180deg, #cfeef4 0%, #dff2ea 100%);
+  --sky-ink: #19626f;
+  --sky-muted: #468794;
+  --sky-edge: #aedbe2;
 }
-/* غروب — برتقاليّ ضربة */
+/* غروب — خوخٌ ناضج */
 .sky-sunset {
-  --sky-grad: linear-gradient(180deg, #ff8a3d, #ff8a3d);
-  --sky-ink: #141414;
-  --sky-muted: rgba(20, 20, 20, 0.72);
+  --sky-grad: linear-gradient(180deg, #fbdcbd 0%, #f9cba6 100%);
+  --sky-ink: #96501d;
+  --sky-muted: #b57545;
+  --sky-edge: #eec294;
 }
-/* ليل — نيليّ عميق بنصٍّ عاجي */
+/* ليل — برقوقٌ هادئ يسكنه القمر */
 .sky-night {
-  --sky-grad: linear-gradient(180deg, #2b2350, #2b2350);
-  --sky-ink: #fff4e0;
-  --sky-muted: rgba(255, 244, 224, 0.72);
+  --sky-grad: linear-gradient(180deg, #453e6d 0%, #55497e 100%);
+  --sky-ink: #f4efff;
+  --sky-muted: #c4bbe4;
+  --sky-edge: #2e2950;
 }
 
-/* ─── نقش الخلفية: نقاط بولكا جريئة بدل زخرفة المخطوطة ─────── */
+:root[data-theme="dusk"] .sky-fajr {
+  --sky-grad: linear-gradient(180deg, #38315e 0%, #443454 100%);
+  --sky-ink: #e6dffb;
+  --sky-muted: #b3a8d9;
+  --sky-edge: #211c3a;
+}
+:root[data-theme="dusk"] .sky-morning,
+:root[data-theme="dusk"] .sky-noon {
+  --sky-grad: linear-gradient(180deg, #4a3a14 0%, #55431c 100%);
+  --sky-ink: #fbe3a8;
+  --sky-muted: #d3b476;
+  --sky-edge: #2a2008;
+}
+:root[data-theme="dusk"] .sky-sunset {
+  --sky-grad: linear-gradient(180deg, #4c2f17 0%, #58381e 100%);
+  --sky-ink: #fbd5b4;
+  --sky-muted: #d8a67c;
+  --sky-edge: #2a1a0a;
+}
+:root[data-theme="dusk"] .sky-night {
+  --sky-grad: linear-gradient(180deg, #322c52 0%, #3d3462 100%);
+  --sky-edge: #1e1a35;
+}
+
+/* ─── نقش الخلفية: فقاعات عجين ─────────────────────────────── */
 .pattern-khatam {
-  background-image: radial-gradient(currentColor 1.6px, transparent 1.7px);
-  background-size: 16px 16px;
+  background-image: radial-gradient(currentColor 2px, transparent 2.1px);
+  background-size: 20px 20px;
 }
 
-/* ─── «التذهيب» صار تظليل قلم فسفوري ─────────────────────────── */
+/* ─── التظليل والإطار والخيط ─────────────────────────────────── */
+/* تظليل زبدة لعوب على الكلمات المهمة */
 .text-gild {
-  background: var(--color-accent);
-  color: #141414;
-  padding: 0 0.28em;
-  border-radius: 0.3em;
+  background: var(--color-amber-soft);
+  color: var(--color-amber-ink);
+  padding: 0 0.3em;
+  border-radius: 0.5em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
 .gild-frame {
-  border: 2.5px solid var(--color-border);
-  box-shadow: var(--shadow-1);
+  border: 1px solid var(--color-hairline-soft);
+  box-shadow: var(--shadow-top), var(--shadow-1);
 }
-/* خيط التقدّم — مسطرةٌ سميكة بحدّ أسود وتعبئة وردية */
+/* خيط التقدّم: قناة طينية غائرة يملؤها مرجان */
 .thread {
-  height: 12px;
+  height: 14px;
   border-radius: 999px;
-  background: var(--color-surface);
-  border: 2px solid var(--color-border);
+  background: var(--color-surface-3);
+  box-shadow: inset 0 2px 3px rgba(96, 66, 30, 0.18);
   overflow: hidden;
 }
 .thread > i {
   display: block;
   height: 100%;
   border-radius: 999px;
-  background: #ff5d8f;
-  transition: width 0.5s var(--ease-soft);
+  background: var(--grad-cta);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+  transition: width 0.6s var(--ease-spring);
 }
 
 /* ─── الاقتباس والفواصل ──────────────────────────────────────── */
@@ -371,21 +460,61 @@ h1, h2, h3 {
   font-family: var(--font-quote);
 }
 .ornament-line {
-  height: 3px;
+  height: 4px;
   flex: 1;
   border-radius: 999px;
-  background: var(--color-border);
-  opacity: 0.9;
+  background-image: radial-gradient(
+    circle at 4px 2px,
+    var(--color-hairline) 2px,
+    transparent 2.1px
+  );
+  background-size: 12px 4px;
+  background-repeat: repeat-x;
 }
 .ornament-line.rev {
-  background: var(--color-border);
+  background-image: radial-gradient(
+    circle at 4px 2px,
+    var(--color-hairline) 2px,
+    transparent 2.1px
+  );
 }
 
-/* ─── حركات ───────────────────────────────────────────────────── */
+/* ─── حركات «واحة» — جيلي ونبت وقفز ──────────────────────────── */
+@keyframes jelly-pop {
+  0% { transform: scale(1, 1); }
+  30% { transform: scale(1.25, 0.75); }
+  50% { transform: scale(0.85, 1.15); }
+  68% { transform: scale(1.08, 0.94); }
+  85% { transform: scale(0.98, 1.03); }
+  100% { transform: scale(1, 1); }
+}
+.animate-jelly { animation: jelly-pop 0.6s var(--ease-soft); transform-origin: center bottom; }
+
+@keyframes sprout {
+  0% { transform: translateY(35%) scale(0.1); opacity: 0; }
+  55% { transform: translateY(-6%) scale(1.18); opacity: 1; }
+  75% { transform: translateY(2%) scale(0.94); }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+.animate-sprout { animation: sprout 0.7s var(--ease-soft) both; transform-origin: center bottom; }
+
+@keyframes bead-pop {
+  0% { transform: scale(0.4); }
+  60% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+.animate-bead { animation: bead-pop 0.45s var(--ease-spring); }
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.animate-bob { animation: bob 3.6s ease-in-out infinite; }
+
 @keyframes pop-check {
   0% { transform: scale(1); }
-  35% { transform: scale(0.8); }
-  70% { transform: scale(1.18); }
+  35% { transform: scale(0.78); }
+  70% { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
 
@@ -405,8 +534,9 @@ h1, h2, h3 {
 }
 
 @keyframes cheer-in {
-  0% { opacity: 0; transform: translateY(16px) scale(0.9); }
-  60% { transform: translateY(-4px) scale(1.03); }
+  0% { opacity: 0; transform: translateY(20px) scale(0.8); }
+  55% { transform: translateY(-6px) scale(1.06); }
+  75% { transform: translateY(2px) scale(0.98); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
@@ -418,14 +548,14 @@ h1, h2, h3 {
 
 @keyframes breathe {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
+  50% { transform: scale(1.04); }
 }
 .animate-breathe { animation: breathe 4.5s ease-in-out infinite; }
 
 @keyframes halo-pulse {
   0% { opacity: 0; transform: scale(0.92); }
-  30% { opacity: 0.22; }
-  100% { opacity: 0; transform: scale(1.08); }
+  30% { opacity: 0.25; }
+  100% { opacity: 0; transform: scale(1.12); }
 }
 
 @keyframes petal-in {
@@ -433,25 +563,25 @@ h1, h2, h3 {
   100% { opacity: 0.92; transform: rotate(var(--rot, 0deg)) scale(1); }
 }
 
-.animate-pop { animation: pop-check 0.45s var(--ease-spring); }
+.animate-pop { animation: pop-check 0.5s var(--ease-spring); }
 .animate-rise { animation: rise-in 0.5s var(--ease-soft) both; }
-.animate-cheer { animation: cheer-in 0.5s var(--ease-spring) both; }
+.animate-cheer { animation: cheer-in 0.55s var(--ease-soft) both; }
 .animate-wiggle { animation: wiggle 0.4s var(--ease-soft); }
 
 /* نجوم وشموس لوحات السماء */
 @keyframes twinkle {
-  0%, 100% { opacity: 0.25; transform: scale(0.8); }
-  50% { opacity: 1; transform: scale(1); }
+  0%, 100% { opacity: 0.3; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.05); }
 }
 .tw { animation: twinkle 3.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
 
 @keyframes sun-breathe {
-  0%, 100% { opacity: 0.55; transform: scale(1); }
-  50% { opacity: 0.85; transform: scale(1.12); }
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
 }
 .sun-glow { animation: sun-breathe 7s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
 
-/* شطبُ العنوان المكتمل — خطٌّ سميك حاسم */
+/* شطبُ العنوان المكتمل */
 .done-title {
   position: relative;
 }
@@ -460,12 +590,12 @@ h1, h2, h3 {
   position: absolute;
   inset-inline: 0;
   top: 52%;
-  height: 2.5px;
+  height: 2px;
   border-radius: 999px;
   background: currentColor;
-  opacity: 0.55;
+  opacity: 0.45;
   transform-origin: right center;
-  animation: strike-draw 0.35s var(--ease-soft) both;
+  animation: strike-draw 0.4s var(--ease-soft) both;
 }
 @keyframes strike-draw {
   from { transform: scaleX(0); }
@@ -490,12 +620,12 @@ h1, h2, h3 {
   }
 }
 
-/* شريط تمرير حازم */
+/* شريط تمرير طري */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
+  background: var(--color-surface-3);
   border-radius: 999px;
   border: 2px solid transparent;
   background-clip: content-box;
 }
-::selection { background: var(--color-accent); color: #141414; }
+::selection { background: var(--color-accent-soft); color: var(--color-accent-ink); }

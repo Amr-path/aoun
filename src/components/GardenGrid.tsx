@@ -82,10 +82,10 @@ export default function GardenGrid({ days }: { days: DayCell[] }) {
           {nodes}
         </svg>
       </div>
-      {/* المفتاح — ملصقٌ أبيض بحدٍّ حازم يُطابق مفتاح الشبكة */}
+      {/* المفتاح — خرزةٌ بيضاء منفوخة تُطابق مفتاح الشبكة */}
       <div className="flex items-center gap-2 text-xs text-[--color-faint]">
         <span>أقل</span>
-        <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[--color-border] bg-[--color-surface] px-2 py-1">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-[--color-surface] px-2.5 py-1 shadow-[inset_0_1.5px_0_rgba(255,255,255,0.6),0_2px_0_0_var(--edge)]">
           {[0, 1, 2, 3, 4].map((l) => (
             <svg key={l} width={14} height={14} viewBox="0 0 14 14">
               {mark(l, 7, 7, `lg-${l}`)}

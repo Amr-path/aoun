@@ -1,5 +1,5 @@
 "use client";
-// عون — بطاقة «حصادي» قابلة للتصدير كصورة للمشاركة، تحت غروبٍ برتقاليٍّ صريح بروح «صخب».
+// عون — بطاقة «حصادي» قابلة للتصدير كصورة للمشاركة، تحت شمسِ صباحٍ زبدية بروح «واحة».
 import { useRef, useState } from "react";
 import Link from "next/link";
 import * as htmlToImage from "html-to-image";
@@ -9,12 +9,18 @@ import Icon from "@/components/ui/Icon";
 import Spinner from "@/components/ui/Spinner";
 
 const PETAL = "M60 52 C 47 42 47 24 60 11 C 73 24 73 42 60 52 Z";
-// حديقةُ العادات السبع — بلوحةٍ ثابتة تُطابق الهوية الجديدة (تصدير PNG متّسق)
-const PETAL_COLORS = ["#5C9A64", "#3E9088", "#4E93C4", "#7C7FD0", "#D07EA0", "#CE7F52", "#D9A23C"];
+// حديقةُ العادات السبع — حلوى باستيل «واحة» بلوحةٍ ثابتة (تصدير PNG متّسق)
+const PETAL_COLORS = ["#58c08a", "#3abfb0", "#58a8f0", "#9d8beb", "#f286b0", "#f09a5a", "#f5be4b"];
 const ANGLES = Array.from({ length: 7 }, (_, i) => (i * 360) / 7);
-// لوحة «صخب» الثابتة داخل عقدة التصدير (لا تتبع وضع الغسق كي يبقى التصدير متّسقاً)
-const EXPORT_ACCENT = "#FFB800";
-const EXPORT_INK = "#141414";
+// لوحة «واحة» النهارية الثابتة داخل عقدة التصدير (لا تتبع وضع الغسق كي يبقى التصدير متّسقاً)
+const EXPORT_BG = "#fbf0dc";
+const EXPORT_CARD = "#fffdf8";
+const EXPORT_INK = "#46311a";
+const EXPORT_MUTED = "#7b6141";
+const EXPORT_FAINT = "#8d7351";
+const EXPORT_ACCENT = "#ee6a3c";
+const EXPORT_BUTTER = "#f5be4b";
+const EXPORT_EDGE = "#e6cfa3";
 
 interface Props {
   name: string | null;
@@ -27,10 +33,10 @@ interface Props {
 function Stat({ value, label }: { value: number; label: string }) {
   return (
     <div style={{ textAlign: "center" }}>
-      <div style={{ fontSize: 26, fontWeight: 800, color: "#221F1B", lineHeight: 1 }}>
+      <div style={{ fontSize: 26, fontWeight: 800, color: EXPORT_INK, lineHeight: 1 }}>
         {ar(value)}
       </div>
-      <div style={{ fontSize: 12, color: "#6B655C", marginTop: 4 }}>{label}</div>
+      <div style={{ fontSize: 12, color: EXPORT_MUTED, marginTop: 4 }}>{label}</div>
     </div>
   );
 }
@@ -64,8 +70,8 @@ export default function HarvestClient({
 
   return (
     <main className="mx-auto flex w-full max-w-md flex-col items-center px-5 pb-24 pt-6">
-      {/* ترويسة الغروب البرتقالية الصريحة — لوحُ ملصقاتٍ لساعة جنيِ الثمر */}
-      <section className="sky-panel sky-sunset relative mb-6 w-full overflow-hidden rounded-[--radius-xl]">
+      {/* ترويسةُ صباحٍ زبدية — الحصاد تحت شمسٍ دافئة */}
+      <section className="sky-panel sky-morning relative mb-6 w-full overflow-hidden rounded-[--radius-xl]">
         <div
           aria-hidden
           className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.05]"
@@ -81,7 +87,7 @@ export default function HarvestClient({
           </div>
           <Link
             href="/analytics"
-            className="press pill sky-chip tilt-2 inline-flex shrink-0 items-center gap-1.5 px-4 py-2 text-sm font-bold"
+            className="press pill sky-chip inline-flex shrink-0 items-center gap-1.5 px-4 py-2 text-sm font-bold"
           >
             <Icon name="chevron" size={15} className="scale-x-[-1]" />
             رجوع
@@ -89,16 +95,16 @@ export default function HarvestClient({
         </div>
       </section>
 
-      {/* إطارُ ملصقٍ بنقاط بولكا خلف البطاقة (خارج عقدة التصدير فلا تدخل في الصورة) */}
+      {/* إطارٌ طينيٌّ بنقاط عجينٍ خلف البطاقة (خارج عقدة التصدير فلا تدخل في الصورة) */}
       <div
-        className="relative overflow-hidden rounded-[--radius-xl] border-[2.5px] border-[--color-border] p-2 shadow-[var(--shadow-lg)]"
+        className="relative overflow-hidden rounded-[--radius-xl] border border-[--color-hairline-soft] p-2 shadow-[var(--shadow-top),var(--shadow-lg)]"
         style={{ background: "var(--color-surface-2)" }}
       >
         <div
           aria-hidden
           className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.06]"
         />
-        {/* البطاقة (بلوحة ثابتة فاتحة مسطّحة — بلا تدرّجات — لتصديرٍ متّسق) */}
+        {/* البطاقة (بلوحة «واحة» فاتحة ثابتة مسطّحة — بلا تدرّجات — لتصديرٍ متّسق) */}
         <div
           ref={ref}
           dir="rtl"
@@ -106,29 +112,19 @@ export default function HarvestClient({
           style={{
             width: 360,
             maxWidth: "100%",
-            background: "#FAF6F0",
-            border: `2.5px solid ${EXPORT_INK}`,
+            background: EXPORT_BG,
             borderRadius: 28,
             padding: "28px 24px 24px",
             fontFamily: "var(--font-display), var(--font-arabic), sans-serif",
-            color: "#221F1B",
+            color: EXPORT_INK,
             boxSizing: "border-box",
           }}
         >
           {/* العلامة */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
             <svg width="26" height="26" viewBox="0 0 48 48">
-              <rect
-                width="45"
-                height="45"
-                x="1.5"
-                y="1.5"
-                rx="13"
-                fill={EXPORT_ACCENT}
-                stroke={EXPORT_INK}
-                strokeWidth="3"
-              />
-              <g fill="#FAF6F0" opacity="0.94">
+              <rect width="45" height="45" x="1.5" y="1.5" rx="14" fill={EXPORT_ACCENT} />
+              <g fill={EXPORT_BG} opacity="0.94">
                 {ANGLES.map((a) => (
                   <path
                     key={a}
@@ -137,7 +133,7 @@ export default function HarvestClient({
                   />
                 ))}
               </g>
-              <circle cx="24" cy="24" r="3" fill={EXPORT_INK} />
+              <circle cx="24" cy="24" r="3" fill={EXPORT_BUTTER} />
             </svg>
             <span style={{ fontSize: 20, fontWeight: 800 }}>عون</span>
           </div>
@@ -155,7 +151,7 @@ export default function HarvestClient({
                     opacity={0.9}
                   />
                 ))}
-                <circle cx="60" cy="60" r="25" fill="#FFFCF8" stroke={EXPORT_INK} strokeWidth="2" />
+                <circle cx="60" cy="60" r="25" fill={EXPORT_CARD} stroke={EXPORT_EDGE} strokeWidth="2" />
               </svg>
               <div
                 style={{
@@ -167,26 +163,26 @@ export default function HarvestClient({
                   justifyContent: "center",
                 }}
               >
-                {/* الرقم البطل بتظليل الفسفوري المسطّح — hex ثابت ليخرج في التصدير كما يظهر */}
+                {/* الرقم البطل بتظليل الزبدة المسطّح — hex ثابت ليخرج في التصدير كما يظهر */}
                 <span
                   style={{
                     fontSize: 34,
                     fontWeight: 800,
                     lineHeight: 1.2,
-                    background: EXPORT_ACCENT,
+                    background: EXPORT_BUTTER,
                     color: EXPORT_INK,
                     padding: "0 10px",
-                    borderRadius: 8,
+                    borderRadius: 12,
                   }}
                 >
                   {ar(bestStreak)}
                 </span>
-                <span style={{ fontSize: 10, color: "#6B655C", marginTop: 2 }}>أفضل مداومة</span>
+                <span style={{ fontSize: 10, color: EXPORT_MUTED, marginTop: 2 }}>أفضل مداومة</span>
               </div>
             </div>
           </div>
 
-          <p style={{ textAlign: "center", fontSize: 15, color: "#6B655C", margin: "6px 0 18px" }}>
+          <p style={{ textAlign: "center", fontSize: 15, color: EXPORT_MUTED, margin: "6px 0 18px" }}>
             {name ? `حصادُ ${name} مع عون` : "حصادي مع عون"}
           </p>
 
@@ -196,9 +192,9 @@ export default function HarvestClient({
               display: "grid",
               gridTemplateColumns: "1fr 1fr 1fr",
               gap: 8,
-              background: "#FFFCF8",
-              border: `2px solid ${EXPORT_INK}`,
-              borderRadius: 18,
+              background: EXPORT_CARD,
+              borderRadius: 20,
+              boxShadow: `0 3px 0 0 ${EXPORT_EDGE}`,
               padding: "16px 12px",
             }}
           >
@@ -207,13 +203,13 @@ export default function HarvestClient({
             <Stat value={totalCompletions} label="إتمامات" />
           </div>
 
-          <p style={{ textAlign: "center", fontSize: 12, color: "#9B9184", marginTop: 18 }}>
+          <p style={{ textAlign: "center", fontSize: 12, color: EXPORT_FAINT, marginTop: 18 }}>
             عون — رفيقك للاستمرار
           </p>
         </div>
       </div>
 
-      {/* تنويه التصدير بين خطّين حازمين */}
+      {/* تنويه التصدير بين فاصلَي خرز */}
       <div className="mt-3 flex w-full items-center gap-3">
         <span className="ornament-line" aria-hidden />
         <p className="whitespace-nowrap text-center text-xs text-[--color-faint]">
@@ -226,8 +222,7 @@ export default function HarvestClient({
         type="button"
         onClick={download}
         disabled={busy}
-        className="pill press mt-6 w-full border-2 border-[--color-border] py-3.5 text-center font-bold shadow-[var(--shadow-1)] disabled:opacity-60"
-        style={{ background: "var(--color-ink)", color: "var(--color-cream)" }}
+        className="btn-clay mt-6 w-full py-3.5 text-center font-bold disabled:opacity-60"
       >
         {busy ? (
           <span className="inline-flex items-center justify-center gap-2">

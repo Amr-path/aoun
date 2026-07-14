@@ -1,6 +1,6 @@
 "use client";
 // عون — صفحة الإعدادات: الحساب، المنطقة الزمنية، المظهر، الإشعارات، الخروج.
-// بروح «صخب» الهادئة النبرة: حدودٌ سميكة وظلالٌ قاسية، وعناوينُ أقسامٍ كملصقاتٍ فسفورية قصيرة.
+// بروح «واحة» الهادئة: بطاقاتٌ طينية منفوخة، حقولٌ غائرة في العجين، وعناوينُ أقسامٍ بتظليل الزبدة.
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
@@ -36,7 +36,7 @@ interface Props {
   initialTz: string;
 }
 
-// عنوان مجموعةٍ بين خطّين حازمين — كلمةٌ قصيرة مُظلَّلة بالفسفوري.
+// عنوان مجموعةٍ بين فاصلَي خرز — كلمةٌ قصيرة مُظلَّلة بالزبدة.
 function SectionLabel({ children }: { children: ReactNode }) {
   return (
     <div className="mb-3 mt-6 flex items-center gap-3 px-1">
@@ -77,7 +77,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
         <Logo size={28} withWordmark />
         <Link
           href="/dashboard"
-          className="press pill inline-flex items-center gap-1.5 border-2 border-[--color-border] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] shadow-[2.5px_2.5px_0_0_var(--color-border)] transition-colors hover:bg-[--color-surface-2]"
+          className="press pill inline-flex items-center gap-1.5 border border-[--color-hairline-soft] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] shadow-[var(--shadow-top),0_3px_0_0_var(--edge)] transition-colors hover:bg-[--color-surface-2]"
         >
           <Icon name="chevron" size={16} className="scale-x-[-1]" />
           اللوحة
@@ -96,7 +96,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="rounded-[--radius-sm] border-2 border-[--color-border] bg-[--color-surface] px-3 py-2.5 text-[--color-ink] outline-none transition-colors focus:border-[--color-accent]"
+            className="rounded-2xl border-0 bg-[--color-surface-2] px-3.5 py-2.5 text-[--color-ink] shadow-[inset_0_2px_3px_rgba(96,66,30,0.14)] outline-none transition-shadow focus:shadow-[inset_0_2px_3px_rgba(96,66,30,0.14),0_0_0_2.5px_var(--color-accent)]"
           />
         </label>
         <label className="mb-3 flex flex-col gap-1.5">
@@ -104,7 +104,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
           <input
             value={email}
             disabled
-            className="rounded-[--radius-sm] border-2 border-[--color-hairline-soft] bg-[--color-surface-2] px-3 py-2.5 text-[--color-faint] outline-none"
+            className="rounded-2xl border-0 bg-[--color-surface-3] px-3.5 py-2.5 text-[--color-faint] shadow-[inset_0_2px_3px_rgba(96,66,30,0.14)] outline-none"
           />
         </label>
         <label className="flex flex-col gap-1.5">
@@ -112,7 +112,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
           <select
             value={tz}
             onChange={(e) => setTz(e.target.value)}
-            className="rounded-[--radius-sm] border-2 border-[--color-border] bg-[--color-surface] px-3 py-2.5 text-[--color-ink] outline-none transition-colors focus:border-[--color-accent]"
+            className="rounded-2xl border-0 bg-[--color-surface-2] px-3.5 py-2.5 text-[--color-ink] shadow-[inset_0_2px_3px_rgba(96,66,30,0.14)] outline-none transition-shadow focus:shadow-[inset_0_2px_3px_rgba(96,66,30,0.14),0_0_0_2.5px_var(--color-accent)]"
           >
             {TIMEZONES.map((z) => (
               <option key={z.id} value={z.id}>
@@ -127,7 +127,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
             type="button"
             onClick={save}
             disabled={busy}
-            className="press pill border-2 border-[--color-border] bg-[--color-ink] px-6 py-2.5 font-semibold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-60"
+            className="btn-clay px-7 py-2.5 font-bold disabled:opacity-60"
           >
             {busy ? (
               <span className="inline-flex items-center justify-center">
@@ -140,29 +140,25 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
         </div>
       </section>
 
-      {/* الترقية إلى عون بلس */}
+      {/* الترقية إلى عون بلس — بطاقةُ زبدةٍ طينية */}
       <Link
         href="/plus"
-        className="press mt-4 flex items-center gap-3 rounded-[--radius-card] p-4"
-        style={{
-          background: "var(--color-accent-soft)",
-          border: "2.5px solid var(--color-border)",
-          boxShadow: "var(--shadow-1)",
-        }}
+        className="press lift mt-4 flex items-center gap-3 rounded-[--radius-card] border border-[--color-hairline-soft] p-4 shadow-[var(--shadow-top),var(--shadow-1)]"
+        style={{ background: "var(--color-amber-soft)" }}
       >
         <span
-          className="icon-chip h-10 w-10 shrink-0"
-          style={{ background: "var(--color-clay)" }}
+          className="icon-chip h-10 w-10 shrink-0 text-[--color-amber-ink]"
+          style={{ background: "var(--grad-sunrise)" }}
         >
-          <Icon name="spark" size={18} className="text-[#141414]" />
+          <Icon name="spark" size={18} />
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block font-bold text-[--color-accent-ink]">عون بلس</span>
-          <span className="block text-xs text-[--color-accent-ink] opacity-80">
+          <span className="block font-bold text-[--color-amber-ink]">عون بلس</span>
+          <span className="block text-xs text-[--color-amber-ink] opacity-80">
             افتح كامل التجربة وادعم التطوير
           </span>
         </span>
-        <Icon name="chevron" size={18} className="text-[--color-accent-ink]" />
+        <Icon name="chevron" size={18} className="text-[--color-amber-ink]" />
       </Link>
 
       {/* المظهر والتنبيهات */}
@@ -170,9 +166,9 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
       <ThemeToggle />
       <NotificationsToggle />
 
-      {/* الجلسة — زرّ الخروج بريشة الخطر: تعبئةٌ حمراء صريحة وحدٌّ سميك وظلٌّ قاسٍ */}
+      {/* الجلسة — زرّ الخروج بهدوءِ الخطر: حبّةٌ ورديةٌ ناعمة بحبرٍ غامق، بلا تعبئةٍ صارخة */}
       <SectionLabel>الجلسة</SectionLabel>
-      <div className="flex justify-center [&_button:active]:shadow-none [&_button:hover]:bg-[--color-danger] [&_button]:border-2 [&_button]:border-[--color-border] [&_button]:bg-[--color-danger] [&_button]:text-white [&_button]:shadow-[var(--shadow-1)]">
+      <div className="flex justify-center [&_button:active]:shadow-none [&_button]:border-0 [&_button]:bg-[--color-danger-soft] [&_button]:text-[--color-danger-ink] [&_button]:shadow-[0_3px_0_0_var(--edge)]">
         <LogoutButton />
       </div>
 

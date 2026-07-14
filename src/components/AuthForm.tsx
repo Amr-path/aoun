@@ -5,6 +5,11 @@ import { useRouter } from "next/navigation";
 import FlowerMark from "./FlowerMark";
 import Spinner from "@/components/ui/Spinner";
 
+// حقلٌ طينيّ غائر: قناةٌ ناعمة تحتضن الكتابة، بلا حدودٍ قاسية.
+const FIELD_CLASS =
+  "w-full rounded-2xl border border-[--color-hairline-soft] bg-[--color-surface-2] px-4 py-3 text-[--color-ink] transition-colors placeholder:text-[--color-faint] aria-[invalid=true]:border-[--color-danger]";
+const FIELD_SUNKEN = { boxShadow: "inset 0 2px 3px rgba(96, 66, 30, .14)" };
+
 export default function AuthForm() {
   const router = useRouter();
   const [mode, setMode] = useState<"login" | "register">("login");
@@ -65,8 +70,8 @@ export default function AuthForm() {
         </p>
       </div>
 
-      {/* بطاقةٌ بإطارٍ مُذهّب تحتضن النموذج، وخلفها همسة نقش الخاتم */}
-      <div className="card gild-frame relative overflow-hidden p-6">
+      {/* بطاقةٌ طينية منفوخة بإطارٍ مُذهّب تحتضن النموذج، وخلفها همسة فقاعات العجين */}
+      <div className="card gild-frame relative overflow-hidden rounded-[--radius-xl] p-6">
         <div aria-hidden className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.04]" />
         <form onSubmit={submit} className="relative flex flex-col gap-3">
         {isRegister && (
@@ -74,7 +79,8 @@ export default function AuthForm() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="الاسم (اختياري)"
-            className="rounded-[--radius-sm] border-2 border-[--color-border] bg-[--color-surface] px-4 py-3 text-[--color-ink] transition-colors placeholder:text-[--color-faint]"
+            className={FIELD_CLASS}
+            style={FIELD_SUNKEN}
           />
         )}
         <div className="flex flex-col gap-1">
@@ -89,7 +95,8 @@ export default function AuthForm() {
             autoComplete="email"
             aria-invalid={!!fieldErr.email}
             required
-            className="rounded-[--radius-sm] border-2 border-[--color-border] bg-[--color-surface] px-4 py-3 text-[--color-ink] transition-colors placeholder:text-[--color-faint] aria-[invalid=true]:border-[--color-danger]"
+            className={FIELD_CLASS}
+            style={FIELD_SUNKEN}
           />
           {fieldErr.email && <p className="text-xs text-[--color-danger-ink]">{fieldErr.email}</p>}
         </div>
@@ -107,7 +114,8 @@ export default function AuthForm() {
               autoComplete={isRegister ? "new-password" : "current-password"}
               aria-invalid={!!fieldErr.password}
               required
-              className="w-full rounded-[--radius-sm] border-2 border-[--color-border] bg-[--color-surface] px-4 py-3 pe-16 text-[--color-ink] transition-colors placeholder:text-[--color-faint] aria-[invalid=true]:border-[--color-danger]"
+              className={`${FIELD_CLASS} pe-16`}
+              style={FIELD_SUNKEN}
             />
             <button
               type="button"
@@ -126,7 +134,7 @@ export default function AuthForm() {
         <button
           type="submit"
           disabled={busy}
-          className="brut press mt-2 rounded-full bg-[--color-accent] py-3.5 text-center font-bold text-[#141414] disabled:opacity-60"
+          className="btn-clay press mt-2 w-full py-3.5 text-center font-bold disabled:opacity-60"
         >
           {busy ? (
             <span className="inline-flex items-center justify-center">
@@ -141,7 +149,7 @@ export default function AuthForm() {
         </form>
       </div>
 
-      {/* التبديل بين الدخول والتسجيل — بين خيطين يذوبان في الذهب */}
+      {/* التبديل بين الدخول والتسجيل — بين خيطي خرزٍ هادئين */}
       <div className="mt-6 flex items-center gap-3">
         <span aria-hidden className="ornament-line" />
         <p className="shrink-0 text-center text-sm text-[--color-muted]">

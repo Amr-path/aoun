@@ -74,6 +74,11 @@ export default function HarvestClient({
         </Link>
       </div>
 
+      {/* إطار «بطاقة ضوء»: يوضّح أن البطاقة تُصدَّر بخلفيةٍ فاتحة (مقصود) حتى في وضع الغسق */}
+      <div
+        className="rounded-[--radius-xl] p-2 shadow-[var(--shadow-lg)]"
+        style={{ background: "var(--color-surface-2)" }}
+      >
       {/* البطاقة (بلوحة ثابتة فاتحة لتصديرٍ متّسق) */}
       <div
         ref={ref}
@@ -174,6 +179,11 @@ export default function HarvestClient({
           عون — رفيقك للاستمرار
         </p>
       </div>
+      </div>
+
+      <p className="mt-3 text-center text-xs text-[--color-faint]">
+        تُصدَّر البطاقة بخلفيةٍ فاتحة دائماً لتتّسق عبر الأجهزة.
+      </p>
 
       <button
         type="button"

@@ -22,6 +22,8 @@ export default function ContributionGrid({ days }: { days: DayCell[] }) {
         <div
           className="grid grid-flow-col gap-[3px]"
           style={{ gridTemplateRows: "repeat(7, 1fr)" }}
+          role="img"
+          aria-label="شبكة سنتك — كثافة اللون تعكس اتساق إنجازك اليومي (مرّر فوق أي يومٍ لعدد المُنجز)"
         >
           {cells.map((c, i) => (
             <span

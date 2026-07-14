@@ -66,7 +66,13 @@ export default function GardenGrid({ days }: { days: DayCell[] }) {
   return (
     <div className="flex flex-col gap-3">
       <div className="overflow-x-auto pb-1">
-        <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} aria-hidden>
+        <svg
+          width={width}
+          height={height}
+          viewBox={`0 0 ${width} ${height}`}
+          role="img"
+          aria-label="حديقة سنتك — كل يومٍ يزهر بمقدار إنجازه (الشكل يكبر من نقطةٍ إلى زهرة مع الاتساق)"
+        >
           {nodes}
         </svg>
       </div>

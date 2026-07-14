@@ -124,7 +124,7 @@ export default function AddHabit() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="ابحث عن عادة… (مثال: تركيز، نوم)"
-              className="w-full rounded-2xl border border-[--color-hairline] bg-[--color-surface] py-2.5 pe-4 ps-10 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-accent]"
+              className="w-full rounded-[--radius-md] border border-[--color-hairline] bg-[--color-surface] py-2.5 pe-4 ps-10 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-accent]"
             />
           </div>
           <div className="flex max-h-72 flex-col gap-2 overflow-y-auto pe-1">
@@ -201,7 +201,7 @@ export default function AddHabit() {
               onKeyDown={(e) => e.key === "Enter" && submitCustom()}
               autoFocus
               placeholder="اسم العادة…"
-              className="flex-1 rounded-xl border border-[--color-hairline] bg-[--color-surface] px-3 py-2 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-accent]"
+              className="flex-1 rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-3 py-2 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-accent]"
             />
           </div>
 
@@ -211,7 +211,7 @@ export default function AddHabit() {
                 key={e}
                 type="button"
                 onClick={() => setEmoji(e)}
-                className={`press grid h-8 w-8 place-items-center rounded-lg text-base transition-all ${
+                className={`press grid h-8 w-8 place-items-center rounded-[--radius-xs] text-base transition-all ${
                   emoji === e ? "bg-[--color-surface-3] ring-2 ring-[--color-accent]" : "bg-[--color-surface-2]"
                 }`}
               >
@@ -240,7 +240,7 @@ export default function AddHabit() {
               type="time"
               value={time}
               onChange={(e) => setTime(e.target.value)}
-              className="tabular rounded-lg border border-[--color-hairline] bg-[--color-surface] px-3 py-1.5 text-[--color-ink] outline-none"
+              className="tabular rounded-[--radius-xs] border border-[--color-hairline] bg-[--color-surface] px-3 py-1.5 text-[--color-ink] outline-none"
             />
           </div>
 

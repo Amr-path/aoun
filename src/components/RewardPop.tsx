@@ -36,7 +36,7 @@ export default function RewardPop() {
       role="status"
     >
       <div
-        className="animate-cheer relative flex items-center gap-3 rounded-3xl border px-5 py-3"
+        className="animate-cheer relative flex items-center gap-3 rounded-[--radius-card] border px-5 py-3"
         style={{
           background: "var(--color-surface)",
           borderColor: reward.milestone ? accent : "var(--color-border)",

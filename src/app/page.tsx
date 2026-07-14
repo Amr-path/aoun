@@ -23,7 +23,7 @@ function ProductPeek() {
   ];
   return (
     <div
-      className="lp-peek mt-7 w-[302px] rounded-t-[26px] border border-b-0 border-[--color-hairline-soft] bg-[--color-surface] px-4 pt-4"
+      className="lp-peek mt-7 w-[302px] rounded-t-[--radius-xl] border border-b-0 border-[--color-hairline-soft] bg-[--color-surface] px-4 pt-4"
       style={{
         boxShadow:
           "inset 0 1px 0 rgba(255,255,255,.7), 0 30px 60px -24px rgba(60,44,26,.4), 0 12px 28px -16px rgba(60,44,26,.3)",
@@ -37,7 +37,7 @@ function ProductPeek() {
       </div>
 
       <div
-        className="mb-2.5 flex items-center gap-3 rounded-[16px] border border-[--color-hairline-soft] p-2.5"
+        className="mb-2.5 flex items-center gap-3 rounded-[--radius-md] border border-[--color-hairline-soft] p-2.5"
         style={{ background: "linear-gradient(180deg,#fffdf9,#f4eee4)" }}
       >
         <div className="relative grid h-[56px] w-[56px] shrink-0 place-items-center">
@@ -69,13 +69,13 @@ function ProductPeek() {
       {rows.map((r) => (
         <div
           key={r.name}
-          className="mb-2 flex items-center gap-2.5 rounded-[14px] border p-2.5"
+          className="mb-2 flex items-center gap-2.5 rounded-[--radius-sm] border p-2.5"
           style={{
             background: r.done ? "var(--color-sage-soft)" : "var(--color-surface)",
             borderColor: r.done ? "transparent" : "var(--color-hairline-soft)",
           }}
         >
-          <span className="grid h-[30px] w-[30px] shrink-0 place-items-center rounded-[10px] text-sm" style={{ background: r.soft }}>
+          <span className="grid h-[30px] w-[30px] shrink-0 place-items-center rounded-[--radius-xs] text-sm" style={{ background: r.soft }}>
             {r.emoji}
           </span>
           <span className="flex-1 text-xs font-bold text-[--color-ink]">{r.name}</span>

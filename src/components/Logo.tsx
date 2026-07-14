@@ -82,7 +82,7 @@ export default function Logo({
     <span className={`inline-flex items-center gap-2.5 ${className ?? ""}`}>
       {icon}
       <span
-        className="font-[family-name:var(--font-display)] font-black leading-none text-[--color-ink]"
+        className="font-[family-name:var(--font-display)] font-black leading-[1.1] text-[--color-ink]"
         style={{ fontSize: size * 0.82 }}
       >
         عون

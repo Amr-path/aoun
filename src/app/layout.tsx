@@ -1,15 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Almarai } from "next/font/google";
+import { Almarai, El_Messiri } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { BRAND } from "@/lib/constants";
 import SWRegister from "@/components/SWRegister";
 
-// خطٌّ واحد موحّد: Almarai — عربيٌّ دافئٌ واضح، للنصّ والعناوين معاً.
+// الجسم: Almarai — عربيٌّ دافئٌ واضح.
 const arabic = Almarai({
   variable: "--font-arabic",
   subsets: ["arabic"],
   weight: ["300", "400", "700", "800"],
+  display: "swap",
+});
+
+// العناوين: El Messiri — خطُّ عرضٍ عربيٌّ ذو شخصيةٍ دافئة يُزاوج مع Almarai.
+const display = El_Messiri({
+  variable: "--font-display-arabic",
+  subsets: ["arabic"],
+  weight: ["400", "600", "700"],
   display: "swap",
 });
 
@@ -58,7 +66,7 @@ export default async function RootLayout({
       lang="ar"
       dir="rtl"
       data-theme={theme}
-      className={`${arabic.variable} h-full antialiased`}
+      className={`${arabic.variable} ${display.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <SWRegister />

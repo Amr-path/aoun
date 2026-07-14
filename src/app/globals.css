@@ -9,7 +9,7 @@
 @theme {
   /* الخطوط */
   --font-sans: var(--font-arabic), "Almarai", system-ui, sans-serif;
-  --font-display: var(--font-arabic), "Almarai", sans-serif;
+  --font-display: var(--font-display-arabic), var(--font-arabic), "Almarai", sans-serif;
 
   /* الأسطح الورقية الدافئة */
   --color-cream: #faf6f0;      /* خلفية الصفحة */
@@ -234,9 +234,10 @@ h1, h2, h3 {
   letter-spacing: normal;
 }
 
-/* Almarai لا يوفّر وزن 900؛ نمنع السماكة الزائفة بجعل font-black وزناً حقيقياً (800). */
+/* عناوين العرض (El Messiri) أثقلها 700؛ نجعل font-black وزناً حقيقياً 700
+   فنمنع السماكة الزائفة (كانت 900 ثم 800) ونُبقي العناوين نظيفة الحواف. */
 .font-black {
-  font-weight: 800;
+  font-weight: 700;
 }
 
 /* حلقة تركيز واضحة للوحة المفاتيح — كانت غائبة كلياً (أكبر فجوة وصول). */

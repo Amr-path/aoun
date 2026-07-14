@@ -36,10 +36,10 @@ export default function RewardPop() {
       role="status"
     >
       <div
-        className="animate-cheer relative flex items-center gap-3 rounded-[--radius-card] border px-5 py-3"
+        className="animate-cheer relative flex items-center gap-3 rounded-[--radius-card] px-5 py-3"
         style={{
-          background: "var(--color-surface)",
-          borderColor: reward.milestone ? accent : "var(--color-border)",
+          background: reward.milestone ? "var(--color-accent-soft)" : "var(--color-surface)",
+          border: "2.5px solid var(--color-border)",
           boxShadow: "var(--shadow-lg)",
         }}
       >
@@ -63,8 +63,13 @@ export default function RewardPop() {
           className="grid h-11 w-11 place-items-center rounded-full text-lg font-black"
           style={
             reward.milestone
-              ? { background: "var(--grad-sunrise)", color: "#fff", boxShadow: "var(--glow-accent)" }
-              : { background: soft, color: ink }
+              ? {
+                  background: "var(--grad-sunrise)",
+                  color: "#141414",
+                  border: "2.5px solid var(--color-border)",
+                  boxShadow: "var(--glow-accent)",
+                }
+              : { background: soft, color: ink, border: "2.5px solid var(--color-border)" }
           }
         >
           {reward.milestone ? "✦" : `+${ar(reward.xp)}`}

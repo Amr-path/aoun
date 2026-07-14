@@ -86,8 +86,8 @@ export default function AddHabit() {
         className="card press grid place-items-center rounded-[--radius-card] border-2 border-dashed border-[--color-hairline] p-6 text-[--color-muted] transition-colors hover:border-[--color-accent] hover:text-[--color-accent-ink]"
       >
         <span
-          className="grid h-11 w-11 rotate-45 place-items-center rounded-[13px] text-[--color-accent-ink]"
-          style={{ background: "var(--color-accent-soft)" }}
+          className="grid h-11 w-11 rotate-45 place-items-center rounded-[13px] border-2 border-[--color-border] text-[--color-accent-ink]"
+          style={{ background: "var(--color-accent-soft)", boxShadow: "2.5px 2.5px 0 0 var(--color-border)" }}
         >
           <span className="-rotate-45 grid place-items-center">
             <Icon name="plus" />
@@ -154,7 +154,7 @@ export default function AddHabit() {
                         {h.title}
                       </span>
                       {meta && (
-                        <span className="pill bg-[--color-surface-2] px-2 py-0.5 text-xs text-[--color-muted]">
+                        <span className="pill tilt-1 bg-[--color-surface-2] px-2 py-0.5 text-xs font-semibold text-[--color-muted]">
                           {meta.category}
                         </span>
                       )}
@@ -262,7 +262,7 @@ export default function AddHabit() {
               type="button"
               onClick={submitCustom}
               disabled={busy || !title.trim()}
-              className="pill press flex-1 py-2.5 font-semibold text-white shadow-[var(--glow-accent)] disabled:opacity-50 disabled:shadow-none"
+              className="pill press flex-1 border-2 border-[--color-border] py-2.5 font-bold text-[#141414] shadow-[var(--glow-accent)] disabled:opacity-50 disabled:shadow-none"
               style={{ background: "var(--grad-sunrise)" }}
             >
               {busy ? (

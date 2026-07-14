@@ -1,4 +1,4 @@
-// عون — صفحة «رحلتك»: مخطوطةُ الأثر — أرقامٌ مُذهّبة، شبكة السنة، الاتساق الأسبوعي، والشارات.
+// عون — صفحة «رحلتك»: جدارُ الأثر — أرقامٌ ضخمة بخطّ العرض، شبكة السنة، الاتساق الأسبوعي، والشارات.
 import Link from "next/link";
 import { requireUserId } from "@/lib/auth";
 import { getAnalytics } from "@/lib/analytics";
@@ -31,23 +31,27 @@ function SectionTitle({ title, hint }: { title: string; hint?: string }) {
   );
 }
 
-// بطاقة إحصاءٍ مُذهّبة: إطارٌ مُذهّب، همسةُ خاتم، ورقمٌ بماء الذهب.
+// بطاقة إحصاءٍ بروتالية: إطارٌ سميك بظلٍّ قاسٍ، ملصقٌ مائل، ورقمٌ ضخمٌ مُظلَّل بالفسفوري.
 function Stat({
   label,
   value,
   icon,
   tint,
+  tilt,
 }: {
   label: string;
   value: number;
   icon: IconName;
   tint: string;
+  tilt?: string;
 }) {
   return (
-    <div className="gild-frame relative overflow-hidden rounded-[--radius-card] bg-[--color-surface] p-4">
+    <div
+      className={`gild-frame relative overflow-hidden rounded-[--radius-card] bg-[--color-surface] p-4 ${tilt ?? ""}`}
+    >
       <div
         aria-hidden
-        className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.04]"
+        className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.06]"
       />
       <div className="relative">
         <span
@@ -60,7 +64,7 @@ function Stat({
           <Icon name={icon} size={16} />
         </span>
         <p className="text-sm text-[--color-muted]">{label}</p>
-        <p className="score tabular text-gild mt-1 font-[family-name:var(--font-display)] text-3xl font-black">
+        <p className="score tabular text-gild mt-1 font-[family-name:var(--font-display)] text-4xl font-black">
           {ar(value)}
         </p>
       </div>
@@ -90,14 +94,14 @@ export default async function AnalyticsPage() {
         </div>
         <Link
           href="/dashboard"
-          className="press pill inline-flex items-center gap-1 border border-[--color-border] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] transition-colors hover:bg-[--color-surface-2]"
+          className="press pill inline-flex items-center gap-1 border-2 border-[--color-border] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] shadow-[2.5px_2.5px_0_0_var(--color-border)] transition-colors hover:bg-[--color-surface-2]"
         >
           <Icon name="chevron" size={16} className="scale-x-[-1]" />
           اللوحة
         </Link>
       </div>
 
-      {/* سطرُ المخطوطة — كلمةٌ مُذهّبة بين زخرفتين */}
+      {/* سطرُ الافتتاح — كلمةٌ مُظلَّلة بالفسفوري بين خطّين حازمين */}
       <div className="mb-6 flex items-center gap-3 px-2">
         <span className="ornament-line" aria-hidden />
         <p className="quote-seed whitespace-nowrap text-center text-[15px] text-[--color-muted]">
@@ -106,12 +110,12 @@ export default async function AnalyticsPage() {
         <span className="ornament-line rev" aria-hidden />
       </div>
 
-      {/* ملخّص مُذهّب */}
+      {/* ملخّصٌ كجدار ملصقات — بطاقاتٌ مائلة بالتناوب */}
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat label="مداومة حالية" value={a.currentStreak} icon="leaf" tint="sage" />
-        <Stat label="أفضل مداومة" value={a.bestStreak} icon="spark" tint="amber" />
-        <Stat label="أيام نشطة" value={a.activeDays} icon="check" tint="sky" />
-        <Stat label="أيام مثالية" value={a.perfectDays} icon="sun" tint="clay" />
+        <Stat label="مداومة حالية" value={a.currentStreak} icon="leaf" tint="sage" tilt="tilt-1" />
+        <Stat label="أفضل مداومة" value={a.bestStreak} icon="spark" tint="amber" tilt="tilt-2" />
+        <Stat label="أيام نشطة" value={a.activeDays} icon="check" tint="sky" tilt="tilt-2" />
+        <Stat label="أيام مثالية" value={a.perfectDays} icon="sun" tint="clay" tilt="tilt-1" />
       </section>
 
       {/* لمحة أسبوعك — سطرٌ بخطّ المخطوطات */}
@@ -143,8 +147,7 @@ export default async function AnalyticsPage() {
       {/* مشاركة الحصاد */}
       <Link
         href="/harvest"
-        className="press pill mt-6 flex items-center justify-center gap-2 py-3.5 text-center font-semibold text-white shadow-[var(--shadow-2)]"
-        style={{ background: "var(--grad-sunrise)" }}
+        className="press pill mt-6 flex items-center justify-center gap-2 border-[2.5px] border-[--color-border] bg-[--color-accent] py-3.5 text-center font-bold text-[#141414] shadow-[var(--shadow-2)]"
       >
         <Icon name="spark" size={20} />
         شارك حصادك

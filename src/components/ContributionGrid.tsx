@@ -2,12 +2,12 @@
 import { weekdayOf } from "@/lib/date";
 import type { DayCell } from "@/lib/analytics";
 
-// سُلّم توقيعيّ: من الورق الفارغ إلى ذهب الآذريون الكامل.
+// سُلّم توقيعيّ: من الورق الفارغ إلى أصفر «صخب» الكامل — درجاتٌ أجرأ تليق بالبروتاليزم.
 const LEVELS = [
   "var(--color-surface-2)",
-  "color-mix(in srgb, var(--color-accent) 22%, var(--color-surface-2))",
-  "color-mix(in srgb, var(--color-accent) 48%, var(--color-surface-2))",
-  "color-mix(in srgb, var(--color-accent) 74%, var(--color-surface-2))",
+  "color-mix(in srgb, var(--color-accent) 30%, var(--color-surface-2))",
+  "color-mix(in srgb, var(--color-accent) 55%, var(--color-surface-2))",
+  "color-mix(in srgb, var(--color-accent) 80%, var(--color-surface-2))",
   "var(--color-accent)",
 ];
 
@@ -36,10 +36,10 @@ export default function ContributionGrid({ days }: { days: DayCell[] }) {
         </div>
       </div>
 
-      {/* المفتاح — رقاقةٌ ورقيّة صغيرة */}
+      {/* المفتاح — ملصقٌ أبيض بحدٍّ حازم */}
       <div className="flex items-center gap-2 text-xs text-[--color-faint]">
         <span>أقل</span>
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-2 py-1">
+        <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[--color-border] bg-[--color-surface] px-2 py-1">
           {LEVELS.map((c, i) => (
             <span
               key={i}

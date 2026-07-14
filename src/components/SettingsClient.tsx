@@ -1,6 +1,6 @@
 "use client";
 // عون — صفحة الإعدادات: الحساب، المنطقة الزمنية، المظهر، الإشعارات، الخروج.
-// بروح «مِشكاة» الهادئة: فواصل مُزخرفة وعناوين مُذهّبة بهمسٍ — الذهب هنا بهارٌ لا صلصة.
+// بروح «صخب» الهادئة النبرة: حدودٌ سميكة وظلالٌ قاسية، وعناوينُ أقسامٍ كملصقاتٍ فسفورية قصيرة.
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
@@ -36,7 +36,7 @@ interface Props {
   initialTz: string;
 }
 
-// عنوان مجموعةٍ بين زخرفتين — بماء ذهبٍ خافت، على طراز فواصل المخطوطات.
+// عنوان مجموعةٍ بين خطّين حازمين — كلمةٌ قصيرة مُظلَّلة بالفسفوري.
 function SectionLabel({ children }: { children: ReactNode }) {
   return (
     <div className="mb-3 mt-6 flex items-center gap-3 px-1">
@@ -77,7 +77,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
         <Logo size={28} withWordmark />
         <Link
           href="/dashboard"
-          className="press pill inline-flex items-center gap-1.5 border border-[--color-hairline] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] transition-colors hover:bg-[--color-surface-2]"
+          className="press pill inline-flex items-center gap-1.5 border-2 border-[--color-border] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] shadow-[2.5px_2.5px_0_0_var(--color-border)] transition-colors hover:bg-[--color-surface-2]"
         >
           <Icon name="chevron" size={16} className="scale-x-[-1]" />
           اللوحة
@@ -96,7 +96,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-3 py-2.5 text-[--color-ink] outline-none transition-colors focus:border-[--color-accent]"
+            className="rounded-[--radius-sm] border-2 border-[--color-border] bg-[--color-surface] px-3 py-2.5 text-[--color-ink] outline-none transition-colors focus:border-[--color-accent]"
           />
         </label>
         <label className="mb-3 flex flex-col gap-1.5">
@@ -104,7 +104,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
           <input
             value={email}
             disabled
-            className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface-2] px-3 py-2.5 text-[--color-faint] outline-none"
+            className="rounded-[--radius-sm] border-2 border-[--color-hairline-soft] bg-[--color-surface-2] px-3 py-2.5 text-[--color-faint] outline-none"
           />
         </label>
         <label className="flex flex-col gap-1.5">
@@ -112,7 +112,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
           <select
             value={tz}
             onChange={(e) => setTz(e.target.value)}
-            className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-3 py-2.5 text-[--color-ink] outline-none transition-colors focus:border-[--color-accent]"
+            className="rounded-[--radius-sm] border-2 border-[--color-border] bg-[--color-surface] px-3 py-2.5 text-[--color-ink] outline-none transition-colors focus:border-[--color-accent]"
           >
             {TIMEZONES.map((z) => (
               <option key={z.id} value={z.id}>
@@ -127,7 +127,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
             type="button"
             onClick={save}
             disabled={busy}
-            className="press pill bg-[--color-ink] px-6 py-2.5 font-semibold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-60"
+            className="press pill border-2 border-[--color-border] bg-[--color-ink] px-6 py-2.5 font-semibold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-60"
           >
             {busy ? (
               <span className="inline-flex items-center justify-center">
@@ -146,15 +146,15 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
         className="press mt-4 flex items-center gap-3 rounded-[--radius-card] p-4"
         style={{
           background: "var(--color-accent-soft)",
-          border: "1px solid var(--color-accent)",
-          boxShadow: "var(--shadow-top), var(--shadow-1)",
+          border: "2.5px solid var(--color-border)",
+          boxShadow: "var(--shadow-1)",
         }}
       >
         <span
-          className="grid h-10 w-10 shrink-0 place-items-center rounded-[--radius-md]"
-          style={{ background: "var(--grad-cta)" }}
+          className="icon-chip h-10 w-10 shrink-0"
+          style={{ background: "var(--color-clay)" }}
         >
-          <Icon name="spark" size={18} className="text-[--color-cream]" />
+          <Icon name="spark" size={18} className="text-[#141414]" />
         </span>
         <span className="min-w-0 flex-1">
           <span className="block font-bold text-[--color-accent-ink]">عون بلس</span>
@@ -170,9 +170,9 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
       <ThemeToggle />
       <NotificationsToggle />
 
-      {/* الجلسة */}
+      {/* الجلسة — زرّ الخروج بريشة الخطر: تعبئةٌ حمراء صريحة وحدٌّ سميك وظلٌّ قاسٍ */}
       <SectionLabel>الجلسة</SectionLabel>
-      <div className="flex justify-center">
+      <div className="flex justify-center [&_button:active]:shadow-none [&_button:hover]:bg-[--color-danger] [&_button]:border-2 [&_button]:border-[--color-border] [&_button]:bg-[--color-danger] [&_button]:text-white [&_button]:shadow-[var(--shadow-1)]">
         <LogoutButton />
       </div>
 

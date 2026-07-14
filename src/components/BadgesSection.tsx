@@ -1,4 +1,4 @@
-// عون — شبكة الشارات: المفتوحة تُذهَّب بتدرّج الشروق واسمها بماء الذهب، والمقفلة تبقى همساً باهتاً.
+// عون — شبكة الشارات: المفتوحة ملصقٌ أصفر صريح بحدٍّ سميك وظلٍّ قاسٍ، والمقفلة رقاقةٌ باهتة بحدٍّ مُقطَّع.
 import { BADGES, type BadgeStats } from "@/lib/badges";
 
 export default function BadgesSection({ stats }: { stats: BadgeStats }) {
@@ -13,13 +13,14 @@ export default function BadgesSection({ stats }: { stats: BadgeStats }) {
               style={
                 earned
                   ? {
-                      background: "var(--grad-sunrise)",
-                      boxShadow:
-                        "inset 0 0 0 2px color-mix(in srgb, var(--color-cream) 55%, transparent), var(--glow-accent)",
+                      background: "var(--color-accent)",
+                      color: "#141414",
+                      border: "2px solid var(--color-border)",
+                      boxShadow: "2.5px 2.5px 0 0 var(--color-border)",
                     }
                   : {
                       background: "var(--color-surface-2)",
-                      boxShadow: "inset 0 0 0 1px var(--color-hairline)",
+                      border: "2px dashed var(--color-hairline-soft)",
                       filter: "grayscale(1)",
                       opacity: 0.45,
                     }

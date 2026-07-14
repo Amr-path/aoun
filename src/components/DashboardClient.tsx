@@ -77,7 +77,7 @@ export default function DashboardClient({
 
         {/* الترويسة — تحية أكبر واسمٌ مُذهّب */}
         <div className="mt-3 flex items-end justify-between gap-3">
-          <h1 className="font-[family-name:var(--font-display)] text-[1.65rem] font-black leading-tight text-[--color-ink]">
+          <h1 className="font-[family-name:var(--font-display)] text-3xl font-black leading-tight text-[--color-ink]">
             {greeting}
             {userName ? (
               <>
@@ -86,7 +86,10 @@ export default function DashboardClient({
               </>
             ) : null}
           </h1>
-          <span className="shrink-0 rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-2.5 py-1 text-xs font-semibold text-[--color-muted]">
+          <span
+            className="shrink-0 rounded-full border-2 border-[--color-border] bg-[--color-surface] px-2.5 py-1 text-xs font-bold text-[--color-ink]"
+            style={{ boxShadow: "2.5px 2.5px 0 0 var(--color-border)" }}
+          >
             {dateLabel}
           </span>
         </div>
@@ -102,7 +105,10 @@ export default function DashboardClient({
         {/* بذرةُ اليوم — حكمةٌ بخطّ المخطوطات بين زخرفتين */}
         <div className="mt-3.5 flex items-center gap-3 px-2">
           <span className="ornament-line" aria-hidden />
-          <p className="quote-seed max-w-[17rem] text-center text-[15px] leading-relaxed text-[--color-muted]">
+          <p
+            className="quote-seed tilt-2 max-w-[17rem] rounded-[--radius-md] border-2 border-[--color-border] bg-[--color-surface] px-3.5 py-2 text-center text-[15px] leading-relaxed text-[--color-muted]"
+            style={{ boxShadow: "2.5px 2.5px 0 0 var(--color-border)" }}
+          >
             {seed}
           </p>
           <span className="ornament-line rev" aria-hidden />
@@ -111,8 +117,11 @@ export default function DashboardClient({
         {/* رسالة تعافٍ عند العودة بعد انقطاع */}
         {recovery && (
           <div
-            className="mt-3 flex items-start gap-2.5 rounded-[--radius-card] p-3.5"
-            style={{ background: "var(--color-accent-soft)" }}
+            className="mt-3 flex items-start gap-2.5 rounded-[--radius-card] border-2 border-[--color-border] p-3.5"
+            style={{
+              background: "var(--color-accent-soft)",
+              boxShadow: "2.5px 2.5px 0 0 var(--color-border)",
+            }}
           >
             <Icon name="leaf" size={17} className="mt-0.5 shrink-0 text-[--color-accent-ink]" />
             <p className="text-sm leading-relaxed text-[--color-accent-ink]">{recovery}</p>
@@ -136,7 +145,7 @@ export default function DashboardClient({
         <section className="flex flex-col gap-2">
           {/* حالة فارغة حقيقية بدل سطرٍ رماديّ باهت */}
           {view.length === 0 && (
-            <div className="mb-1 flex flex-col items-center gap-3 rounded-[--radius-card] border border-dashed border-[--color-hairline] px-6 py-9 text-center">
+            <div className="mb-1 flex flex-col items-center gap-3 rounded-[--radius-card] border-2 border-dashed border-[--color-border] px-6 py-9 text-center">
               <FlowerMark size={56} />
               <p className="text-base font-semibold text-[--color-ink]">ابدأ حديقتك اليوم</p>
               <p className="max-w-[16rem] text-sm leading-relaxed text-[--color-muted]">

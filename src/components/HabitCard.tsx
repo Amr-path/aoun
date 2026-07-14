@@ -46,14 +46,14 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
   return (
     <div
       className={`press card relative p-2.5 ${inactive ? "opacity-55" : ""}`}
-      style={done ? { background: soft, borderColor: "transparent" } : undefined}
+      style={done ? { background: soft } : undefined}
     >
       {/* شريطٌ جانبيّ عند الإتمام */}
       {done && (
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-y-2.5 start-0 w-[3px] rounded-full"
-          style={{ background: accent, opacity: 0.85 }}
+          className="pointer-events-none absolute inset-y-2 start-0 w-[5px]"
+          style={{ background: accent }}
         />
       )}
 
@@ -68,15 +68,15 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
               viewBox="0 0 44 44"
               aria-hidden
             >
-              <circle cx="22" cy="22" r="20" fill="none" stroke={accent} strokeOpacity="0.16" strokeWidth="2.5" />
+              <circle cx="22" cy="22" r="20" fill="none" stroke={accent} strokeOpacity="0.2" strokeWidth="3" />
               <circle
                 cx="22"
                 cy="22"
                 r="20"
                 fill="none"
                 stroke={accent}
-                strokeWidth="2.5"
-                strokeLinecap="round"
+                strokeWidth="3"
+                strokeLinecap="butt"
                 strokeDasharray={2 * Math.PI * 20}
                 strokeDashoffset={2 * Math.PI * 20 * (1 - Math.min(habit.streak / 30, 1))}
                 transform="rotate(-90 22 22)"
@@ -111,8 +111,12 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
                 className="streak inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold"
                 style={
                   habit.streak >= 7
-                    ? { background: "var(--grad-sunrise)", color: "#fff" }
-                    : { background: soft, color: ink }
+                    ? {
+                        background: "var(--grad-sunrise)",
+                        color: "#141414",
+                        border: "2px solid var(--color-border)",
+                      }
+                    : { background: soft, color: ink, border: "2px solid var(--color-border)" }
                 }
                 title={`مداومة ${streakStage(habit.streak).label}`}
               >
@@ -133,13 +137,14 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
           className="group grid h-11 w-11 shrink-0 place-items-center rounded-full"
         >
           <span
-            className={`relative grid h-[26px] w-[26px] place-items-center rounded-full border-[1.5px] transition-transform group-active:scale-[0.97] ${
+            className={`relative grid h-[26px] w-[26px] place-items-center rounded-full border-[2.5px] transition-transform group-active:scale-[0.97] ${
               done ? "animate-pop" : ""
             }`}
             style={{
-              borderColor: done ? accent : "color-mix(in srgb, " + accent + " 55%, transparent)",
-              background: done ? accent : "transparent",
+              borderColor: "var(--color-border)",
+              background: done ? accent : "var(--color-surface)",
               color: done ? "#fff" : accent,
+              boxShadow: done ? "none" : "2px 2px 0 0 var(--color-border)",
             }}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>

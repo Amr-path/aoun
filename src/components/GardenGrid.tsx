@@ -65,11 +65,11 @@ export default function GardenGrid({ days }: { days: DayCell[] }) {
 
   return (
     <div className="flex flex-col gap-3">
-      {/* همسةُ الخاتم خلف الحديقة — أرضيّة مخطوطةٍ للبراعم */}
+      {/* نقاط بولكا خلف الحديقة — أرضيّة ورشةٍ للبراعم */}
       <div className="relative overflow-x-auto rounded-[--radius-md] pb-1">
         <div
           aria-hidden
-          className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.04]"
+          className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.06]"
         />
         <svg
           className="relative"
@@ -82,10 +82,10 @@ export default function GardenGrid({ days }: { days: DayCell[] }) {
           {nodes}
         </svg>
       </div>
-      {/* المفتاح — رقاقةٌ ورقيّة صغيرة تُطابق مفتاح الشبكة */}
+      {/* المفتاح — ملصقٌ أبيض بحدٍّ حازم يُطابق مفتاح الشبكة */}
       <div className="flex items-center gap-2 text-xs text-[--color-faint]">
         <span>أقل</span>
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-2 py-1">
+        <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-[--color-border] bg-[--color-surface] px-2 py-1">
           {[0, 1, 2, 3, 4].map((l) => (
             <svg key={l} width={14} height={14} viewBox="0 0 14 14">
               {mark(l, 7, 7, `lg-${l}`)}

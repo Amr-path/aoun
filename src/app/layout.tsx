@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Almarai, Cairo, Amiri } from "next/font/google";
+import { Almarai, Lalezar, Amiri } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { BRAND } from "@/lib/constants";
@@ -14,11 +14,11 @@ const arabic = Almarai({
   display: "swap",
 });
 
-// العناوين: Cairo — خطُّ عرضٍ عربيٌّ معاصر بأوزانٍ كاملة (حتى 900).
-const display = Cairo({
+// العناوين: Lalezar — خطُّ ملصقاتٍ عربيّ ضخم يليق بالبروتاليزم.
+const display = Lalezar({
   variable: "--font-display-arabic",
   subsets: ["arabic"],
-  weight: ["600", "700", "800", "900"],
+  weight: "400",
   display: "swap",
 });
 
@@ -53,8 +53,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   // يطابق خلفية التطبيق: كريميّ فاتح، وداكن «الغسق» — فلا يبقى شريط الحالة كريمياً ليلاً.
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#faf6f0" },
-    { media: "(prefers-color-scheme: dark)", color: "#181613" },
+    { media: "(prefers-color-scheme: light)", color: "#f5efdd" },
+    { media: "(prefers-color-scheme: dark)", color: "#17141d" },
   ],
   width: "device-width",
   initialScale: 1,

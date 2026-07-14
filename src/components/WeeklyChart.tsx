@@ -1,5 +1,5 @@
 // عون — اتساق آخر ٨ أسابيع (متوسّط النتيجة اليومية).
-// الأسبوع الحالي والأسابيع المكتملة تُذهَّب بتدرّج الشروق، وسواها همسُ آذريون على مجرى ورقيّ هادئ.
+// أعمدةٌ بروتالية: الأسبوع الحالي والمكتمل بأصفر «صخب» الصريح، وسواها بسطحٍ أعمق — حدودٌ سميكة ولا وهج.
 import { ar } from "@/lib/numerals";
 import type { WeekPoint } from "@/lib/analytics";
 
@@ -21,10 +21,8 @@ export default function WeeklyChart({ weeks }: { weeks: WeekPoint[] }) {
                 className="w-full rounded-[--radius-sm] transition-[height] duration-700 ease-out"
                 style={{
                   height: `${Math.max(w.score, 3)}%`,
-                  background: gilded
-                    ? "var(--grad-sunrise)"
-                    : "color-mix(in srgb, var(--color-accent) 42%, var(--color-surface-2))",
-                  boxShadow: gilded ? "0 0 10px rgba(224, 145, 58, 0.35)" : undefined,
+                  background: gilded ? "var(--color-accent)" : "var(--color-surface-3)",
+                  border: "2px solid var(--color-border)",
                 }}
                 title={`${ar(w.score)}٪`}
               />

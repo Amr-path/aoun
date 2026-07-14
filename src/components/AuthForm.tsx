@@ -74,7 +74,7 @@ export default function AuthForm() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="الاسم (اختياري)"
-            className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-bg] px-4 py-3 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent]"
+            className="rounded-[--radius-sm] border-2 border-[--color-border] bg-[--color-surface] px-4 py-3 text-[--color-ink] transition-colors placeholder:text-[--color-faint]"
           />
         )}
         <div className="flex flex-col gap-1">
@@ -89,7 +89,7 @@ export default function AuthForm() {
             autoComplete="email"
             aria-invalid={!!fieldErr.email}
             required
-            className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-bg] px-4 py-3 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent] aria-[invalid=true]:border-[--color-danger]"
+            className="rounded-[--radius-sm] border-2 border-[--color-border] bg-[--color-surface] px-4 py-3 text-[--color-ink] transition-colors placeholder:text-[--color-faint] aria-[invalid=true]:border-[--color-danger]"
           />
           {fieldErr.email && <p className="text-xs text-[--color-danger-ink]">{fieldErr.email}</p>}
         </div>
@@ -107,7 +107,7 @@ export default function AuthForm() {
               autoComplete={isRegister ? "new-password" : "current-password"}
               aria-invalid={!!fieldErr.password}
               required
-              className="w-full rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-bg] px-4 py-3 pe-16 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent] aria-[invalid=true]:border-[--color-danger]"
+              className="w-full rounded-[--radius-sm] border-2 border-[--color-border] bg-[--color-surface] px-4 py-3 pe-16 text-[--color-ink] transition-colors placeholder:text-[--color-faint] aria-[invalid=true]:border-[--color-danger]"
             />
             <button
               type="button"
@@ -126,11 +126,7 @@ export default function AuthForm() {
         <button
           type="submit"
           disabled={busy}
-          className="press mt-2 rounded-full py-3.5 text-center font-bold text-[--color-cream] disabled:opacity-60"
-          style={{
-            background: "var(--grad-cta)",
-            boxShadow: "0 10px 22px -8px rgba(200,122,40,.5), inset 0 1px 0 rgba(255,255,255,.35)",
-          }}
+          className="brut press mt-2 rounded-full bg-[--color-accent] py-3.5 text-center font-bold text-[#141414] disabled:opacity-60"
         >
           {busy ? (
             <span className="inline-flex items-center justify-center">

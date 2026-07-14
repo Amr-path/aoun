@@ -82,20 +82,17 @@ function SkyDecor({ daypart }: { daypart: Daypart }) {
       )}
       {(daypart === "morning" || daypart === "noon") && (
         <circle
-          className="sun-glow"
           cx={daypart === "morning" ? 14 : 50}
           cy={daypart === "morning" ? 26 : 10}
-          r="16"
-          fill="url(#aoun-sun)"
+          r="9"
+          fill="#ffd98f"
+          stroke="var(--sky-ink)"
+          strokeWidth="1.5"
         />
       )}
-      {daypart === "sunset" && <circle className="sun-glow" cx="18" cy="78" r="18" fill="url(#aoun-sun)" />}
-      <defs>
-        <radialGradient id="aoun-sun">
-          <stop offset="0%" stopColor="#ffd98f" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#ffd98f" stopOpacity="0" />
-        </radialGradient>
-      </defs>
+      {daypart === "sunset" && (
+        <circle cx="18" cy="78" r="11" fill="#ffd98f" stroke="var(--sky-ink)" strokeWidth="1.5" />
+      )}
     </svg>
   );
 }
@@ -114,8 +111,8 @@ export default function BloomHero({ habits, streak, level, daypart }: Props) {
 
   return (
     <section
-      className={`sky-panel sky-${daypart} mt-3 overflow-hidden rounded-[--radius-xl] border border-[--color-hairline-soft]`}
-      style={{ boxShadow: "var(--shadow-top), var(--shadow-1)" }}
+      className={`sky-panel sky-${daypart} mt-3 overflow-hidden rounded-[--radius-xl] border-[2.5px] border-[--color-border]`}
+      style={{ boxShadow: "var(--shadow-2)" }}
       aria-label="سماء اليوم"
     >
       {/* نقش الخاتم — همسة مخطوطة خلف السماء */}
@@ -140,24 +137,14 @@ export default function BloomHero({ habits, streak, level, daypart }: Props) {
               cy="72"
               r={R}
               fill="none"
-              stroke="url(#aoun-gild)"
-              strokeWidth="3.5"
-              strokeLinecap="round"
+              stroke="var(--sky-ink)"
+              strokeWidth="4"
+              strokeLinecap="butt"
               strokeDasharray={C}
               strokeDashoffset={C * (1 - pct)}
               transform="rotate(-90 72 72)"
-              style={{
-                transition: "stroke-dashoffset 0.8s var(--ease-soft)",
-                filter: pct > 0 ? "drop-shadow(0 0 6px rgba(232,166,74,0.6))" : undefined,
-              }}
+              style={{ transition: "stroke-dashoffset 0.8s var(--ease-soft)" }}
             />
-            <defs>
-              <linearGradient id="aoun-gild" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#f0bd6b" />
-                <stop offset="55%" stopColor="#e0913a" />
-                <stop offset="100%" stopColor="#c9772e" />
-              </linearGradient>
-            </defs>
           </svg>
 
           <svg width="98" height="98" viewBox="0 0 200 200" aria-hidden>
@@ -172,10 +159,10 @@ export default function BloomHero({ habits, streak, level, daypart }: Props) {
                     d={PETAL_D}
                     style={{
                       fill: dn ? accent : soft,
-                      stroke: dn ? "rgba(255,255,255,0.85)" : accent,
-                      strokeWidth: dn ? 1.5 : 1.4,
-                      strokeOpacity: dn ? 0.9 : 0.45,
-                      opacity: dn ? 0.97 : 0.55,
+                      stroke: dn ? "var(--sky-ink)" : accent,
+                      strokeWidth: dn ? 3 : 2.5,
+                      strokeOpacity: dn ? 1 : 0.6,
+                      opacity: dn ? 1 : 0.55,
                       transformBox: "fill-box",
                       transformOrigin: "center bottom",
                       transform: dn ? "scale(1)" : "scale(0.78)",
@@ -186,29 +173,29 @@ export default function BloomHero({ habits, streak, level, daypart }: Props) {
                 </g>
               );
             })}
-            <circle cx="100" cy="100" r="15" fill="rgba(255,255,255,0.92)" />
+            <circle cx="100" cy="100" r="15" fill="#fff" stroke="var(--sky-ink)" strokeWidth="3" />
             <circle cx="100" cy="100" r="9.5" fill="var(--color-accent)" />
           </svg>
         </div>
 
-        <h2 className="mt-2 font-[family-name:var(--font-display)] text-lg font-extrabold leading-snug">
+        <h2 className="mt-2 font-[family-name:var(--font-display)] text-xl font-extrabold leading-snug">
           {title}
         </h2>
         <p className="sky-muted mt-0.5 text-[13px] leading-relaxed">{sub}</p>
 
         {/* الرقاقات — زجاجٌ فوق السماء */}
         <div className="mt-3 flex flex-wrap justify-center gap-1.5">
-          <span className="sky-chip inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold">
+          <span className="sky-chip tilt-1 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold">
             <span className="score">
               {ar(done)} / {ar(due)}
             </span>
             اليوم
           </span>
-          <span className="sky-chip inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold">
+          <span className="sky-chip tilt-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold">
             <Icon name="leaf" size={13} className="opacity-80" />
             <span className="streak">{ar(streak)}</span> مداومة
           </span>
-          <span className="sky-chip inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold">
+          <span className="sky-chip tilt-1 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold">
             <Icon name="spark" size={13} className="opacity-80" />
             مستوى <span className="tabular">{ar(level)}</span>
           </span>

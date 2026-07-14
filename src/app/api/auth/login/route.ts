@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { verifyPassword, createSession } from "@/lib/auth";
 
+// hash وهميّ ثابت لموازنة زمن الردّ عندما لا يوجد الحساب (يمنع كشف وجود البريد).
+const DUMMY_HASH = "$2a$10$sJwKCZbHwI7xal/gxvuCzeoi0fWemj5cXez7Kc/qQy.YHTKDIAZtC";
+
 // POST /api/auth/login — يتحقّق من البيانات ويبدأ الجلسة.
 export async function POST(req: Request) {
   try {
@@ -19,7 +22,9 @@ export async function POST(req: Request) {
       select: { id: true, password: true },
     })) as { id: string; password: string | null } | null;
 
-    if (!user?.password || !(await verifyPassword(password, user.password))) {
+    // نُنفّذ bcrypt دائماً (ضد hash وهميّ عند غياب الحساب) لموازنة الزمن.
+    const ok = await verifyPassword(password, user?.password || DUMMY_HASH);
+    if (!user?.password || !ok) {
       return NextResponse.json({ error: "البريد أو كلمة المرور غير صحيحة" }, { status: 401 });
     }
 

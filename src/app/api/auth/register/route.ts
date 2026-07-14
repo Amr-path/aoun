@@ -11,9 +11,11 @@ export async function POST(req: Request) {
       name?: string;
     };
     const mail = email?.trim().toLowerCase();
-    if (!mail || !password || password.length < 6) {
+    const emailOk = !!mail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
+    // bcrypt يقصّ صامتاً عند 72 بايت؛ نفرض 8–72 بوضوح.
+    if (!emailOk || !password || password.length < 8 || password.length > 72) {
       return NextResponse.json(
-        { error: "البريد مطلوب وكلمة المرور ٦ أحرف على الأقل" },
+        { error: "أدخل بريداً صحيحاً وكلمة مرور من ٨ إلى ٧٢ حرفاً" },
         { status: 400 }
       );
     }

@@ -1,6 +1,7 @@
 "use client";
 // عون — صفحة الإعدادات: الحساب، المنطقة الزمنية، المظهر، الإشعارات، الخروج.
-import { useState } from "react";
+// بروح «مِشكاة» الهادئة: فواصل مُزخرفة وعناوين مُذهّبة بهمسٍ — الذهب هنا بهارٌ لا صلصة.
+import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
 import ThemeToggle from "./ThemeToggle";
@@ -33,6 +34,17 @@ interface Props {
   initialName: string;
   email: string;
   initialTz: string;
+}
+
+// عنوان مجموعةٍ بين زخرفتين — بماء ذهبٍ خافت، على طراز فواصل المخطوطات.
+function SectionLabel({ children }: { children: ReactNode }) {
+  return (
+    <div className="mb-3 mt-6 flex items-center gap-3 px-1">
+      <span className="ornament-line" aria-hidden />
+      <span className="text-gild whitespace-nowrap text-xs font-bold">{children}</span>
+      <span className="ornament-line rev" aria-hidden />
+    </div>
+  );
 }
 
 export default function SettingsClient({ initialName, email, initialTz }: Props) {
@@ -72,13 +84,13 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
         </Link>
       </div>
 
-      <h1 className="mb-5 font-[family-name:var(--font-display)] text-3xl font-black text-[--color-ink]">
+      <h1 className="font-[family-name:var(--font-display)] text-3xl font-black text-[--color-ink]">
         الإعدادات
       </h1>
 
       {/* الحساب */}
+      <SectionLabel>الحساب</SectionLabel>
       <section className="card p-5">
-        <h2 className="mb-4 font-semibold text-[--color-ink]">الحساب</h2>
         <label className="mb-3 flex flex-col gap-1.5">
           <span className="text-xs text-[--color-muted]">الاسم</span>
           <input
@@ -153,16 +165,14 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
         <Icon name="chevron" size={18} className="text-[--color-accent-ink]" />
       </Link>
 
-      {/* المظهر */}
-      <div className="mt-4">
-        <ThemeToggle />
-      </div>
-
-      {/* الإشعارات */}
+      {/* المظهر والتنبيهات */}
+      <SectionLabel>المظهر والتنبيهات</SectionLabel>
+      <ThemeToggle />
       <NotificationsToggle />
 
-      {/* الخروج */}
-      <div className="mt-6 flex justify-center">
+      {/* الجلسة */}
+      <SectionLabel>الجلسة</SectionLabel>
+      <div className="flex justify-center">
         <LogoutButton />
       </div>
 

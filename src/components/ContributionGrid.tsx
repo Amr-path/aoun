@@ -20,7 +20,7 @@ export default function ContributionGrid({ days }: { days: DayCell[] }) {
     <div className="flex flex-col gap-3">
       <div className="overflow-x-auto pb-1">
         <div
-          className="grid grid-flow-col gap-[3px]"
+          className="grid grid-flow-col gap-[3.5px]"
           style={{ gridTemplateRows: "repeat(7, 1fr)" }}
           role="img"
           aria-label="شبكة سنتك — كثافة اللون تعكس اتساق إنجازك اليومي (مرّر فوق أي يومٍ لعدد المُنجز)"
@@ -29,23 +29,25 @@ export default function ContributionGrid({ days }: { days: DayCell[] }) {
             <span
               key={i}
               title={c ? `${c.date} · ${c.completed}/${c.due}` : undefined}
-              className="h-[11px] w-[11px] rounded-[3px]"
+              className="h-[11px] w-[11px] rounded-[3.5px]"
               style={{ background: c ? LEVELS[c.level] : "transparent" }}
             />
           ))}
         </div>
       </div>
 
-      {/* المفتاح */}
-      <div className="flex items-center gap-1.5 text-xs text-[--color-faint]">
+      {/* المفتاح — رقاقةٌ ورقيّة صغيرة */}
+      <div className="flex items-center gap-2 text-xs text-[--color-faint]">
         <span>أقل</span>
-        {LEVELS.map((c, i) => (
-          <span
-            key={i}
-            className="h-[11px] w-[11px] rounded-[3px]"
-            style={{ background: c }}
-          />
-        ))}
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-2 py-1">
+          {LEVELS.map((c, i) => (
+            <span
+              key={i}
+              className="h-[11px] w-[11px] rounded-[3.5px]"
+              style={{ background: c }}
+            />
+          ))}
+        </span>
         <span>أكثر</span>
       </div>
     </div>

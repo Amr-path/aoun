@@ -58,17 +58,47 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
       )}
 
       <div className="flex items-center gap-2.5">
-        {/* رمز العادة (اختيار المستخدم) */}
-        <span
-          className="icon-chip h-10 w-10 shrink-0 text-xl"
-          style={{ background: done ? "var(--color-surface)" : soft }}
-        >
-          {habit.emoji}
+        {/* رمز العادة داخل حلقة مداومةٍ تكتمل نحو ٣٠ يوماً */}
+        <span className="relative grid h-11 w-11 shrink-0 place-items-center">
+          {habit.streak > 0 && (
+            <svg
+              className="pointer-events-none absolute inset-0"
+              width="44"
+              height="44"
+              viewBox="0 0 44 44"
+              aria-hidden
+            >
+              <circle cx="22" cy="22" r="20" fill="none" stroke={accent} strokeOpacity="0.16" strokeWidth="2.5" />
+              <circle
+                cx="22"
+                cy="22"
+                r="20"
+                fill="none"
+                stroke={accent}
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeDasharray={2 * Math.PI * 20}
+                strokeDashoffset={2 * Math.PI * 20 * (1 - Math.min(habit.streak / 30, 1))}
+                transform="rotate(-90 22 22)"
+                style={{ transition: "stroke-dashoffset 0.7s var(--ease-soft)" }}
+              />
+            </svg>
+          )}
+          <span
+            className="icon-chip h-9 w-9 rounded-full text-lg"
+            style={{ background: done ? "var(--color-surface)" : soft }}
+          >
+            {habit.emoji}
+          </span>
         </span>
 
         {/* العنوان والوصف */}
         <div className="min-w-0 flex-1">
-          <h3 className="truncate text-base font-semibold text-[--color-ink]">{habit.title}</h3>
+          <h3
+            className={`truncate text-base font-semibold text-[--color-ink] ${done ? "done-title" : ""}`}
+          >
+            {habit.title}
+          </h3>
           <div className="mt-0.5 flex items-center gap-1.5 text-xs text-[--color-muted]">
             <span className="tabular inline-flex items-center gap-1">
               <Icon name="clock" size={12} className="text-[--color-faint]" />
@@ -79,7 +109,11 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
             {habit.streak > 0 && (
               <span
                 className="streak inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold"
-                style={{ background: soft, color: ink }}
+                style={
+                  habit.streak >= 7
+                    ? { background: "var(--grad-sunrise)", color: "#fff" }
+                    : { background: soft, color: ink }
+                }
                 title={`مداومة ${streakStage(habit.streak).label}`}
               >
                 <Icon name="leaf" size={11} />

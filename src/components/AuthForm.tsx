@@ -55,23 +55,26 @@ export default function AuthForm() {
 
   return (
     <div className="w-full max-w-sm">
-      <div className="mb-8 flex flex-col items-center text-center">
+      <div className="mb-7 flex flex-col items-center text-center">
         <FlowerMark size={64} className="mb-4" />
         <h1 className="font-[family-name:var(--font-display)] text-3xl font-extrabold text-[--color-ink]">
-          {isRegister ? "أنشئ حسابك" : "أهلاً بعودتك"}
+          <span className="text-gild">{isRegister ? "أنشئ حسابك" : "أهلاً بعودتك"}</span>
         </h1>
-        <p className="mt-1.5 text-sm text-[--color-muted]">
+        <p className="quote-seed mt-2 text-base text-[--color-muted]">
           {isRegister ? "ابدأ رحلتك مع عون" : "واصِل مداومتك"}
         </p>
       </div>
 
-      <form onSubmit={submit} className="flex flex-col gap-3">
+      {/* بطاقةٌ بإطارٍ مُذهّب تحتضن النموذج، وخلفها همسة نقش الخاتم */}
+      <div className="card gild-frame relative overflow-hidden p-6">
+        <div aria-hidden className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.04]" />
+        <form onSubmit={submit} className="relative flex flex-col gap-3">
         {isRegister && (
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="الاسم (اختياري)"
-            className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-4 py-3 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent]"
+            className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-bg] px-4 py-3 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent]"
           />
         )}
         <div className="flex flex-col gap-1">
@@ -86,7 +89,7 @@ export default function AuthForm() {
             autoComplete="email"
             aria-invalid={!!fieldErr.email}
             required
-            className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-4 py-3 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent] aria-[invalid=true]:border-[--color-danger]"
+            className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-bg] px-4 py-3 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent] aria-[invalid=true]:border-[--color-danger]"
           />
           {fieldErr.email && <p className="text-xs text-[--color-danger-ink]">{fieldErr.email}</p>}
         </div>
@@ -104,7 +107,7 @@ export default function AuthForm() {
               autoComplete={isRegister ? "new-password" : "current-password"}
               aria-invalid={!!fieldErr.password}
               required
-              className="w-full rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-4 py-3 pe-16 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent] aria-[invalid=true]:border-[--color-danger]"
+              className="w-full rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-bg] px-4 py-3 pe-16 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent] aria-[invalid=true]:border-[--color-danger]"
             />
             <button
               type="button"
@@ -139,22 +142,28 @@ export default function AuthForm() {
             "دخول"
           )}
         </button>
-      </form>
+        </form>
+      </div>
 
-      <p className="mt-6 text-center text-sm text-[--color-muted]">
-        {isRegister ? "لديك حساب؟" : "جديد هنا؟"}{" "}
-        <button
-          type="button"
-          onClick={() => {
-            setMode(isRegister ? "login" : "register");
-            setErr("");
-            setFieldErr({});
-          }}
-          className="font-semibold text-[--color-accent-ink] hover:underline"
-        >
-          {isRegister ? "سجّل الدخول" : "أنشئ حساباً"}
-        </button>
-      </p>
+      {/* التبديل بين الدخول والتسجيل — بين خيطين يذوبان في الذهب */}
+      <div className="mt-6 flex items-center gap-3">
+        <span aria-hidden className="ornament-line" />
+        <p className="shrink-0 text-center text-sm text-[--color-muted]">
+          {isRegister ? "لديك حساب؟" : "جديد هنا؟"}{" "}
+          <button
+            type="button"
+            onClick={() => {
+              setMode(isRegister ? "login" : "register");
+              setErr("");
+              setFieldErr({});
+            }}
+            className="font-semibold text-[--color-accent-ink] hover:underline"
+          >
+            {isRegister ? "سجّل الدخول" : "أنشئ حساباً"}
+          </button>
+        </p>
+        <span aria-hidden className="ornament-line rev" />
+      </div>
     </div>
   );
 }

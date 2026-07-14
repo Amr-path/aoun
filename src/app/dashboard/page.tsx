@@ -4,21 +4,37 @@ import { prisma } from "@/lib/db";
 import { seedOfDay } from "@/lib/messages";
 import { recoveryMessage, whyFromDiagnostic } from "@/lib/narrative";
 import DashboardClient from "@/components/DashboardClient";
+import type { Daypart } from "@/components/BloomHero";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "لوحة التحكم" };
 
-function greetingFor(tz: string): string {
-  const h = Number(
+function hourIn(tz: string): number {
+  return Number(
     new Intl.DateTimeFormat("en-US", {
       timeZone: tz,
       hour: "numeric",
       hourCycle: "h23",
     }).format(new Date())
   );
+}
+
+function greetingFor(tz: string): string {
+  const h = hourIn(tz);
   if (h < 12) return "صباح الخير";
   if (h < 17) return "طاب يومك";
   return "مساء الخير";
+}
+
+/* وقت «سماء اليوم» — تتبدّل أجواء اللوحة معه. */
+function daypartFor(tz: string): Daypart {
+  const h = hourIn(tz);
+  if (h < 5) return "night";
+  if (h < 7) return "fajr";
+  if (h < 12) return "morning";
+  if (h < 16) return "noon";
+  if (h < 19) return "sunset";
+  return "night";
 }
 
 export default async function DashboardPage() {
@@ -61,6 +77,7 @@ export default async function DashboardPage() {
     <DashboardClient
       initial={data}
       greeting={greeting}
+      daypart={daypartFor(tz)}
       dateLabel={dateLabel}
       seed={seed}
       userName={name}

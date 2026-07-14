@@ -61,15 +61,21 @@ export default function RewardPop() {
 
         <span
           className="grid h-11 w-11 place-items-center rounded-full text-lg font-black"
-          style={{ background: soft, color: ink }}
+          style={
+            reward.milestone
+              ? { background: "var(--grad-sunrise)", color: "#fff", boxShadow: "var(--glow-accent)" }
+              : { background: soft, color: ink }
+          }
         >
           {reward.milestone ? "✦" : `+${ar(reward.xp)}`}
         </span>
         <div className="flex flex-col">
-          <span className="text-xs text-[--color-faint]">
+          <span className={`text-xs ${reward.milestone ? "text-gild font-bold" : "text-[--color-faint]"}`}>
             {reward.milestone ? "محطّة مداومة" : "نقطة خبرة"}
           </span>
-          <span className="text-sm font-medium text-[--color-ink]">{reward.quote}</span>
+          <span className="quote-seed text-[15px] font-medium leading-snug text-[--color-ink]">
+            {reward.quote}
+          </span>
         </div>
       </div>
     </div>

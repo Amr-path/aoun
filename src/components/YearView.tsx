@@ -22,13 +22,14 @@ export default function YearView({ days }: { days: DayCell[] }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="pill inline-flex self-start bg-[--color-surface-2] p-1 text-sm">
+      <div className="pill inline-flex self-start border border-[--color-hairline-soft] bg-[--color-surface-2] p-1 text-sm">
         <button
           type="button"
           onClick={() => setMode("garden")}
+          aria-pressed={mode === "garden"}
           className={`press pill inline-flex items-center gap-1.5 px-4 py-1.5 transition-colors ${
             mode === "garden"
-              ? "bg-[--color-surface] font-semibold text-[--color-accent-ink] shadow-sm"
+              ? "bg-[--color-surface] font-semibold text-[--color-accent-ink] shadow-[var(--shadow-1)] ring-1 ring-inset ring-[color-mix(in_srgb,var(--color-accent)_28%,transparent)]"
               : "text-[--color-muted]"
           }`}
         >
@@ -38,9 +39,10 @@ export default function YearView({ days }: { days: DayCell[] }) {
         <button
           type="button"
           onClick={() => setMode("grid")}
+          aria-pressed={mode === "grid"}
           className={`press pill inline-flex items-center gap-1.5 px-4 py-1.5 transition-colors ${
             mode === "grid"
-              ? "bg-[--color-surface] font-semibold text-[--color-accent-ink] shadow-sm"
+              ? "bg-[--color-surface] font-semibold text-[--color-accent-ink] shadow-[var(--shadow-1)] ring-1 ring-inset ring-[color-mix(in_srgb,var(--color-accent)_28%,transparent)]"
               : "text-[--color-muted]"
           }`}
         >

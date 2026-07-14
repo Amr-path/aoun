@@ -43,14 +43,19 @@ export default function BottomNav() {
         <NavLink it={ITEMS[0]} active={isActive(ITEMS[0].href)} />
         <NavLink it={ITEMS[1]} active={isActive(ITEMS[1].href)} />
 
-        {/* زرّ الإضافة المركزيّ (FAB) — النمط المعياريّ لتطبيقات العادات. */}
+        {/* زرّ الإضافة المركزيّ — «خاتمٌ» ماسيّ مذهّب من روح النقش الثماني. */}
         <Link
           href="/dashboard#add-habit"
           aria-label="إضافة عادة"
-          className="press mx-0.5 grid h-12 w-12 shrink-0 place-items-center rounded-full text-white shadow-[var(--shadow-2)]"
-          style={{ background: "var(--grad-cta)" }}
+          className="press mx-1.5 grid h-11 w-11 shrink-0 rotate-45 place-items-center rounded-[13px] text-white shadow-[var(--shadow-2)]"
+          style={{
+            background: "var(--grad-cta)",
+            boxShadow: "0 8px 18px -6px rgba(200,122,40,.55), inset 0 1px 0 rgba(255,255,255,.4)",
+          }}
         >
-          <Icon name="plus" size={24} strokeWidth={2.4} />
+          <span className="-rotate-45">
+            <Icon name="plus" size={22} strokeWidth={2.4} />
+          </span>
         </Link>
 
         <NavLink it={ITEMS[2]} active={isActive(ITEMS[2].href)} />

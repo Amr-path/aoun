@@ -65,8 +65,14 @@ export default function GardenGrid({ days }: { days: DayCell[] }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="overflow-x-auto pb-1">
+      {/* همسةُ الخاتم خلف الحديقة — أرضيّة مخطوطةٍ للبراعم */}
+      <div className="relative overflow-x-auto rounded-[--radius-md] pb-1">
+        <div
+          aria-hidden
+          className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.04]"
+        />
         <svg
+          className="relative"
           width={width}
           height={height}
           viewBox={`0 0 ${width} ${height}`}
@@ -76,13 +82,16 @@ export default function GardenGrid({ days }: { days: DayCell[] }) {
           {nodes}
         </svg>
       </div>
+      {/* المفتاح — رقاقةٌ ورقيّة صغيرة تُطابق مفتاح الشبكة */}
       <div className="flex items-center gap-2 text-xs text-[--color-faint]">
         <span>أقل</span>
-        {[0, 1, 2, 3, 4].map((l) => (
-          <svg key={l} width={14} height={14} viewBox="0 0 14 14">
-            {mark(l, 7, 7, `lg-${l}`)}
-          </svg>
-        ))}
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-2 py-1">
+          {[0, 1, 2, 3, 4].map((l) => (
+            <svg key={l} width={14} height={14} viewBox="0 0 14 14">
+              {mark(l, 7, 7, `lg-${l}`)}
+            </svg>
+          ))}
+        </span>
         <span>أكثر</span>
       </div>
     </div>

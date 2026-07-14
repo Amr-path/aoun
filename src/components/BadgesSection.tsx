@@ -1,4 +1,4 @@
-// عون — شبكة الشارات (مفتوحة/مقفلة) بلغة بصرية توقيعيّة موحّدة (ذهب الآذريون).
+// عون — شبكة الشارات: المفتوحة تُذهَّب بتدرّج الشروق واسمها بماء الذهب، والمقفلة تبقى همساً باهتاً.
 import { BADGES, type BadgeStats } from "@/lib/badges";
 
 export default function BadgesSection({ stats }: { stats: BadgeStats }) {
@@ -13,12 +13,13 @@ export default function BadgesSection({ stats }: { stats: BadgeStats }) {
               style={
                 earned
                   ? {
-                      background: "var(--color-accent-soft)",
+                      background: "var(--grad-sunrise)",
                       boxShadow:
-                        "inset 0 0 0 2px var(--color-accent), var(--shadow-top)",
+                        "inset 0 0 0 2px color-mix(in srgb, var(--color-cream) 55%, transparent), var(--glow-accent)",
                     }
                   : {
                       background: "var(--color-surface-2)",
+                      boxShadow: "inset 0 0 0 1px var(--color-hairline)",
                       filter: "grayscale(1)",
                       opacity: 0.45,
                     }
@@ -27,10 +28,9 @@ export default function BadgesSection({ stats }: { stats: BadgeStats }) {
               {b.icon}
             </div>
             <span
-              className="text-xs font-semibold"
-              style={{
-                color: earned ? "var(--color-accent-ink)" : "var(--color-faint)",
-              }}
+              className={`text-xs font-semibold ${
+                earned ? "text-gild" : "text-[--color-faint]"
+              }`}
             >
               {b.label}
             </span>

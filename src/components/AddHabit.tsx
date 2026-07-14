@@ -86,12 +86,15 @@ export default function AddHabit() {
         className="card press grid place-items-center rounded-[--radius-card] border-2 border-dashed border-[--color-hairline] p-6 text-[--color-muted] transition-colors hover:border-[--color-accent] hover:text-[--color-accent-ink]"
       >
         <span
-          className="icon-chip h-11 w-11 text-[--color-accent-ink]"
+          className="grid h-11 w-11 rotate-45 place-items-center rounded-[13px] text-[--color-accent-ink]"
           style={{ background: "var(--color-accent-soft)" }}
         >
-          <Icon name="plus" />
+          <span className="-rotate-45 grid place-items-center">
+            <Icon name="plus" />
+          </span>
         </span>
-        <span className="mt-2 text-sm font-medium">أضِف عادة</span>
+        <span className="mt-2.5 text-sm font-semibold">ازرع عادةً جديدة</span>
+        <span className="mt-0.5 text-xs text-[--color-faint]">بذرةٌ صغيرة تكفي</span>
       </button>
     );
   }

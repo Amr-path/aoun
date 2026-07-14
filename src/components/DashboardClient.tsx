@@ -9,7 +9,7 @@ import { ar } from "@/lib/numerals";
 import Logo from "./Logo";
 import Icon from "./ui/Icon";
 import FlowerMark from "./FlowerMark";
-import BloomHero from "./BloomHero";
+import BloomHero, { type Daypart } from "./BloomHero";
 import HabitCard from "./HabitCard";
 import AddHabit from "./AddHabit";
 import BottomNav from "./BottomNav";
@@ -19,6 +19,7 @@ import RewardPop from "./RewardPop";
 interface Props {
   initial: DashboardData;
   greeting: string;
+  daypart: Daypart;
   dateLabel: string;
   seed: string;
   userName: string | null;
@@ -28,6 +29,7 @@ interface Props {
 export default function DashboardClient({
   initial,
   greeting,
+  daypart,
   dateLabel,
   seed,
   userName,
@@ -73,24 +75,38 @@ export default function DashboardClient({
           <Logo size={30} withWordmark />
         </div>
 
-        {/* الترويسة */}
-        <div className="mt-3 flex items-baseline justify-between gap-3">
-          <h1 className="font-[family-name:var(--font-display)] text-2xl font-bold leading-tight text-[--color-ink]">
+        {/* الترويسة — تحية أكبر واسمٌ مُذهّب */}
+        <div className="mt-3 flex items-end justify-between gap-3">
+          <h1 className="font-[family-name:var(--font-display)] text-[1.65rem] font-black leading-tight text-[--color-ink]">
             {greeting}
-            {userName ? `، ${userName}` : ""}
+            {userName ? (
+              <>
+                {"، "}
+                <span className="text-gild">{userName}</span>
+              </>
+            ) : null}
           </h1>
-          <span className="shrink-0 text-xs font-medium text-[--color-faint]">{dateLabel}</span>
+          <span className="shrink-0 rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-2.5 py-1 text-xs font-semibold text-[--color-muted]">
+            {dateLabel}
+          </span>
         </div>
 
-        {/* هيرو «زهرة اليوم» */}
-        <BloomHero habits={view.filter((h) => h.dueToday)} streak={s.streakCount} level={level} />
+        {/* «سماء اليوم» — لوحة حيّة تتبدّل مع وقتك */}
+        <BloomHero
+          habits={view.filter((h) => h.dueToday)}
+          streak={s.streakCount}
+          level={level}
+          daypart={daypart}
+        />
 
-        {/* بذرةُ اليوم — داخل قُلادةٍ لطيفة بتباينٍ أوضح (بلا قصّ). */}
-        <p className="mt-2.5 text-center">
-          <span className="inline-block rounded-full bg-[--color-surface-2] px-3 py-1 text-sm italic text-[--color-muted]">
+        {/* بذرةُ اليوم — حكمةٌ بخطّ المخطوطات بين زخرفتين */}
+        <div className="mt-3.5 flex items-center gap-3 px-2">
+          <span className="ornament-line" aria-hidden />
+          <p className="quote-seed max-w-[17rem] text-center text-[15px] leading-relaxed text-[--color-muted]">
             {seed}
-          </span>
-        </p>
+          </p>
+          <span className="ornament-line rev" aria-hidden />
+        </div>
 
         {/* رسالة تعافٍ عند العودة بعد انقطاع */}
         {recovery && (
@@ -103,14 +119,18 @@ export default function DashboardClient({
           </div>
         )}
 
-        {/* قسم العادات */}
-        <div className="mb-2.5 mt-5 flex items-center justify-between">
+        {/* قسم العادات + خيط اليوم الذهبي */}
+        <div className="mb-1.5 mt-5 flex items-center justify-between">
           <h2 className="font-[family-name:var(--font-display)] text-base font-bold text-[--color-ink]">
             عاداتك اليوم
           </h2>
           <span className="tabular text-xs font-semibold text-[--color-muted]">
             {ar(doneCount)} / {ar(dueCount)}
           </span>
+        </div>
+        <div className="thread mb-3" role="progressbar" aria-label="تقدّم اليوم"
+          aria-valuemin={0} aria-valuemax={dueCount} aria-valuenow={doneCount}>
+          <i style={{ width: dueCount ? `${(doneCount / dueCount) * 100}%` : "0%" }} />
         </div>
 
         <section className="flex flex-col gap-2">
@@ -137,9 +157,14 @@ export default function DashboardClient({
 
           {doneList.length > 0 && (
             <div className="my-1 flex items-center gap-3 px-1 text-xs font-semibold text-[--color-faint]">
-              <span className="h-px flex-1 bg-[--color-hairline-soft]" />
-              مكتمل اليوم
-              <span className="h-px flex-1 bg-[--color-hairline-soft]" />
+              <span className="ornament-line" aria-hidden />
+              <span className="inline-flex items-center gap-1.5">
+                <svg width="8" height="8" viewBox="0 0 10 10" aria-hidden className="text-[--color-accent]">
+                  <rect x="2" y="2" width="6" height="6" transform="rotate(45 5 5)" fill="currentColor" />
+                </svg>
+                مكتمل اليوم
+              </span>
+              <span className="ornament-line rev" aria-hidden />
             </div>
           )}
 

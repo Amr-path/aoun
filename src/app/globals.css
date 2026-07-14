@@ -10,6 +10,7 @@
   /* الخطوط */
   --font-sans: var(--font-arabic), "Almarai", system-ui, sans-serif;
   --font-display: var(--font-display-arabic), var(--font-arabic), "Almarai", sans-serif;
+  --font-quote: var(--font-quote-arabic), "Amiri", var(--font-arabic), serif;
 
   /* الأسطح الورقية الدافئة */
   --color-cream: #faf6f0;      /* خلفية الصفحة */
@@ -377,6 +378,199 @@ h1, h2, h3 {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   «مِشكاة» — طبقة الهوية الحيّة
+   سماءٌ تتبدّل مع وقت اليوم + تذهيبٌ من روح المخطوطات العربية.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── لوحة السماء: خلفية وألوان نصٍّ تتبعان وقت اليوم ─── */
+.sky-panel {
+  position: relative;
+  background: var(--sky-grad);
+  color: var(--sky-ink);
+  transition: background var(--dur-slow) ease;
+}
+.sky-panel .sky-muted {
+  color: var(--sky-muted);
+}
+.sky-chip {
+  background: var(--sky-chip);
+  color: var(--sky-ink);
+  border: 1px solid var(--sky-chip-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* فجر — بنفسجٌ يذوب في ذهبٍ خجول */
+.sky-fajr {
+  --sky-grad: linear-gradient(168deg, #cfcbe9 0%, #e9d9d6 52%, #f8ead2 100%);
+  --sky-ink: #322c49;
+  --sky-muted: #5c5479;
+  --sky-chip: rgba(255, 255, 255, 0.5);
+  --sky-chip-border: rgba(255, 255, 255, 0.65);
+}
+/* صباح — ضوءٌ عسليّ صافٍ */
+.sky-morning {
+  --sky-grad: linear-gradient(168deg, #fdf2da 0%, #fbe8c9 55%, #f7dcb6 100%);
+  --sky-ink: #4c3514;
+  --sky-muted: #7c6440;
+  --sky-chip: rgba(255, 255, 255, 0.55);
+  --sky-chip-border: rgba(255, 255, 255, 0.7);
+}
+/* ظهيرة — زرقةٌ مغسولة بالشمس */
+.sky-noon {
+  --sky-grad: linear-gradient(172deg, #ddeef9 0%, #ecf5ef 55%, #fdf5e0 100%);
+  --sky-ink: #1e3a4e;
+  --sky-muted: #4c6a7c;
+  --sky-chip: rgba(255, 255, 255, 0.55);
+  --sky-chip-border: rgba(255, 255, 255, 0.7);
+}
+/* غروب — مشمشٌ يميل إلى النحاس */
+.sky-sunset {
+  --sky-grad: linear-gradient(168deg, #fadcba 0%, #f5c6a2 55%, #e9ad93 100%);
+  --sky-ink: #55301b;
+  --sky-muted: #85583b;
+  --sky-chip: rgba(255, 255, 255, 0.45);
+  --sky-chip-border: rgba(255, 255, 255, 0.6);
+}
+/* ليل — نيلةٌ عميقة تسكنها النجوم */
+.sky-night {
+  --sky-grad: linear-gradient(168deg, #232136 0%, #2b2745 58%, #3b3156 100%);
+  --sky-ink: #f2eefc;
+  --sky-muted: #b8b1d6;
+  --sky-chip: rgba(255, 255, 255, 0.09);
+  --sky-chip-border: rgba(255, 255, 255, 0.15);
+}
+
+/* في وضع «الغسق» تُعتم السماوات النهارية لتنسجم مع الواجهة */
+:root[data-theme="dusk"] .sky-fajr {
+  --sky-grad: linear-gradient(168deg, #262239 0%, #322838 55%, #3d2f28 100%);
+  --sky-ink: #e9e3f4;
+  --sky-muted: #a9a0c4;
+  --sky-chip: rgba(255, 255, 255, 0.08);
+  --sky-chip-border: rgba(255, 255, 255, 0.13);
+}
+:root[data-theme="dusk"] .sky-morning,
+:root[data-theme="dusk"] .sky-noon {
+  --sky-grad: linear-gradient(168deg, #2b2517 0%, #332b18 55%, #3a2f1a 100%);
+  --sky-ink: #f3e8d2;
+  --sky-muted: #c2b291;
+  --sky-chip: rgba(255, 255, 255, 0.07);
+  --sky-chip-border: rgba(255, 255, 255, 0.12);
+}
+:root[data-theme="dusk"] .sky-sunset {
+  --sky-grad: linear-gradient(168deg, #33221a 0%, #3c2719 55%, #452c1c 100%);
+  --sky-ink: #f6e3d2;
+  --sky-muted: #cfa585;
+  --sky-chip: rgba(255, 255, 255, 0.07);
+  --sky-chip-border: rgba(255, 255, 255, 0.12);
+}
+:root[data-theme="dusk"] .sky-night {
+  --sky-grad: linear-gradient(168deg, #1d1b2e 0%, #24203a 58%, #2e2747 100%);
+}
+
+/* ─── نقش «الخاتم» الثماني — همسة مخطوطةٍ خلف الأسطح ─── */
+.pattern-khatam {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='none' stroke='%23c8963e' stroke-width='1'%3E%3Crect x='17' y='17' width='22' height='22'/%3E%3Crect x='17' y='17' width='22' height='22' transform='rotate(45 28 28)'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 56px 56px;
+}
+
+/* ─── تذهيب: نصٌّ ذهبيّ، إطارٌ مُذهّب، خيط تقدّم ─── */
+.text-gild {
+  background: linear-gradient(105deg, #a8712c 0%, #e5aa52 45%, #b97f2e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+:root[data-theme="dusk"] .text-gild {
+  background: linear-gradient(105deg, #d9a75c 0%, #f3cf8f 45%, #d99e4a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.gild-frame {
+  border: 1px solid color-mix(in srgb, var(--color-accent) 34%, transparent);
+  box-shadow:
+    inset 0 0 0 3px var(--color-surface),
+    inset 0 0 0 4px color-mix(in srgb, var(--color-accent) 22%, transparent),
+    var(--shadow-1);
+}
+/* خيط اليوم الذهبي — تقدّمك ينسج نفسه خيطاً من ضوء */
+.thread {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--color-surface-2);
+  overflow: hidden;
+}
+.thread > i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--grad-sunrise);
+  box-shadow: 0 0 10px rgba(224, 145, 58, 0.55);
+  transition: width 0.7s var(--ease-soft);
+}
+
+/* ─── قسمات مُزخرفة وبذرة اليوم ─── */
+.quote-seed {
+  font-family: var(--font-quote);
+}
+.ornament-line {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(
+    to left,
+    transparent,
+    color-mix(in srgb, var(--color-accent) 38%, var(--color-hairline))
+  );
+}
+.ornament-line.rev {
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--color-accent) 38%, var(--color-hairline))
+  );
+}
+
+/* ─── حركات السماء ─── */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 0.95; transform: scale(1); }
+}
+.tw { animation: twinkle 3.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+
+@keyframes sun-breathe {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.12); }
+}
+.sun-glow { animation: sun-breathe 7s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+
+@keyframes ring-glint {
+  0% { opacity: 0; }
+  40% { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+
+/* شطبٌ لطيف يُرسم على عنوان العادة المكتملة */
+.done-title {
+  position: relative;
+}
+.done-title::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 52%;
+  height: 1.5px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.4;
+  transform-origin: right center;
+  animation: strike-draw 0.45s var(--ease-soft) both;
+}
+@keyframes strike-draw {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
 /* شريط تمرير رفيع دافئ */

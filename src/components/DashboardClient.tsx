@@ -75,11 +75,11 @@ export default function DashboardClient({
 
         {/* الترويسة */}
         <div className="mt-3 flex items-baseline justify-between gap-3">
-          <h1 className="font-[family-name:var(--font-display)] text-[24px] font-bold leading-tight text-[--color-ink]">
+          <h1 className="font-[family-name:var(--font-display)] text-2xl font-bold leading-tight text-[--color-ink]">
             {greeting}
             {userName ? `، ${userName}` : ""}
           </h1>
-          <span className="shrink-0 text-[12px] font-medium text-[--color-faint]">{dateLabel}</span>
+          <span className="shrink-0 text-xs font-medium text-[--color-faint]">{dateLabel}</span>
         </div>
 
         {/* هيرو «زهرة اليوم» */}
@@ -87,7 +87,7 @@ export default function DashboardClient({
 
         {/* بذرةُ اليوم — داخل قُلادةٍ لطيفة بتباينٍ أوضح (بلا قصّ). */}
         <p className="mt-2.5 text-center">
-          <span className="inline-block rounded-full bg-[--color-surface-2] px-3 py-1 text-[13px] italic text-[--color-muted]">
+          <span className="inline-block rounded-full bg-[--color-surface-2] px-3 py-1 text-sm italic text-[--color-muted]">
             {seed}
           </span>
         </p>
@@ -99,16 +99,16 @@ export default function DashboardClient({
             style={{ background: "var(--color-accent-soft)" }}
           >
             <Icon name="leaf" size={17} className="mt-0.5 shrink-0 text-[--color-accent-ink]" />
-            <p className="text-[13px] leading-relaxed text-[--color-accent-ink]">{recovery}</p>
+            <p className="text-sm leading-relaxed text-[--color-accent-ink]">{recovery}</p>
           </div>
         )}
 
         {/* قسم العادات */}
         <div className="mb-2.5 mt-5 flex items-center justify-between">
-          <h2 className="font-[family-name:var(--font-display)] text-[16px] font-bold text-[--color-ink]">
+          <h2 className="font-[family-name:var(--font-display)] text-base font-bold text-[--color-ink]">
             عاداتك اليوم
           </h2>
-          <span className="tabular text-[12.5px] font-semibold text-[--color-muted]">
+          <span className="tabular text-xs font-semibold text-[--color-muted]">
             {ar(doneCount)} / {ar(dueCount)}
           </span>
         </div>
@@ -118,8 +118,8 @@ export default function DashboardClient({
           {view.length === 0 && (
             <div className="mb-1 flex flex-col items-center gap-3 rounded-[--radius-card] border border-dashed border-[--color-hairline] px-6 py-9 text-center">
               <FlowerMark size={56} />
-              <p className="text-[15px] font-semibold text-[--color-ink]">ابدأ حديقتك اليوم</p>
-              <p className="max-w-[16rem] text-[13px] leading-relaxed text-[--color-muted]">
+              <p className="text-base font-semibold text-[--color-ink]">ابدأ حديقتك اليوم</p>
+              <p className="max-w-[16rem] text-sm leading-relaxed text-[--color-muted]">
                 أضِف أوّل عادةٍ صغيرة — سطرٌ واحد يكفي، وسنحوّله إلى خطواتٍ لطيفة.
               </p>
             </div>
@@ -136,7 +136,7 @@ export default function DashboardClient({
           </div>
 
           {doneList.length > 0 && (
-            <div className="my-1 flex items-center gap-3 px-1 text-[12px] font-semibold text-[--color-faint]">
+            <div className="my-1 flex items-center gap-3 px-1 text-xs font-semibold text-[--color-faint]">
               <span className="h-px flex-1 bg-[--color-hairline-soft]" />
               مكتمل اليوم
               <span className="h-px flex-1 bg-[--color-hairline-soft]" />

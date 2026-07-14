@@ -74,7 +74,7 @@ export default function ReviewStep({
                 <h3 className="truncate font-semibold text-[--color-ink]">{h.title}</h3>
                 {h.apiRefined && (
                   <span
-                    className="pill inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-semibold"
+                    className="pill inline-flex items-center gap-1 px-2 py-0.5 text-xs font-semibold"
                     style={{ background: "var(--color-accent-soft)", color: "var(--color-accent-ink)" }}
                   >
                     <Icon name="spark" size={10} strokeWidth={2} />
@@ -86,7 +86,7 @@ export default function ReviewStep({
                 <p className="mt-0.5 text-xs" style={{ color: accentInkOf(h.colorKey) }}>{h.identity}</p>
               )}
               {h.why && (
-                <p className="mt-0.5 text-[11px] italic text-[--color-faint]">{h.why}</p>
+                <p className="mt-0.5 text-xs italic text-[--color-faint]">{h.why}</p>
               )}
               <p className="tabular mt-1 flex items-center gap-1.5 text-xs text-[--color-faint]">
                 <Icon name="clock" size={13} className="text-[--color-faint]" />

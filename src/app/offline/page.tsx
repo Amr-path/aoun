@@ -11,7 +11,7 @@ export default function OfflinePage() {
         <span className="inline-block h-2 w-2 rounded-full bg-[--color-accent]" />
         دون اتصال
       </span>
-      <h1 className="font-[family-name:var(--font-display)] text-2xl font-black text-[--color-ink]">
+      <h1 className="font-[family-name:var(--font-display)] text-3xl font-black text-[--color-ink]">
         لا اتصال الآن
       </h1>
       <p className="mt-2 leading-relaxed text-[--color-muted]">

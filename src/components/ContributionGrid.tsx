@@ -35,7 +35,7 @@ export default function ContributionGrid({ days }: { days: DayCell[] }) {
       </div>
 
       {/* المفتاح */}
-      <div className="flex items-center gap-1.5 text-[11px] text-[--color-faint]">
+      <div className="flex items-center gap-1.5 text-xs text-[--color-faint]">
         <span>أقل</span>
         {LEVELS.map((c, i) => (
           <span

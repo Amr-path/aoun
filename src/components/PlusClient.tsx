@@ -53,26 +53,26 @@ export default function PlusClient() {
       {/* الهيرو */}
       <div className="mt-4 flex flex-col items-center text-center">
         <FlowerMark size={72} className="mb-3" />
-        <h1 className="flex items-center gap-2 font-[family-name:var(--font-display)] text-[30px] font-extrabold text-[--color-ink]">
+        <h1 className="flex items-center gap-2 font-[family-name:var(--font-display)] text-3xl font-extrabold text-[--color-ink]">
           عون
           <span
-            className="rounded-full px-3 py-1 text-[15px] font-bold text-[--color-cream]"
+            className="rounded-full px-3 py-1 text-base font-bold text-[--color-cream]"
             style={{ background: "var(--grad-cta)" }}
           >
             بلس
           </span>
         </h1>
-        <p className="mt-3 max-w-[320px] text-[14.5px] leading-relaxed text-[--color-muted]">
+        <p className="mt-3 max-w-[320px] text-sm leading-relaxed text-[--color-muted]">
           النواةُ السبع تبقى مجانيّةً دائماً. «بلس» يفتح العُمق والجمال والذكاء — لمن أراد أن يزهرَ عامُه كاملاً.
         </p>
       </div>
 
       {/* المجاني */}
       <section className="card mt-7 p-5">
-        <h2 className="mb-3 text-[15px] font-bold text-[--color-ink]">المجاني يكفيك للبدء</h2>
+        <h2 className="mb-3 text-base font-bold text-[--color-ink]">المجاني يكفيك للبدء</h2>
         <ul className="flex flex-col gap-2.5">
           {FREE.map((f) => (
-            <li key={f} className="flex items-center gap-2.5 text-[13.5px] text-[--color-muted]">
+            <li key={f} className="flex items-center gap-2.5 text-sm text-[--color-muted]">
               <Icon name="check" size={15} className="shrink-0 text-[--color-faint]" />
               {f}
             </li>
@@ -85,13 +85,13 @@ export default function PlusClient() {
         className="mt-4 rounded-[--radius-card] border p-5"
         style={{ borderColor: "var(--color-accent)", background: "var(--color-accent-soft)" }}
       >
-        <h2 className="mb-3 flex items-center gap-2 text-[15px] font-bold text-[--color-accent-ink]">
+        <h2 className="mb-3 flex items-center gap-2 text-base font-bold text-[--color-accent-ink]">
           <Icon name="spark" size={17} />
           «عون بلس» يضيف
         </h2>
         <ul className="flex flex-col gap-2.5">
           {PLUS.map((f) => (
-            <li key={f} className="flex items-start gap-2.5 text-[13.5px] font-medium text-[--color-accent-ink]">
+            <li key={f} className="flex items-start gap-2.5 text-sm font-medium text-[--color-accent-ink]">
               <Icon name="check" size={15} className="mt-0.5 shrink-0" />
               {f}
             </li>
@@ -124,7 +124,7 @@ export default function PlusClient() {
       <button
         type="button"
         onClick={() => setNote(true)}
-        className="press mt-4 flex w-full items-center justify-center gap-2 rounded-full py-3.5 text-center text-[15.5px] font-bold text-[--color-cream]"
+        className="press mt-4 flex w-full items-center justify-center gap-2 rounded-full py-3.5 text-center text-base font-bold text-[--color-cream]"
         style={{
           background: "var(--grad-cta)",
           boxShadow: "0 10px 22px -8px rgba(200,122,40,.5), inset 0 1px 0 rgba(255,255,255,.35)",
@@ -135,13 +135,13 @@ export default function PlusClient() {
       </button>
 
       {note && (
-        <p className="mt-3 flex items-center justify-center gap-2 text-center text-[13px] text-[--color-muted]">
+        <p className="mt-3 flex items-center justify-center gap-2 text-center text-sm text-[--color-muted]">
           <Icon name="check" size={15} className="text-[--color-success-ink]" />
           الدفع لم يُفعّل بعد. استمتع بعون مجّانًا الآن، وسنعلن عن «بلس» قريبًا عبر وسائل محليّة (مدى / STC Pay / Apple Pay).
         </p>
       )}
 
-      <p className="mt-5 text-center text-[12px] leading-relaxed text-[--color-faint]">
+      <p className="mt-5 text-center text-xs leading-relaxed text-[--color-faint]">
         يمكنك الاستمتاع بعون مجاناً بلا حدودٍ زمنيّة. الترقية اختياريّة لدعم التطوير وفتح المزايا الإضافية.
       </p>
     </main>
@@ -177,18 +177,18 @@ function PlanCard({
     >
       {badge && (
         <span
-          className="absolute -top-2.5 rounded-full px-2.5 py-0.5 text-[10.5px] font-bold text-[--color-accent-ink]"
+          className="absolute -top-2.5 rounded-full px-2.5 py-0.5 text-xs font-bold text-[--color-accent-ink]"
           style={{ background: "var(--color-accent-soft)", border: "1px solid var(--color-accent)" }}
         >
           {badge}
         </span>
       )}
-      <span className="mt-1 text-[13px] font-bold text-[--color-ink]">{title}</span>
-      <span className="score mt-1.5 font-[family-name:var(--font-display)] text-[26px] font-extrabold text-[--color-ink]">
+      <span className="mt-1 text-sm font-bold text-[--color-ink]">{title}</span>
+      <span className="score mt-1.5 font-[family-name:var(--font-display)] text-2xl font-extrabold text-[--color-ink]">
         {price}
       </span>
-      <span className="text-[11.5px] text-[--color-muted]">{unit}</span>
-      <span className="mt-2 text-[11px] text-[--color-faint]">{hint}</span>
+      <span className="text-xs text-[--color-muted]">{unit}</span>
+      <span className="mt-2 text-xs text-[--color-faint]">{hint}</span>
     </button>
   );
 }

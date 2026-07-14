@@ -70,7 +70,7 @@ export default function GardenGrid({ days }: { days: DayCell[] }) {
           {nodes}
         </svg>
       </div>
-      <div className="flex items-center gap-2 text-[11px] text-[--color-faint]">
+      <div className="flex items-center gap-2 text-xs text-[--color-faint]">
         <span>أقل</span>
         {[0, 1, 2, 3, 4].map((l) => (
           <svg key={l} width={14} height={14} viewBox="0 0 14 14">

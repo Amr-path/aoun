@@ -150,13 +150,13 @@ export default function AddHabit() {
                         {h.title}
                       </span>
                       {meta && (
-                        <span className="pill bg-[--color-surface-2] px-2 py-0.5 text-[10px] text-[--color-muted]">
+                        <span className="pill bg-[--color-surface-2] px-2 py-0.5 text-xs text-[--color-muted]">
                           {meta.category}
                         </span>
                       )}
                     </span>
                     {meta && (
-                      <span className="block truncate text-[11px] text-[--color-faint]">
+                      <span className="block truncate text-xs text-[--color-faint]">
                         {meta.why}
                       </span>
                     )}

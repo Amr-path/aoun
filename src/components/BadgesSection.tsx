@@ -27,14 +27,14 @@ export default function BadgesSection({ stats }: { stats: BadgeStats }) {
               {b.icon}
             </div>
             <span
-              className="text-[11px] font-semibold"
+              className="text-xs font-semibold"
               style={{
                 color: earned ? "var(--color-accent-ink)" : "var(--color-faint)",
               }}
             >
               {b.label}
             </span>
-            <span className="text-[10px] leading-tight text-[--color-faint]">{b.desc}</span>
+            <span className="text-xs leading-tight text-[--color-faint]">{b.desc}</span>
           </div>
         );
       })}

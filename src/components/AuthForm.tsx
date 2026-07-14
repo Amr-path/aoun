@@ -57,7 +57,7 @@ export default function AuthForm() {
     <div className="w-full max-w-sm">
       <div className="mb-8 flex flex-col items-center text-center">
         <FlowerMark size={64} className="mb-4" />
-        <h1 className="font-[family-name:var(--font-display)] text-[26px] font-extrabold text-[--color-ink]">
+        <h1 className="font-[family-name:var(--font-display)] text-3xl font-extrabold text-[--color-ink]">
           {isRegister ? "أنشئ حسابك" : "أهلاً بعودتك"}
         </h1>
         <p className="mt-1.5 text-sm text-[--color-muted]">

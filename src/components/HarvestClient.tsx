@@ -61,7 +61,7 @@ export default function HarvestClient({
   return (
     <main className="mx-auto flex w-full max-w-md flex-col items-center px-5 pb-24 pt-6">
       <div className="mb-6 flex w-full items-center justify-between">
-        <h1 className="font-[family-name:var(--font-display)] text-2xl font-black text-[--color-ink]">
+        <h1 className="font-[family-name:var(--font-display)] text-3xl font-black text-[--color-ink]">
           حصادي
         </h1>
         <Link

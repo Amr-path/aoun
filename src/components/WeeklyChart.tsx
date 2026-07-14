@@ -18,7 +18,7 @@ export default function WeeklyChart({ weeks }: { weeks: WeekPoint[] }) {
               title={`${w.score}`}
             />
           </div>
-          <span className="tabular text-[10px] text-[--color-faint]">{ar(w.score)}</span>
+          <span className="tabular text-xs text-[--color-faint]">{ar(w.score)}</span>
         </div>
       ))}
     </div>

@@ -60,7 +60,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
       <div className="flex items-center gap-2.5">
         {/* رمز العادة (اختيار المستخدم) */}
         <span
-          className="icon-chip h-10 w-10 shrink-0 text-[19px]"
+          className="icon-chip h-10 w-10 shrink-0 text-xl"
           style={{ background: done ? "var(--color-surface)" : soft }}
         >
           {habit.emoji}
@@ -68,8 +68,8 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
 
         {/* العنوان والوصف */}
         <div className="min-w-0 flex-1">
-          <h3 className="truncate text-[15px] font-semibold text-[--color-ink]">{habit.title}</h3>
-          <div className="mt-0.5 flex items-center gap-1.5 text-[11.5px] text-[--color-muted]">
+          <h3 className="truncate text-base font-semibold text-[--color-ink]">{habit.title}</h3>
+          <div className="mt-0.5 flex items-center gap-1.5 text-xs text-[--color-muted]">
             <span className="tabular inline-flex items-center gap-1">
               <Icon name="clock" size={12} className="text-[--color-faint]" />
               {ar(habit.scheduledAt)}
@@ -78,7 +78,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
             <span>{habit.frequency === "daily" ? "يومي" : "أيام محدّدة"}</span>
             {habit.streak > 0 && (
               <span
-                className="streak inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold"
+                className="streak inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-bold"
                 style={{ background: soft, color: ink }}
                 title={`مداومة ${streakStage(habit.streak).label}`}
               >
@@ -139,7 +139,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
           {habit.microSteps.map((step, i) => (
             <span
               key={i}
-              className="pill bg-[--color-surface-2] px-2.5 py-1 text-[11px] text-[--color-muted]"
+              className="pill bg-[--color-surface-2] px-2.5 py-1 text-xs text-[--color-muted]"
             >
               {step}
             </span>
@@ -150,7 +150,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
       <button
         type="button"
         onClick={() => setEditing((v) => !v)}
-        className="mt-2 inline-flex items-center gap-1 text-[12px] font-medium text-[--color-faint] transition-colors hover:text-[--color-muted]"
+        className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-[--color-faint] transition-colors hover:text-[--color-muted]"
       >
         <Icon name={editing ? "close" : "edit"} size={13} />
         {editing ? "إغلاق" : "تعديل"}

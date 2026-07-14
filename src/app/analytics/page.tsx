@@ -37,7 +37,7 @@ function Stat({
       >
         <Icon name={icon} size={16} />
       </span>
-      <p className="text-[13px] text-[--color-muted]">{label}</p>
+      <p className="text-sm text-[--color-muted]">{label}</p>
       <p className="score tabular mt-1 font-[family-name:var(--font-display)] text-3xl font-black text-[--color-ink]">
         {ar(value)}
       </p>

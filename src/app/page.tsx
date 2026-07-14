@@ -30,10 +30,10 @@ function ProductPeek() {
       }}
     >
       <div className="mb-3 flex items-center justify-between">
-        <span className="font-[family-name:var(--font-display)] text-[15px] font-extrabold text-[--color-ink]">
+        <span className="font-[family-name:var(--font-display)] text-base font-extrabold text-[--color-ink]">
           صباح الخير
         </span>
-        <span className="text-[10px] text-[--color-faint]">الخميس ٢٤ يوليو</span>
+        <span className="text-xs text-[--color-faint]">الخميس ٢٤ يوليو</span>
       </div>
 
       <div
@@ -56,13 +56,13 @@ function ProductPeek() {
               transform="rotate(-90 28 28)"
             />
           </svg>
-          <b className="score absolute font-[family-name:var(--font-display)] text-[14px] font-extrabold text-[--color-ink]">
+          <b className="score absolute font-[family-name:var(--font-display)] text-sm font-extrabold text-[--color-ink]">
             ٣/٧
           </b>
         </div>
         <div className="min-w-0 text-right">
-          <div className="text-[12px] font-bold text-[--color-ink]">أنت في الطريق</div>
-          <div className="mt-0.5 text-[10.5px] text-[--color-muted]">بقيت أربع عادات على اكتماله</div>
+          <div className="text-xs font-bold text-[--color-ink]">أنت في الطريق</div>
+          <div className="mt-0.5 text-xs text-[--color-muted]">بقيت أربع عادات على اكتماله</div>
         </div>
       </div>
 
@@ -75,10 +75,10 @@ function ProductPeek() {
             borderColor: r.done ? "transparent" : "var(--color-hairline-soft)",
           }}
         >
-          <span className="grid h-[30px] w-[30px] shrink-0 place-items-center rounded-[10px] text-[14px]" style={{ background: r.soft }}>
+          <span className="grid h-[30px] w-[30px] shrink-0 place-items-center rounded-[10px] text-sm" style={{ background: r.soft }}>
             {r.emoji}
           </span>
-          <span className="flex-1 text-[11.5px] font-bold text-[--color-ink]">{r.name}</span>
+          <span className="flex-1 text-xs font-bold text-[--color-ink]">{r.name}</span>
           <span
             className="grid h-[19px] w-[19px] shrink-0 place-items-center rounded-full"
             style={{
@@ -105,20 +105,20 @@ export default function Home() {
 
       <FlowerMark size={72} className="mb-3" />
 
-      <h1 className="font-[family-name:var(--font-display)] text-[29px] font-extrabold leading-[1.2] text-[--color-ink]">
+      <h1 className="font-[family-name:var(--font-display)] text-4xl font-extrabold leading-[1.2] text-[--color-ink]">
         رفيقُك
         <br />
         <span className="text-[--color-accent-ink]">للاستمرار.</span>
       </h1>
 
-      <p className="mt-3 max-w-[288px] text-[15px] leading-relaxed text-[--color-muted]">
+      <p className="mt-3 max-w-[288px] text-base leading-relaxed text-[--color-muted]">
         سبعُ عاداتٍ فقط، تكفيك عامَك كلَّه. لا قوائمَ مرهقة، ولا تشتّت — بل ما يبني استمرارَك، بهدوء.
       </p>
 
       <div className="mt-5 flex items-center gap-2.5">
         <Link
           href="/login"
-          className="press rounded-full px-6 py-3 text-[15px] font-bold text-[--color-cream]"
+          className="press rounded-full px-6 py-3 text-base font-bold text-[--color-cream]"
           style={{
             background: "var(--grad-cta)",
             boxShadow: "0 10px 22px -8px rgba(200,122,40,.5), inset 0 1px 0 rgba(255,255,255,.35)",
@@ -128,13 +128,13 @@ export default function Home() {
         </Link>
         <a
           href="#why"
-          className="press rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-6 py-3 text-[15px] font-bold text-[--color-ink] shadow-[var(--shadow-1)]"
+          className="press rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-6 py-3 text-base font-bold text-[--color-ink] shadow-[var(--shadow-1)]"
         >
           تعرّف أكثر
         </a>
       </div>
 
-      <p className="mt-3 text-[13px] text-[--color-muted]">
+      <p className="mt-3 text-sm text-[--color-muted]">
         لديك حساب؟{" "}
         <Link href="/login" className="font-semibold text-[--color-accent-ink] hover:underline">
           سجّل الدخول
@@ -145,10 +145,10 @@ export default function Home() {
 
       {/* لماذا سبعٌ فقط — الفلسفة */}
       <section id="why" className="mt-20 w-full max-w-md scroll-mt-8">
-        <h2 className="font-[family-name:var(--font-display)] text-[22px] font-extrabold text-[--color-ink]">
+        <h2 className="font-[family-name:var(--font-display)] text-2xl font-extrabold text-[--color-ink]">
           لماذا سبعٌ فقط؟
         </h2>
-        <p className="mx-auto mt-3 max-w-[340px] text-[14px] leading-relaxed text-[--color-muted]">
+        <p className="mx-auto mt-3 max-w-[340px] text-sm leading-relaxed text-[--color-muted]">
           لأن الاستمرار لا يولد من القوائم الطويلة، بل من قِلّةٍ تُتقنها. سبعُ عاداتٍ
           تغطّي أركان يومك دون أن تُثقلك — فتبقى معك عامًا كاملًا.
         </p>
@@ -158,8 +158,8 @@ export default function Home() {
               <span className="icon-chip mb-2.5 grid h-9 w-9 bg-[--color-accent-soft] text-[--color-accent-ink]">
                 <Icon name={p.icon} size={18} />
               </span>
-              <h3 className="text-[14px] font-bold text-[--color-ink]">{p.title}</h3>
-              <p className="mt-1 text-[12.5px] leading-relaxed text-[--color-muted]">{p.body}</p>
+              <h3 className="text-sm font-bold text-[--color-ink]">{p.title}</h3>
+              <p className="mt-1 text-xs leading-relaxed text-[--color-muted]">{p.body}</p>
             </div>
           ))}
         </div>
@@ -169,15 +169,15 @@ export default function Home() {
       <section className="mt-16 w-full max-w-md">
         <div className="card flex flex-col items-center p-8 text-center">
           <FlowerMark size={52} className="mb-3" />
-          <h2 className="font-[family-name:var(--font-display)] text-[20px] font-extrabold text-[--color-ink]">
+          <h2 className="font-[family-name:var(--font-display)] text-xl font-extrabold text-[--color-ink]">
             ابدأ عامك بهدوء
           </h2>
-          <p className="mt-2 max-w-[300px] text-[13.5px] leading-relaxed text-[--color-muted]">
+          <p className="mt-2 max-w-[300px] text-sm leading-relaxed text-[--color-muted]">
             سبعُ عاداتٍ، حديقةٌ تنمو معك، ورفيقٌ لا يزحمك. مجّانًا بلا حدٍّ زمنيّ.
           </p>
           <Link
             href="/login"
-            className="press mt-5 rounded-full px-7 py-3 text-[15px] font-bold text-[--color-cream]"
+            className="press mt-5 rounded-full px-7 py-3 text-base font-bold text-[--color-cream]"
             style={{
               background: "var(--grad-cta)",
               boxShadow: "0 10px 22px -8px rgba(200,122,40,.5), inset 0 1px 0 rgba(255,255,255,.35)",
@@ -188,7 +188,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="mb-4 mt-12 pb-8 text-center text-[12px] text-[--color-faint]">
+      <footer className="mb-4 mt-12 pb-8 text-center text-xs text-[--color-faint]">
         عون — رفيقُك للاستمرار · صُنع بعناية
       </footer>
     </main>

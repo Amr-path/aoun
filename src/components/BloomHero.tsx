@@ -65,7 +65,7 @@ export default function BloomHero({ habits, streak, level }: Props) {
                   d={PETAL_D}
                   style={{
                     fill: dn ? accent : soft,
-                    stroke: dn ? "#fffdfa" : accent,
+                    stroke: dn ? "var(--color-surface)" : accent,
                     strokeWidth: dn ? 1.5 : 1.4,
                     strokeOpacity: dn ? 0.9 : 0.45,
                     opacity: dn ? 0.96 : 0.5,
@@ -80,29 +80,29 @@ export default function BloomHero({ habits, streak, level }: Props) {
             );
           })}
           {/* قلبٌ ذهبيّ */}
-          <circle cx="100" cy="100" r="15" fill="#fffdfa" />
+          <circle cx="100" cy="100" r="15" fill="var(--color-surface)" />
           <circle cx="100" cy="100" r="9.5" fill="var(--color-accent)" />
         </svg>
       </div>
 
       {/* النص + الرقاقات */}
       <div className="min-w-0 flex-1">
-        <p className="font-[family-name:var(--font-display)] text-[14.5px] font-bold leading-snug text-[--color-ink]">
+        <h2 className="font-[family-name:var(--font-display)] text-sm font-bold leading-snug text-[--color-ink]">
           {title}
-        </p>
-        <p className="mt-0.5 text-[12.5px] leading-relaxed text-[--color-muted]">{sub}</p>
+        </h2>
+        <p className="mt-0.5 text-xs leading-relaxed text-[--color-muted]">{sub}</p>
         <div className="mt-2 flex flex-wrap gap-1.5">
-          <span className="inline-flex items-center gap-1 rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-2.5 py-1 text-[12px] font-semibold text-[--color-muted]">
+          <span className="inline-flex items-center gap-1 rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-2.5 py-1 text-xs font-semibold text-[--color-muted]">
             <span className="score text-[--color-ink]">
               {ar(done)} / {ar(due)}
             </span>
             اليوم
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-2.5 py-1 text-[12px] font-semibold text-[--color-muted]">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-2.5 py-1 text-xs font-semibold text-[--color-muted]">
             <Icon name="leaf" size={13} className="text-[--color-sage]" />
             <span className="streak text-[--color-ink]">{ar(streak)}</span> مداومة
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-2.5 py-1 text-[12px] font-semibold text-[--color-muted]">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[--color-hairline-soft] bg-[--color-surface] px-2.5 py-1 text-xs font-semibold text-[--color-muted]">
             <Icon name="spark" size={13} className="text-[--color-accent]" />
             مستوى <span className="tabular text-[--color-ink]">{ar(level)}</span>
           </span>

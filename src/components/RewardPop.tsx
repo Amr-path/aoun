@@ -66,7 +66,7 @@ export default function RewardPop() {
           {reward.milestone ? "✦" : `+${ar(reward.xp)}`}
         </span>
         <div className="flex flex-col">
-          <span className="text-[11px] text-[--color-faint]">
+          <span className="text-xs text-[--color-faint]">
             {reward.milestone ? "محطّة مداومة" : "نقطة خبرة"}
           </span>
           <span className="text-sm font-medium text-[--color-ink]">{reward.quote}</span>

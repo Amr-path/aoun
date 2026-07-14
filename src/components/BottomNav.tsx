@@ -15,7 +15,7 @@ function NavLink({ it, active }: { it: (typeof ITEMS)[number]; active: boolean }
     <Link
       href={it.href}
       aria-current={active ? "page" : undefined}
-      className={`press relative flex flex-col items-center gap-1 rounded-[--radius-md] px-4 py-2 text-[11px] font-semibold transition-colors ${
+      className={`press relative flex flex-col items-center gap-1 rounded-[--radius-md] px-4 py-2 text-xs font-semibold transition-colors ${
         active ? "bg-[--color-accent-soft] text-[--color-accent-ink]" : "text-[--color-faint]"
       }`}
     >

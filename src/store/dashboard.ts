@@ -5,6 +5,7 @@ import { create } from "zustand";
 import type { DashboardData, OnboardingHabitInput } from "@/lib/habits";
 import type { HabitWithStatus, UserScore, Frequency, Weekday, ColorKey } from "@/lib/types";
 import { computeDailyScore, xpForCompletion } from "@/lib/scoring";
+import { useToast } from "./toast";
 import {
   COMPLETION_QUOTES,
   isMilestone,
@@ -84,6 +85,7 @@ export const useDashboard = create<DashboardState>((set, get) => {
       const data = (await res.json()) as DashboardData;
       set({ habits: data.habits, score: data.score });
     } catch {
+      useToast.getState().show("تعذّر الحفظ — تراجعنا عن التغيير", { kind: "error" });
       set({ habits, score });
     }
   };
@@ -163,6 +165,7 @@ export const useDashboard = create<DashboardState>((set, get) => {
       set({ habits: data.habits, score: data.score });
     } catch {
       // تراجع عند الفشل.
+      useToast.getState().show("تعذّر التحديث — تراجعنا", { kind: "error" });
       set({ habits, score });
     }
   },
@@ -182,11 +185,15 @@ export const useDashboard = create<DashboardState>((set, get) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(input),
       });
-      if (!res.ok) return false;
+      if (!res.ok) {
+        useToast.getState().show("تعذّر إضافة العادة", { kind: "error" });
+        return false;
+      }
       const data = (await res.json()) as DashboardData;
       set({ habits: data.habits, score: data.score });
       return true;
     } catch {
+      useToast.getState().show("تعذّر الاتصال", { kind: "error" });
       return false;
     }
   },
@@ -202,6 +209,7 @@ export const useDashboard = create<DashboardState>((set, get) => {
       const data = (await res.json()) as DashboardData;
       set({ habits: data.habits, score: data.score });
     } catch {
+      useToast.getState().show("تعذّر الحفظ — تراجعنا عن التغيير", { kind: "error" });
       set({ habits, score });
     }
   },

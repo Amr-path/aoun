@@ -6,6 +6,7 @@ import * as htmlToImage from "html-to-image";
 import { ar } from "@/lib/numerals";
 import { LOGO_PETAL } from "@/lib/marks";
 import Icon from "@/components/ui/Icon";
+import Spinner from "@/components/ui/Spinner";
 
 const PETAL = "M60 52 C 47 42 47 24 60 11 C 73 24 73 42 60 52 Z";
 // حديقةُ العادات السبع — بلوحةٍ ثابتة تُطابق الهوية الجديدة (تصدير PNG متّسق)
@@ -181,7 +182,14 @@ export default function HarvestClient({
         className="pill press mt-6 w-full py-3.5 text-center font-bold disabled:opacity-60"
         style={{ background: "var(--color-ink)", color: "var(--color-cream)" }}
       >
-        {busy ? "…نُجهّز الصورة" : "تنزيل صورة الحصاد"}
+        {busy ? (
+          <span className="inline-flex items-center justify-center gap-2">
+            <Spinner size={16} />
+            نُجهّز الصورة
+          </span>
+        ) : (
+          "تنزيل صورة الحصاد"
+        )}
       </button>
     </main>
   );

@@ -6,6 +6,7 @@ import type { OnboardingHabitInput } from "@/lib/habits";
 import { accentOf, accentSoftOf, accentInkOf } from "@/lib/colors";
 import { ar } from "@/lib/numerals";
 import Icon from "@/components/ui/Icon";
+import Spinner from "@/components/ui/Spinner";
 
 export interface DraftHabit extends OnboardingHabitInput {
   uid: string;
@@ -147,7 +148,9 @@ export default function ReviewStep({
               style={{ background: "var(--color-accent-soft)", color: "var(--color-accent-ink)" }}
             >
               {adding ? (
-                "…يُنقّح"
+                <span className="inline-flex items-center justify-center">
+                  <Spinner size={16} />
+                </span>
               ) : (
                 <>
                   <Icon name="plus" size={16} strokeWidth={2.2} />
@@ -169,7 +172,9 @@ export default function ReviewStep({
         className="press mt-8 flex items-center justify-center gap-2 rounded-[--radius-pill] bg-[--color-ink] py-4 text-center font-bold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-50"
       >
         {finishing ? (
-          "…نجهّز لوحتك"
+          <span className="inline-flex items-center justify-center">
+            <Spinner />
+          </span>
         ) : (
           <>
             <Icon name="leaf" size={18} className="text-[--color-cream]" />

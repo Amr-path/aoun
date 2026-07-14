@@ -7,6 +7,7 @@ import { COLOR_KEYS, type ColorKey } from "@/lib/types";
 import { accentOf, accentSoftOf } from "@/lib/colors";
 import type { OnboardingHabitInput } from "@/lib/habits";
 import Icon from "@/components/ui/Icon";
+import Spinner from "@/components/ui/Spinner";
 
 export default function AddHabit() {
   const addHabit = useDashboard((s) => s.addHabit);
@@ -261,7 +262,14 @@ export default function AddHabit() {
               className="pill press flex-1 py-2.5 font-semibold text-white shadow-[var(--glow-accent)] disabled:opacity-50 disabled:shadow-none"
               style={{ background: "var(--grad-sunrise)" }}
             >
-              {busy ? "…يُضاف" : "إضافة"}
+              {busy ? (
+                <span className="inline-flex items-center justify-center gap-2">
+                  <Spinner size={16} />
+                  يُضاف
+                </span>
+              ) : (
+                "إضافة"
+              )}
             </button>
             <button
               type="button"

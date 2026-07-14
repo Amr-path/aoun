@@ -5,6 +5,7 @@ import { prisma } from "./db";
 import { todayKey, isDueOn } from "./date";
 import { getUserPushSubs, sendPushToSubs } from "./push";
 import { MISSED_NUDGE } from "./messages";
+import { toMinutes, inWindow } from "./timewindow";
 import type { Weekday, Frequency } from "./types";
 
 /** دقائق منذ منتصف الليل في منطقةٍ زمنية. */
@@ -16,19 +17,6 @@ function nowMinutes(tz: string): number {
     hour12: false,
   }).format(new Date());
   return toMinutes(s);
-}
-
-function toMinutes(hhmm: string): number {
-  const [h, m] = hhmm.split(":").map(Number);
-  return (h || 0) * 60 + (m || 0);
-}
-
-/** هل «الآن» ضمن نافذة [target, target+window) مع الالتفاف حول منتصف الليل؟ */
-function inWindow(now: number, target: number, windowMin: number): boolean {
-  const t = ((target % 1440) + 1440) % 1440;
-  let diff = now - t;
-  if (diff < 0) diff += 1440;
-  return diff < windowMin;
 }
 
 function safeWeekdays(raw: string): Weekday[] {

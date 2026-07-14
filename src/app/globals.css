@@ -270,7 +270,7 @@ h1, h2, h3 {
       background-color var(--dur-med) var(--ease-out);
   }
   .lift:hover {
-    transform: translateY(-2px) rotate(-0.3deg);
+    transform: translateY(-2px);
     box-shadow: var(--shadow-top), var(--shadow-2);
   }
   /* الانسحاق الطيني: الضغط يُغرق العنصر في حافته السفلية */
@@ -325,10 +325,8 @@ h1, h2, h3 {
     backdrop-filter: blur(14px) saturate(1.2);
     -webkit-backdrop-filter: blur(14px) saturate(1.2);
   }
-  /* ملصقات مائلة */
-  .tilt-1 { transform: rotate(-1.5deg); }
-  .tilt-2 { transform: rotate(1.2deg); }
-  .tilt-3 { transform: rotate(-2.5deg); }
+  /* أُلغي الميلان — عناصر مستقيمة هادئة (الأسماء باقية للتوافق) */
+  .tilt-1, .tilt-2, .tilt-3 { transform: none; }
 }
 
 /* ─── لوحات «سماء اليوم» — باستيل طينيّ لكل وقت ─────────────── */
@@ -604,7 +602,7 @@ h1, h2, h3 {
 }
 
 /* صفحة الهبوط: حركات الشعار */
-@keyframes mark-float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-6px) rotate(2deg); } }
+@keyframes mark-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 @keyframes petal-grow { 0% { opacity: 0; transform: scale(0.12); } 100% { opacity: 0.95; transform: scale(1); } }
 @keyframes core-fade { to { opacity: 1; } }
 @keyframes peek-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }

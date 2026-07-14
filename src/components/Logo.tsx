@@ -1,15 +1,15 @@
-// عون — الشعار: زهرةٌ من سبع بتلات. سبع عاداتٍ تتفتّح في دائرةٍ واحدة —
-// المداومة على مدار العام. استعارةٌ أصيلة من الزخرفة العربية (الرَّوزيت/الوردة)
-// والنموّ الطبيعي: كل بتلةٍ عادة، والمركز نواةُ الثبات.
-
-import { LOGO_PETAL as PETAL } from "@/lib/marks";
+// عون — الشعار: وردةٌ سباعية رشيقة (روزيت هندسي) — سبعُ بتلاتٍ نحيلة تلتف
+// حول حلقةِ ثبات. كل بتلةٍ عادة، والفراغ بينها تنفّس؛ هندسةٌ هادئة بلا زخرفة زائدة.
 
 const ANGLES = Array.from({ length: 7 }, (_, i) => (i * 360) / 7);
+
+/* بتلة نحيلة: تبدأ بعيداً عن المركز (فجوة تنفّس) وتستدق نحو الأطراف */
+const PETAL = "M24 17.5 C21.7 13.5 21.7 8 24 4.5 C26.3 8 26.3 13.5 24 17.5 Z";
 
 interface Props {
   size?: number;
   withWordmark?: boolean;
-  /** "badge" = مربّع ساج بزهرةٍ كريمية؛ "mark" = الزهرة وحدها بلون الساج. */
+  /** "badge" = قرصٌ ساج بوردةٍ كريمية؛ "mark" = الوردة وحدها بلون الساج. */
   variant?: "badge" | "mark";
   /** تفتّحٌ متتالٍ للبتلات عند الظهور (للهبوط السينمائي). */
   animated?: boolean;
@@ -18,11 +18,11 @@ interface Props {
 
 function Rosette({
   petal,
-  eye,
+  ring,
   animated,
 }: {
   petal: string;
-  eye: string;
+  ring: string;
   animated?: boolean;
 }) {
   return (
@@ -48,11 +48,11 @@ function Rosette({
             d={PETAL}
             transform={`rotate(${a.toFixed(2)} 24 24)`}
             fill={petal}
-            opacity={0.92}
+            opacity={0.95}
           />
         )
       )}
-      <circle cx="24" cy="24" r="3" fill={eye} />
+      <circle cx="24" cy="24" r="3.4" fill="none" stroke={ring} strokeWidth="1.7" />
     </g>
   );
 }
@@ -67,12 +67,12 @@ export default function Logo({
   const icon =
     variant === "badge" ? (
       <svg width={size} height={size} viewBox="0 0 48 48" aria-hidden>
-        <rect x="0" y="0" width="48" height="48" rx="14" fill="var(--color-sage)" />
-        <Rosette petal="#f7f4ef" eye="#3f6149" animated={animated} />
+        <circle cx="24" cy="24" r="24" fill="var(--color-sage)" />
+        <Rosette petal="#fbf7ee" ring="#fbf7ee" animated={animated} />
       </svg>
     ) : (
       <svg width={size} height={size} viewBox="0 0 48 48" aria-hidden>
-        <Rosette petal="var(--color-sage)" eye="#3f6149" animated={animated} />
+        <Rosette petal="var(--color-sage)" ring="var(--color-sage-ink)" animated={animated} />
       </svg>
     );
 
@@ -82,8 +82,8 @@ export default function Logo({
     <span className={`inline-flex items-center gap-2.5 ${className ?? ""}`}>
       {icon}
       <span
-        className="font-[family-name:var(--font-display)] font-black leading-[1.1] text-[--color-ink]"
-        style={{ fontSize: size * 0.82 }}
+        className="font-[family-name:var(--font-display)] font-bold leading-[1.1] text-[--color-ink]"
+        style={{ fontSize: size * 0.78 }}
       >
         عون
       </span>

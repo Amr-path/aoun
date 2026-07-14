@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Almarai, Baloo_Bhaijaan_2 } from "next/font/google";
+import { Almarai, Alexandria } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { BRAND } from "@/lib/constants";
@@ -14,8 +14,8 @@ const arabic = Almarai({
   display: "swap",
 });
 
-// العناوين: Baloo Bhaijaan 2 — خطٌّ عربيّ مدوّر منفوخ يليق بروح «واحة» الطينية.
-const display = Baloo_Bhaijaan_2({
+// العناوين: Alexandria — خطٌّ عربيّ هندسيّ معاصر: ودودٌ دون طفولية.
+const display = Alexandria({
   variable: "--font-display-arabic",
   subsets: ["arabic"],
   weight: ["500", "600", "700", "800"],

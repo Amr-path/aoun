@@ -11,13 +11,24 @@ export default function AuthForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPw, setShowPw] = useState(false);
   const [err, setErr] = useState("");
+  const [fieldErr, setFieldErr] = useState<{ email?: string; password?: string }>({});
   const [busy, setBusy] = useState(false);
 
   const isRegister = mode === "register";
+  const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // تحقّق حقليّ inline قبل الإرسال.
+    const fe: { email?: string; password?: string } = {};
+    if (!emailOk(email)) fe.email = "أدخل بريداً إلكترونياً صحيحاً";
+    if (!password) fe.password = "كلمة المرور مطلوبة";
+    else if (isRegister && password.length < 8) fe.password = "8 أحرف على الأقل";
+    setFieldErr(fe);
+    if (fe.email || fe.password) return;
+
     setBusy(true);
     setErr("");
     const url = isRegister ? "/api/auth/register" : "/api/auth/login";
@@ -63,24 +74,49 @@ export default function AuthForm() {
             className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-4 py-3 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent]"
           />
         )}
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="البريد الإلكتروني"
-          autoComplete="email"
-          required
-          className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-4 py-3 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent]"
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="كلمة المرور"
-          autoComplete={isRegister ? "new-password" : "current-password"}
-          required
-          className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-4 py-3 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent]"
-        />
+        <div className="flex flex-col gap-1">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setFieldErr((f) => ({ ...f, email: undefined }));
+            }}
+            placeholder="البريد الإلكتروني"
+            autoComplete="email"
+            aria-invalid={!!fieldErr.email}
+            required
+            className="rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-4 py-3 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent] aria-[invalid=true]:border-[--color-danger]"
+          />
+          {fieldErr.email && <p className="text-xs text-[--color-danger-ink]">{fieldErr.email}</p>}
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <div className="relative">
+            <input
+              type={showPw ? "text" : "password"}
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setFieldErr((f) => ({ ...f, password: undefined }));
+              }}
+              placeholder="كلمة المرور"
+              autoComplete={isRegister ? "new-password" : "current-password"}
+              aria-invalid={!!fieldErr.password}
+              required
+              className="w-full rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-4 py-3 pe-16 text-[--color-ink] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent] aria-[invalid=true]:border-[--color-danger]"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPw((v) => !v)}
+              aria-label={showPw ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"}
+              className="absolute inset-y-0 end-3 my-auto h-fit text-xs font-semibold text-[--color-muted] transition-colors hover:text-[--color-ink]"
+            >
+              {showPw ? "إخفاء" : "إظهار"}
+            </button>
+          </div>
+          {fieldErr.password && <p className="text-xs text-[--color-danger-ink]">{fieldErr.password}</p>}
+        </div>
 
         {err && <p className="text-sm text-[--color-danger-ink]">{err}</p>}
 
@@ -89,7 +125,7 @@ export default function AuthForm() {
           disabled={busy}
           className="press mt-2 rounded-full py-3.5 text-center font-bold text-[--color-cream] disabled:opacity-60"
           style={{
-            background: "linear-gradient(180deg,#eba04c,#e0913a 60%,#cf7f2c)",
+            background: "var(--grad-cta)",
             boxShadow: "0 10px 22px -8px rgba(200,122,40,.5), inset 0 1px 0 rgba(255,255,255,.35)",
           }}
         >
@@ -112,6 +148,7 @@ export default function AuthForm() {
           onClick={() => {
             setMode(isRegister ? "login" : "register");
             setErr("");
+            setFieldErr({});
           }}
           className="font-semibold text-[--color-accent-ink] hover:underline"
         >

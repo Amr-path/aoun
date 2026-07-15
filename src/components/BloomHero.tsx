@@ -1,9 +1,10 @@
 "use client";
-// عون — «تلّة الواحة»: مشهدُ حديقةٍ نباتيّ راقٍ يتبدّل مع وقتك (فجر/صباح/ظهيرة/غروب/ليل).
-// لكل عادةٍ نبتةٌ رشيقة على التلّة: برعمٌ مقفَل قبل الإنجاز، يتفتّح زهرةً بلونها
-// بارتدادٍ ناعم لحظةَ الإتمام. ثلاث سلالات من الأزهار تمنح الحديقة تنوّعاً طبيعياً.
+// عون — «تلّة الواحة»: لوحةٌ حيّة تتبدّل سماؤها وأرضُها مع وقتك.
+// الأسلوب: أرضٌ وأوراقٌ ظلّية هادئة بألوانٍ تخصّ كلَّ وقت (لا أخضر فاقعاً تحت سماء ليل)،
+// والأزهار وحدها تحمل ألوان العادات — برعمٌ مقفَل قبل الإنجاز، وتفتُّحٌ ناعم بعده،
+// وفي الليل تتوهّج الأزهار المكتملة كقناديل.
 import { ar } from "@/lib/numerals";
-import { accentOf, accentInkOf } from "@/lib/colors";
+import { accentOf } from "@/lib/colors";
 import Icon from "./ui/Icon";
 
 export type Daypart = "fajr" | "morning" | "noon" | "sunset" | "night";
@@ -21,29 +22,29 @@ interface Props {
   daypart: Daypart;
 }
 
-/* مواضع النبتات على قوس التلّة + طول ساقها (أطول في الوسط) — ثابتة للتطابق بين الخادم والعميل */
+/* مواضع النبتات على قوس التلّة الأمامية + طول الساق (أطول في الوسط) */
 const SPOTS: { x: number; y: number; h: number }[] = [
-  { x: 34, y: 117, h: 15 },
-  { x: 62, y: 110, h: 19 },
-  { x: 88, y: 105, h: 23 },
-  { x: 110, y: 103, h: 26 },
-  { x: 132, y: 105, h: 23 },
-  { x: 158, y: 110, h: 19 },
-  { x: 186, y: 116, h: 15 },
+  { x: 36, y: 108, h: 20 },
+  { x: 64, y: 103, h: 26 },
+  { x: 90, y: 100, h: 31 },
+  { x: 112, y: 99, h: 34 },
+  { x: 136, y: 100, h: 31 },
+  { x: 162, y: 103, h: 26 },
+  { x: 188, y: 107, h: 20 },
 ];
 
-/* شرارات النجوم (رباعية الرؤوس) — مواضع ثابتة */
-const STARS: { x: number; y: number; r: number; d: number }[] = [
-  { x: 22, y: 24, r: 2.6, d: 0 },
-  { x: 52, y: 13, r: 1.8, d: 1.4 },
-  { x: 86, y: 27, r: 2.1, d: 2.3 },
-  { x: 128, y: 13, r: 1.8, d: 0.7 },
-  { x: 162, y: 30, r: 2.3, d: 1.9 },
-  { x: 205, y: 40, r: 1.7, d: 2.8 },
+/* نجوم الليل والفجر — مواضع ثابتة، وميضٌ على بعضها فقط (رفقاً بالأداء) */
+const STARS: { x: number; y: number; r: number; d: number; still?: boolean }[] = [
+  { x: 24, y: 26, r: 2.4, d: 0 },
+  { x: 56, y: 14, r: 1.6, d: 1.4, still: true },
+  { x: 92, y: 30, r: 1.9, d: 2.1 },
+  { x: 132, y: 14, r: 1.6, d: 0.8, still: true },
+  { x: 164, y: 34, r: 2.1, d: 1.7 },
+  { x: 205, y: 44, r: 1.5, d: 2.6, still: true },
 ];
 
 function sparkle(x: number, y: number, r: number): string {
-  const w = r * 0.28;
+  const w = r * 0.3;
   return `M${x} ${y - r} L${x + w} ${y - w} L${x + r} ${y} L${x + w} ${y + w} L${x} ${y + r} L${x - w} ${y + w} L${x - r} ${y} L${x - w} ${y - w} Z`;
 }
 
@@ -54,7 +55,7 @@ function statusText(done: number, due: number, daypart: Daypart) {
       title: "اكتملت حديقتُك",
       sub:
         daypart === "night"
-          ? "كل الأزهار متفتّحة تحت القمر. نَم قريرَ العين."
+          ? "أزهارُك تضيء تحت القمر. نَم قريرَ العين."
           : "يومٌ مكتمل — أزهارُك السبع في أبهى حالها.",
     };
   const left = due - done;
@@ -65,67 +66,47 @@ function statusText(done: number, due: number, daypart: Daypart) {
   };
 }
 
-/* سماء المشهد: شمسٌ بهالة رقيقة نهاراً، هلالٌ وشراراتُ نجومٍ ليلاً، وضبابٌ خفيف */
+/* السماء: شمسٌ بهالتين نهاراً، هلالٌ بهالةٍ ونجومٌ ليلاً */
 function OasisSky({ daypart }: { daypart: Daypart }) {
   const starry = daypart === "night" || daypart === "fajr";
-  const sunX = daypart === "morning" ? 46 : daypart === "sunset" ? 174 : 110;
-  const sunY = daypart === "noon" ? 22 : daypart === "morning" ? 34 : 44;
+  const sunX = daypart === "morning" ? 46 : daypart === "sunset" ? 172 : 110;
+  const sunY = daypart === "noon" ? 24 : daypart === "morning" ? 34 : 46;
   return (
     <g aria-hidden>
       {starry &&
         STARS.map((s, i) => (
           <path
             key={i}
-            className="tw"
-            style={{ animationDelay: `${s.d}s` }}
+            className={s.still ? undefined : "tw"}
+            style={s.still ? undefined : { animationDelay: `${s.d}s` }}
             d={sparkle(s.x, s.y, s.r)}
             fill="currentColor"
-            opacity={daypart === "fajr" ? 0.35 : 0.8}
+            opacity={daypart === "fajr" ? 0.32 : s.still ? 0.5 : 0.85}
           />
         ))}
       {daypart === "night" ? (
-        <path
-          d="M195.5 12.5 A10 10 0 1 0 195.5 31.5 A13 13 0 0 1 195.5 12.5 Z"
-          fill="#f2e9cf"
-          opacity="0.95"
-        />
-      ) : (
-        <g className="sun-glow">
-          <circle cx={sunX} cy={sunY} r="15" fill="#f6c559" opacity="0.28" />
-          <circle cx={sunX} cy={sunY} r="10" fill={daypart === "sunset" ? "#f2a35c" : "#f6c559"} />
-        </g>
-      )}
-      {/* ضبابٌ خفيف بدل الغيوم */}
-      <ellipse className="animate-bob" cx="66" cy="34" rx="22" ry="3.6" fill="#fff" opacity="0.32" />
-      <ellipse
-        className="animate-bob"
-        style={{ animationDelay: "1.8s" }}
-        cx="152"
-        cy="52"
-        rx="16"
-        ry="2.8"
-        fill="#fff"
-        opacity="0.22"
-      />
-      {daypart === "night" && (
-        <>
-          <circle className="tw" cx="72" cy="72" r="1.4" fill="var(--color-amber)" opacity="0.8" />
-          <circle
-            className="tw"
-            style={{ animationDelay: "1.6s" }}
-            cx="148"
-            cy="80"
-            r="1.2"
-            fill="var(--color-amber)"
-            opacity="0.7"
+        <g>
+          <circle cx="189" cy="24" r="22" fill="#f2e9cf" opacity="0.05" />
+          <circle cx="189" cy="24" r="14" fill="#f2e9cf" opacity="0.09" />
+          <path
+            d="M195.5 14.5 A10 10 0 1 0 195.5 33.5 A13 13 0 0 1 195.5 14.5 Z"
+            fill="#f2e9cf"
+            opacity="0.96"
           />
-        </>
+        </g>
+      ) : (
+        <g>
+          <circle cx={sunX} cy={sunY} r="20" fill="#f6c559" opacity="0.14" />
+          <circle cx={sunX} cy={sunY} r="13" fill="#f6c559" opacity="0.22" />
+          <circle cx={sunX} cy={sunY} r="9" fill={daypart === "sunset" ? "#f0a058" : "#f4bd4e"} />
+          <circle cx={sunX - 2.5} cy={sunY - 2.5} r="3.4" fill="#fbe3a4" opacity="0.85" />
+        </g>
       )}
     </g>
   );
 }
 
-/* نبتة عادة: ساقٌ منحنية رشيقة وورقتان، وثلاث سلالات من الأزهار للتنوّع */
+/* نبتة عادة: ساقٌ وأوراقٌ ظلّية بلون الوقت، وزهرةٌ بلون العادة */
 function Plant({
   habit,
   x,
@@ -134,6 +115,7 @@ function Plant({
   variant,
   lean,
   delay,
+  night,
 }: {
   habit: HabitLite;
   x: number;
@@ -142,33 +124,32 @@ function Plant({
   variant: number;
   lean: number;
   delay: number;
+  night: boolean;
 }) {
   const accent = accentOf(habit.colorKey);
-  const ink = accentInkOf(habit.colorKey);
   const dn = habit.completedToday;
-  const tipX = lean * 1.5;
+  const tipX = lean * 1.6;
 
   return (
     <g transform={`translate(${x} ${y})`}>
       {/* الساق */}
       <path
-        d={`M0 0 C ${lean * 2.4} ${-h * 0.35}, ${lean * 3} ${-h * 0.7}, ${tipX} ${-h}`}
-        stroke="var(--color-sage-ink)"
-        strokeWidth="1.7"
+        d={`M0 0 C ${lean * 2.6} ${-h * 0.35}, ${lean * 3.2} ${-h * 0.7}, ${tipX} ${-h}`}
+        stroke="var(--stem)"
+        strokeWidth="1.9"
         strokeLinecap="round"
         fill="none"
-        opacity="0.85"
       />
-      {/* ورقتان متقابلتان */}
+      {/* ورقتان ظلّيتان متقابلتان */}
       <path
-        d={`M${lean * 1.2} ${-h * 0.42} C ${lean * 1.2 - 6} ${-h * 0.42 - 2}, ${lean * 1.2 - 8} ${-h * 0.42 - 7}, ${lean * 1.2 - 6.5} ${-h * 0.42 - 10} C ${lean * 1.2 - 2.5} ${-h * 0.42 - 7.5}, ${lean * 1.2 - 1} ${-h * 0.42 - 3.5}, ${lean * 1.2} ${-h * 0.42} Z`}
-        fill="var(--color-sage)"
-        opacity="0.9"
+        d={`M${lean * 1.3} ${-h * 0.4} C ${lean * 1.3 - 7} ${-h * 0.4 - 2.5}, ${lean * 1.3 - 9.5} ${-h * 0.4 - 8}, ${lean * 1.3 - 7.5} ${-h * 0.4 - 11.5} C ${lean * 1.3 - 3} ${-h * 0.4 - 8.5}, ${lean * 1.3 - 1} ${-h * 0.4 - 4}, ${lean * 1.3} ${-h * 0.4} Z`}
+        fill="var(--stem)"
+        opacity="0.92"
       />
       <path
-        d={`M${lean * 2} ${-h * 0.62} C ${lean * 2 + 6} ${-h * 0.62 - 2}, ${lean * 2 + 8} ${-h * 0.62 - 7}, ${lean * 2 + 6.5} ${-h * 0.62 - 10} C ${lean * 2 + 2.5} ${-h * 0.62 - 7.5}, ${lean * 2 + 1} ${-h * 0.62 - 3.5}, ${lean * 2} ${-h * 0.62} Z`}
-        fill="var(--color-sage)"
-        opacity="0.75"
+        d={`M${lean * 2.2} ${-h * 0.62} C ${lean * 2.2 + 7} ${-h * 0.62 - 2.5}, ${lean * 2.2 + 9.5} ${-h * 0.62 - 8}, ${lean * 2.2 + 7.5} ${-h * 0.62 - 11.5} C ${lean * 2.2 + 3} ${-h * 0.62 - 8.5}, ${lean * 2.2 + 1} ${-h * 0.62 - 4}, ${lean * 2.2} ${-h * 0.62} Z`}
+        fill="var(--stem)"
+        opacity="0.78"
       />
 
       {dn ? (
@@ -176,61 +157,60 @@ function Plant({
           className="animate-sprout"
           style={{ animationDelay: `${delay}ms`, transformBox: "fill-box", transformOrigin: "center bottom" }}
         >
+          {/* قنديل الليل: هالةٌ خفيفة خلف الزهرة المكتملة */}
+          {night && <circle cx={tipX} cy={-h - 2} r="12" fill={accent} opacity="0.2" />}
           {variant === 0 && (
-            /* سلالة أولى: زهرة خماسية البتلات */
+            /* زهرةٌ خماسية البتلات */
             <g transform={`translate(${tipX} ${-h})`}>
               {[0, 72, 144, 216, 288].map((rot) => (
                 <ellipse
                   key={rot}
                   cx="0"
-                  cy="-5.4"
-                  rx="3.4"
-                  ry="5.8"
+                  cy="-6.2"
+                  rx="4.1"
+                  ry="6.8"
                   fill={accent}
-                  stroke={ink}
-                  strokeOpacity="0.28"
-                  strokeWidth="0.8"
                   transform={`rotate(${rot})`}
                 />
               ))}
-              <circle r="3" fill="var(--color-amber)" stroke={ink} strokeOpacity="0.3" strokeWidth="0.7" />
+              <circle r="3.2" fill="#f4bd4e" />
+              <circle r="3.2" fill="none" stroke="rgba(0,0,0,0.18)" strokeWidth="0.8" />
             </g>
           )}
           {variant === 1 && (
-            /* سلالة ثانية: كأسُ توليب */
+            /* كأسُ توليب */
             <g transform={`translate(${tipX} ${-h})`}>
               <path
-                d="M-4.6 0 C -4.6 -7.5, -2.4 -10.5, 0 -11 C 2.4 -10.5, 4.6 -7.5, 4.6 0 C 3 2.2, -3 2.2, -4.6 0 Z"
+                d="M-5.4 0 C -5.4 -8.6, -2.8 -12, 0 -12.6 C 2.8 -12, 5.4 -8.6, 5.4 0 C 3.4 2.5, -3.4 2.5, -5.4 0 Z"
                 fill={accent}
-                stroke={ink}
-                strokeOpacity="0.3"
-                strokeWidth="0.9"
               />
-              <path d="M0 -10.6 C 1.6 -7.5, 1.6 -3, 0 0.8" stroke={ink} strokeOpacity="0.25" strokeWidth="0.8" fill="none" />
+              <path
+                d="M0 -12.2 C 1.9 -8.6, 1.9 -3.4, 0 0.9"
+                stroke="rgba(0,0,0,0.16)"
+                strokeWidth="1"
+                fill="none"
+              />
             </g>
           )}
           {variant === 2 && (
-            /* سلالة ثالثة: سنبلةُ أجراس */
+            /* سنبلةُ أجراسٍ متدرّجة */
             <g transform={`translate(${tipX} ${-h})`}>
-              <circle cx={lean * 1.4} cy="-9" r="2" fill={accent} opacity="0.85" />
-              <circle cx={lean * 0.6} cy="-5" r="2.5" fill={accent} opacity="0.92" />
-              <circle cx="0" cy="-0.5" r="3" fill={accent} />
-              <circle cx="0" cy="-0.5" r="1.1" fill="#fff" opacity="0.75" />
+              <circle cx={lean * 1.6} cy="-10.5" r="2.4" fill={accent} opacity="0.8" />
+              <circle cx={lean * 0.7} cy="-5.5" r="3" fill={accent} opacity="0.9" />
+              <circle cx="0" cy="-0.5" r="3.7" fill={accent} />
+              <circle cx="-1" cy="-1.4" r="1.2" fill="rgba(255,255,255,0.6)" />
             </g>
           )}
         </g>
       ) : (
-        /* برعمٌ مقفَل: قطرةٌ حانية فوق كأسٍ أخضر */
-        <g transform={`translate(${tipX} ${-h})`} opacity="0.75">
+        /* برعمٌ مقفَل */
+        <g transform={`translate(${tipX} ${-h})`}>
           <path
-            d="M0 1.5 C -3.2 -1.5, -2.6 -6.8, 0 -8.4 C 2.6 -6.8, 3.2 -1.5, 0 1.5 Z"
+            d="M0 1.8 C -3.6 -1.6, -3 -7.6, 0 -9.4 C 3 -7.6, 3.6 -1.6, 0 1.8 Z"
             fill={accent}
-            opacity="0.6"
-            stroke={ink}
-            strokeOpacity="0.35"
-            strokeWidth="0.9"
+            opacity="0.5"
           />
-          <path d="M-2.6 0.6 C -1 2.2, 1 2.2, 2.6 0.6 L 0 3 Z" fill="var(--color-sage-ink)" opacity="0.7" />
+          <path d="M-3 0.6 C -1.2 2.4, 1.2 2.4, 3 0.6 L 0 3.4 Z" fill="var(--stem)" opacity="0.9" />
         </g>
       )}
     </g>
@@ -242,6 +222,7 @@ export default function BloomHero({ habits, streak, level, daypart }: Props) {
   const done = habits.filter((h) => h.completedToday).length;
   const allDone = due > 0 && done >= due;
   const { title, sub } = statusText(done, due, daypart);
+  const night = daypart === "night" || daypart === "fajr";
 
   /* توزيع النبتات من منتصف التلّة نحو الأطراف */
   const order = [3, 2, 4, 1, 5, 0, 6];
@@ -252,43 +233,49 @@ export default function BloomHero({ habits, streak, level, daypart }: Props) {
       className={`sky-panel sky-${daypart} mt-3 overflow-hidden rounded-[--radius-xl]`}
       aria-label="تلّة الواحة"
     >
-      <div className="relative flex flex-col items-center px-4 pb-4 pt-2 text-center">
+      <div className="relative flex flex-col items-center px-4 pb-4 pt-1 text-center">
         <svg
-          className="w-full max-w-[340px]"
-          viewBox="0 0 220 140"
+          className="w-full max-w-[360px]"
+          viewBox="0 0 220 132"
           role="img"
           aria-label={`حديقة اليوم: ${ar(done)} من ${ar(due)} أزهار متفتّحة`}
         >
           <OasisSky daypart={daypart} />
 
-          {/* التلال: ثلاث طبقات تمنح عمقاً */}
-          <path d="M0 140 L0 116 C 45 98 90 92 110 91 C 145 92 185 102 220 118 L220 140 Z" fill="var(--color-sage)" opacity="0.22" />
-          <path d="M0 140 L0 122 C 45 105 85 99 110 98 C 148 99 188 108 220 123 L220 140 Z" fill="var(--color-sage)" opacity="0.5" />
-          <path d="M0 140 L0 127 C 45 111 85 104 110 103 C 148 104 188 113 220 128 L220 140 Z" fill="var(--color-sage)" opacity="0.95" />
+          {/* الأرض: ثلاث طبقات بألوان الوقت نفسه */}
+          <path d="M0 132 L0 96 Q 60 78 118 84 T 220 92 L220 132 Z" fill="var(--hill-far)" />
+          <path d="M0 132 L0 106 Q 70 88 130 94 T 220 103 L220 132 Z" fill="var(--hill-mid)" />
+          <path d="M0 132 L0 114 Q 85 96 150 102 T 220 112 L220 132 Z" fill="var(--hill-near)" />
 
-          {/* بركة بانعكاسٍ رقيق */}
-          <ellipse cx="187" cy="132" rx="16" ry="4.4" fill="var(--color-sky)" opacity="0.8" />
-          <path d="M176 131 Q 182 129.6 190 130.8" stroke="#fff" strokeWidth="1.1" strokeLinecap="round" fill="none" opacity="0.65" />
+          {/* البركة */}
+          <ellipse cx="190" cy="122" rx="15" ry="4.2" fill="var(--pond)" />
+          <path
+            d="M181 121 Q 187 119.6 196 120.8"
+            stroke="rgba(255,255,255,0.5)"
+            strokeWidth="1.1"
+            strokeLinecap="round"
+            fill="none"
+          />
 
-          {/* حُزمُ عشبٍ صغيرة */}
+          {/* حُزمُ عشبٍ ظلّية */}
           {[
-            { x: 50, y: 121 },
-            { x: 100, y: 112 },
-            { x: 148, y: 115 },
+            { x: 52, y: 112 },
+            { x: 104, y: 106 },
+            { x: 150, y: 108 },
           ].map((g, i) => (
-            <g key={i} transform={`translate(${g.x} ${g.y})`} aria-hidden>
-              <path
-                d="M0 0 C -1 -3 -1.4 -5 -2.4 -7 M0 0 C 0 -3.6 0 -5.6 0 -8 M0 0 C 1 -3 1.4 -5 2.4 -7"
-                stroke="var(--color-sage-ink)"
-                strokeWidth="1.1"
-                strokeLinecap="round"
-                fill="none"
-                opacity="0.4"
-              />
-            </g>
+            <path
+              key={i}
+              transform={`translate(${g.x} ${g.y})`}
+              d="M0 0 C -1 -3 -1.4 -5 -2.6 -7.5 M0 0 C 0 -3.8 0 -6 0 -8.5 M0 0 C 1 -3 1.4 -5 2.6 -7.5"
+              stroke="var(--stem)"
+              strokeWidth="1.1"
+              strokeLinecap="round"
+              fill="none"
+              opacity="0.55"
+            />
           ))}
 
-          {/* نبتات العادات — سلالاتٌ متنوعة وميلانٌ طبيعي متعاكس */}
+          {/* نبتات العادات */}
           {habits.slice(0, 7).map((h, i) => {
             const si = spots[i] ?? i;
             const s = SPOTS[si];
@@ -302,21 +289,21 @@ export default function BloomHero({ habits, streak, level, daypart }: Props) {
                 variant={si % 3}
                 lean={si % 2 === 0 ? -1 : 1}
                 delay={i * 110}
+                night={night}
               />
             );
           })}
 
-          {/* عند اكتمال اليوم: بتلاتٌ تنجرف في الهواء */}
+          {/* عند اكتمال اليوم: بتلاتٌ تنجرف بهدوء */}
           {allDone && (
             <g aria-hidden>
-              <ellipse className="animate-bob" cx="70" cy="68" rx="2.6" ry="1.4" fill="var(--color-blush)" opacity="0.85" transform="rotate(-24 70 68)" />
-              <ellipse className="animate-bob" style={{ animationDelay: "1.1s" }} cx="126" cy="58" rx="2.2" ry="1.2" fill="var(--color-amber)" opacity="0.8" transform="rotate(18 126 58)" />
-              <ellipse className="animate-bob" style={{ animationDelay: "2.2s" }} cx="168" cy="72" rx="2.4" ry="1.3" fill="var(--color-lavender)" opacity="0.8" transform="rotate(-12 168 72)" />
+              <ellipse className="animate-bob" cx="74" cy="62" rx="2.6" ry="1.4" fill="var(--color-blush)" opacity="0.8" transform="rotate(-24 74 62)" />
+              <ellipse className="animate-bob" style={{ animationDelay: "1.4s" }} cx="140" cy="54" rx="2.2" ry="1.2" fill="var(--color-amber)" opacity="0.75" transform="rotate(18 140 54)" />
             </g>
           )}
         </svg>
 
-        <h2 className="mt-1 font-[family-name:var(--font-display)] text-lg font-bold leading-snug">
+        <h2 className="mt-1.5 font-[family-name:var(--font-display)] text-lg font-bold leading-snug">
           {title}
         </h2>
         <p className="sky-muted mt-0.5 text-[13px] leading-relaxed">{sub}</p>

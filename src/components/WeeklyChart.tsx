@@ -14,28 +14,29 @@ export default function WeeklyChart({ weeks }: { weeks: WeekPoint[] }) {
     >
       {weeks.map((w, i) => {
         const current = i === weeks.length - 1;
-        const gilded = current || w.score >= 100;
+        const gilded = w.hasData && (current || w.score >= 100);
         return (
           <div key={w.index} className="flex flex-1 flex-col items-center gap-1.5">
             <div className="flex h-full w-full items-end overflow-hidden rounded-full bg-[--color-surface-3] shadow-[inset_0_2px_3px_rgba(96,66,30,0.18)]">
               <div
                 className="w-full rounded-full transition-[height] duration-700"
                 style={{
-                  height: `${Math.max(w.score, 6)}%`,
+                  // لا ارتفاعَ زائفاً لأسبوعٍ بلا بيانات — الصدق قبل الجمال.
+                  height: w.hasData ? `${Math.max(w.score, 6)}%` : "0%",
                   background: gilded ? "var(--grad-cta)" : "var(--color-sky)",
                   boxShadow:
                     "inset 0 2px 0 rgba(255, 255, 255, 0.4), inset 0 -2px 0 rgba(0, 0, 0, 0.12)",
                   transitionTimingFunction: "var(--ease-spring)",
                 }}
-                title={`${ar(w.score)}٪`}
+                title={w.hasData ? `${ar(w.score)}٪` : "لا بيانات بعد"}
               />
             </div>
             <span
               className={`tabular text-xs ${
-                current ? "text-gild font-bold" : "text-[--color-faint]"
+                current && w.hasData ? "text-gild font-bold" : "text-[--color-faint]"
               }`}
             >
-              {ar(w.score)}
+              {w.hasData ? `${ar(w.score)}٪` : "—"}
             </span>
           </div>
         );

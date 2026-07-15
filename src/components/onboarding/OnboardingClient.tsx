@@ -10,6 +10,7 @@ import type { OnboardingHabitInput } from "@/lib/habits";
 import DiagnosticFlow from "./DiagnosticFlow";
 import ReviewStep, { type DraftHabit } from "./ReviewStep";
 import Icon from "@/components/ui/Icon";
+import { useToast } from "@/store/toast";
 
 const REVIEW = QUESTIONS.length;
 
@@ -42,6 +43,7 @@ export default function OnboardingClient() {
   const [answers, setAnswers] = useState<DiagnosticAnswers>(EMPTY_ANSWERS);
   const [drafts, setDrafts] = useState<DraftHabit[]>([]);
   const [finishing, setFinishing] = useState(false);
+  const toast = useToast((s) => s.show);
 
   const onChange = (patch: Partial<DiagnosticAnswers>) =>
     setAnswers((a) => ({ ...a, ...patch }));
@@ -60,15 +62,25 @@ export default function OnboardingClient() {
   const back = () => setStep((s) => Math.max(0, s - 1));
 
   const addCustom = async (text: string) => {
-    const res = await fetch("/api/refine", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        rawText: text,
-        context: { focusAreas: answers.focusArea, wakeTime: answers.wakeTime, locale: "ar" },
-      }),
-    });
-    if (!res.ok) return;
+    let res: Response;
+    try {
+      res = await fetch("/api/refine", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          rawText: text,
+          context: { focusAreas: answers.focusArea, wakeTime: answers.wakeTime, locale: "ar" },
+        }),
+      });
+    } catch {
+      toast("تعذّر تحويل عادتك — حاول مجدداً", { kind: "error" });
+      return;
+    }
+    if (!res.ok) {
+      // فشلٌ صامت سابقاً — الآن نُخبر المستخدم بلطف بدل اختفاء عادته بلا أثر.
+      toast("تعذّر تحويل عادتك — حاول مجدداً", { kind: "error" });
+      return;
+    }
     const r = (await res.json()) as RefineHabitResponse;
     setDrafts((d) => [
       ...d,
@@ -107,6 +119,8 @@ export default function OnboardingClient() {
       if (!res.ok) throw new Error("failed");
       router.push("/dashboard");
     } catch {
+      // لا صمتَ عند فشل الحفظ — نطمئن المستخدم أن عاداته ما زالت أمامه.
+      toast("تعذّر الحفظ — عاداتك لم تُفقد، حاول مرة أخرى", { kind: "error" });
       setFinishing(false);
     }
   };

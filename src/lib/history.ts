@@ -13,6 +13,13 @@ export interface HistoryHabit {
   id: string;
   frequency: Frequency;
   weekdays: Weekday[];
+  /**
+   * مفتاح تاريخ إنشاء العادة (YYYY-MM-DD بتوقيت المستخدم) — اختياريّ.
+   * العادة لا تُعدّ مستحقّة قبل يوم إنشائها، حتى لا تكسر عادةٌ جديدة
+   * نتائج الأيام الماضية بأثرٍ رجعيّ (٣/٣=١٠٠٪ كانت تصبح ٣/٥=٦٠٪).
+   * غيابه = مستحقّة دائماً (توافقاً مع المستدعين غير المحدّثين).
+   */
+  createdOn?: string;
 }
 
 export interface DayStat {
@@ -54,7 +61,12 @@ export function summarizeHistory(
   let todayScore = 0;
 
   for (const date of dayKeys) {
-    const due = habits.filter((h) => isDueOn(h.frequency, h.weekdays, date));
+    // لا تُحتسب العادة في الأيام السابقة لإنشائها (إصلاح كسر الـstreak الرجعيّ).
+    const due = habits.filter(
+      (h) =>
+        (!h.createdOn || date >= h.createdOn) &&
+        isDueOn(h.frequency, h.weekdays, date)
+    );
     const doneSet = completedByDay.get(date) ?? new Set<string>();
     const completed = due.filter((h) => doneSet.has(h.id)).length;
     const score =

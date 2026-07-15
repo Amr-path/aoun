@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { getDashboard } from "@/lib/habits";
 import { requireUserId } from "@/lib/auth";
 import { prisma } from "@/lib/db";
@@ -43,7 +44,7 @@ export default async function DashboardPage() {
     getDashboard(userId),
     prisma.user.findUnique({
       where: { id: userId },
-      select: { timezone: true, name: true, diagnostic: true },
+      select: { timezone: true, name: true, diagnostic: true, onboardedAt: true },
     }),
   ]);
 
@@ -51,7 +52,12 @@ export default async function DashboardPage() {
     timezone?: string;
     name?: string | null;
     diagnostic?: string | null;
+    onboardedAt?: Date | null;
   } | null;
+
+  // مستخدمٌ بلا عادات ولم يُكمل التهيئة بعد → أرسله إلى الـonboarding بدل لوحةٍ فارغة.
+  if (data.habits.length === 0 && !u?.onboardedAt) redirect("/onboarding");
+
   const tz = u?.timezone || "Asia/Riyadh";
   const name = u?.name ?? null;
 

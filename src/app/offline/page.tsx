@@ -15,7 +15,7 @@ export default function OfflinePage() {
         لا اتصال الآن
       </h1>
       <p className="mt-2 leading-relaxed text-[--color-muted]">
-        يبدو أنك دون إنترنت. عاداتك محفوظة، وستعود لوحتك حين يعود الاتصال.
+        نحتاج اتصالاً لعرض لوحتك — أثرُك السابق محفوظ في حسابك ولن يضيع.
       </p>
     </main>
   );

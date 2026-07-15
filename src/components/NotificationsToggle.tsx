@@ -6,8 +6,16 @@ import Icon from "@/components/ui/Icon";
 import Spinner from "@/components/ui/Spinner";
 import { useToast } from "@/store/toast";
 
+/** رسائل فشل التفعيل — سببٌ واضح بدل صمتٍ محيّر. */
+const ENABLE_ERRORS: Record<string, string> = {
+  denied: "رفضتَ الإذن — فعّله من إعدادات المتصفح",
+  "no-key": "التذكيرات غير مهيأة على الخادم",
+  error: "تعذّر التفعيل",
+};
+
 export default function NotificationsToggle() {
   const [status, setStatus] = useState<PushStatus>("unsupported");
+  const [isIos, setIsIos] = useState(false);
   const [busy, setBusy] = useState(false);
   const toast = useToast((s) => s.show);
 
@@ -15,14 +23,41 @@ export default function NotificationsToggle() {
     // قراءة قدرة المتصفح تتم بعد التركيب فقط (لا تتوفّر في الخادم).
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setStatus(pushStatus());
+    // آيفون/آيباد: سفاري لا يدعم Web Push إلا بعد التثبيت على الشاشة الرئيسية.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsIos(/iPad|iPhone|iPod/.test(navigator.userAgent));
   }, []);
 
-  if (status === "unsupported") return null;
+  if (status === "unsupported") {
+    // على iOS نُرشد بهدوء بدل الاختفاء الصامت؛ وسوى ذلك لا نعرض شيئاً.
+    if (!isIos) return null;
+    return (
+      <div className="card mt-4 flex items-center gap-3 p-4">
+        <span
+          className="icon-chip h-11 w-11 shrink-0 text-[--color-amber-ink]"
+          style={{ background: "var(--color-amber-soft)" }}
+        >
+          <Icon name="bell" size={22} />
+        </span>
+        <div className="min-w-0 flex-1">
+          <h3 className="font-semibold text-[--color-ink]">تذكيراتٌ لطيفة</h3>
+          <p className="mt-0.5 text-xs leading-relaxed text-[--color-muted]">
+            على الآيفون: ثبّت عون أولاً — شارِك ثم أضِف إلى الشاشة الرئيسية، وستجد التذكيرات هنا
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   const enable = async () => {
     setBusy(true);
-    const ok = await enablePush();
-    setStatus(ok ? "granted" : pushStatus());
+    const result = await enablePush();
+    if (result === "ok") {
+      setStatus("granted");
+    } else {
+      setStatus(pushStatus());
+      toast(ENABLE_ERRORS[result], { kind: "error" });
+    }
     setBusy(false);
   };
 

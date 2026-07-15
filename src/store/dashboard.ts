@@ -37,9 +37,10 @@ interface DashboardState {
   setSchedule: (habitId: string, scheduledAt: string) => Promise<void>;
   patchHabit: (
     habitId: string,
-    patch: { title?: string; emoji?: string; colorKey?: ColorKey }
+    patch: { title?: string; emoji?: string; colorKey?: ColorKey; reminderOffsetMin?: number }
   ) => Promise<void>;
   addHabit: (input: OnboardingHabitInput) => Promise<boolean>;
+  archiveHabit: (habitId: string) => Promise<void>;
   removeHabit: (habitId: string) => Promise<void>;
   clearReward: () => void;
 }
@@ -195,6 +196,40 @@ export const useDashboard = create<DashboardState>((set, get) => {
     } catch {
       useToast.getState().show("تعذّر الاتصال", { kind: "error" });
       return false;
+    }
+  },
+
+  // أرشفة بدل الحذف: تُخفي العادة وتحفظ سجلّها كاملاً — مع «تراجع» فوري في الإشعار.
+  archiveHabit: async (habitId) => {
+    const { habits, score } = get();
+    const optimistic = habits.filter((h) => h.id !== habitId);
+    set({ habits: optimistic, score: recomputeScore(optimistic, score) });
+
+    try {
+      const res = await fetch(`/api/habits/${habitId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ archived: true }),
+      });
+      if (!res.ok) throw new Error("failed");
+      const data = (await res.json()) as DashboardData;
+      set({ habits: data.habits, score: data.score });
+      useToast.getState().show("أُرشفت العادة — سجلّها محفوظ", {
+        action: {
+          label: "تراجع",
+          onClick: async () => {
+            await fetch(`/api/habits/${habitId}`, {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ archived: false }),
+            });
+            await get().refresh();
+          },
+        },
+      });
+    } catch {
+      useToast.getState().show("تعذّر الحفظ — تراجعنا عن التغيير", { kind: "error" });
+      set({ habits, score });
     }
   },
 

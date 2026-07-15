@@ -51,7 +51,8 @@ export default function HarvestClient({
   const ref = useRef<HTMLDivElement>(null);
   const [busy, setBusy] = useState(false);
 
-  const download = async () => {
+  // مشاركةٌ أصيلة عبر ورقة النظام إن توفّرت (الجوّال غالباً)، وإلا تنزيلٌ كالسابق.
+  const share = async () => {
     if (!ref.current) return;
     setBusy(true);
     try {
@@ -59,6 +60,20 @@ export default function HarvestClient({
         pixelRatio: 2,
         cacheBust: true,
       });
+
+      const blob = await (await fetch(dataUrl)).blob();
+      const file = new File([blob], "aoun.png", { type: "image/png" });
+      if (navigator.canShare?.({ files: [file] })) {
+        try {
+          await navigator.share({ files: [file] });
+          return;
+        } catch (err) {
+          // ألغى المستخدم ورقة المشاركة — لا نُغرقه بتنزيلٍ لم يطلبه.
+          if (err instanceof DOMException && err.name === "AbortError") return;
+          // فشلٌ آخر: ننزل إلى التنزيل المباشر.
+        }
+      }
+
       const a = document.createElement("a");
       a.href = dataUrl;
       a.download = "حصادي-مع-عون.png";
@@ -220,7 +235,7 @@ export default function HarvestClient({
 
       <button
         type="button"
-        onClick={download}
+        onClick={share}
         disabled={busy}
         className="btn-clay mt-6 w-full py-3.5 text-center font-bold disabled:opacity-60"
       >
@@ -230,7 +245,7 @@ export default function HarvestClient({
             نُجهّز الصورة
           </span>
         ) : (
-          "تنزيل صورة الحصاد"
+          "مشاركة الحصاد"
         )}
       </button>
     </main>

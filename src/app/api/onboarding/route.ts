@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { applyOnboarding } from "@/lib/habits";
+import { applyOnboarding, AlreadyOnboardedError } from "@/lib/habits";
 import { getUserId } from "@/lib/auth";
 import { parseJson, onboardingBodySchema } from "@/lib/validation";
 
@@ -16,6 +16,16 @@ export async function POST(req: Request) {
     const data = await applyOnboarding(userId, body.diagnostic, body.habits);
     return NextResponse.json(data);
   } catch (err) {
+    // حسابٌ مُهيّأ سابقاً: نرفض إعادة التهيئة لأنها تمحو العادات وسجلّاتها كلّها.
+    if (err instanceof AlreadyOnboardedError) {
+      return NextResponse.json(
+        {
+          error: "تمّت تهيئة حسابك سابقاً — عدّل عاداتك من الإعدادات",
+          code: "already_onboarded",
+        },
+        { status: 409 }
+      );
+    }
     console.error("onboarding POST", err);
     return NextResponse.json({ error: "تعذّر حفظ الإعداد", code: "server_error" }, { status: 500 });
   }

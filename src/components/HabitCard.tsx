@@ -8,17 +8,32 @@ import { useDashboard } from "@/store/dashboard";
 import { accentOf, accentSoftOf, accentInkOf } from "@/lib/colors";
 import { streakStage } from "@/lib/messages";
 import { ar } from "@/lib/numerals";
+import { formatTime12 } from "@/lib/time";
 import Icon from "./ui/Icon";
 
 export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
   const toggle = useDashboard((s) => s.toggle);
   const [burst, setBurst] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const accent = accentOf(habit.colorKey);
   const soft = accentSoftOf(habit.colorKey);
   const ink = accentInkOf(habit.colorKey);
   const done = habit.completedToday;
   const inactive = !habit.dueToday;
+  const hasSteps = habit.microSteps.length > 0;
+
+  // جسم البطاقة يُفتح ويُغلق بالنقر أو Enter/Space — دون مزاحمة زرّ الإتمام.
+  const toggleSteps = () => {
+    if (hasSteps) setOpen((v) => !v);
+  };
+  const onBodyKeyDown = (e: React.KeyboardEvent) => {
+    if (!hasSteps) return;
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setOpen((v) => !v);
+    }
+  };
 
   const onCheck = () => {
     if (!done) {
@@ -77,17 +92,37 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
           </span>
         </span>
 
-        {/* العنوان وسطرُ معلوماتٍ واحد */}
-        <div className="min-w-0 flex-1">
+        {/* العنوان وسطرُ معلوماتٍ واحد — قابلٌ للنقر لكشف الخطوات الصغرى */}
+        <div
+          className={`min-w-0 flex-1 ${hasSteps ? "cursor-pointer select-none" : ""}`}
+          {...(hasSteps
+            ? {
+                role: "button",
+                tabIndex: 0,
+                "aria-expanded": open,
+                "aria-label": open ? "إخفاء الخطوات الصغرى" : "إظهار الخطوات الصغرى",
+                onClick: toggleSteps,
+                onKeyDown: onBodyKeyDown,
+              }
+            : {})}
+        >
           <h3
             className={`truncate text-[15px] font-semibold leading-snug text-[--color-ink] ${done ? "done-title" : ""}`}
           >
             {habit.title}
           </h3>
           <div className="mt-px flex items-center gap-1.5 text-xs text-[--color-muted]">
+            {hasSteps && (
+              <Icon
+                name="chevron"
+                size={11}
+                className="shrink-0 text-[--color-faint] transition-transform duration-200"
+                style={{ transform: open ? "rotate(-90deg)" : undefined }}
+              />
+            )}
             <span className="tabular inline-flex items-center gap-1">
               <Icon name="clock" size={11} className="text-[--color-faint]" />
-              {ar(habit.scheduledAt)}
+              {formatTime12(habit.scheduledAt)}
             </span>
             <span aria-hidden>·</span>
             <span>{habit.frequency === "daily" ? "يومي" : "أيام محدّدة"}</span>
@@ -160,6 +195,21 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
           </span>
         </button>
       </div>
+
+      {/* الخطوات الصغرى — حباتٌ غائرة تظهر عند بسط البطاقة */}
+      {hasSteps && open && (
+        <div className="animate-rise flex flex-wrap gap-1.5 px-1 pb-1.5 pt-2">
+          {habit.microSteps.map((step) => (
+            <span
+              key={step}
+              className="rounded-full bg-[--color-surface-2] px-2.5 py-1 text-xs leading-relaxed text-[--color-muted]"
+              style={{ boxShadow: "inset 0 2px 3px rgba(96, 66, 30, .12)" }}
+            >
+              {step}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

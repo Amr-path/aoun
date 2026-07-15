@@ -7,6 +7,7 @@ import { EMOJI_CHOICES } from "@/lib/constants";
 import { COLOR_KEYS } from "@/lib/types";
 import { accentOf, accentSoftOf } from "@/lib/colors";
 import { ar } from "@/lib/numerals";
+import { formatTime12 } from "@/lib/time";
 import Icon from "./ui/Icon";
 import Spinner from "./ui/Spinner";
 import FrequencyToggle from "./FrequencyToggle";
@@ -18,26 +19,35 @@ export default function HabitManager() {
   const setFrequency = useDashboard((s) => s.setFrequency);
   const setSchedule = useDashboard((s) => s.setSchedule);
   const patchHabit = useDashboard((s) => s.patchHabit);
+  const archiveHabit = useDashboard((s) => s.archiveHabit);
   const removeHabit = useDashboard((s) => s.removeHabit);
 
   const [openId, setOpenId] = useState<string | null>(null);
   const [confirmId, setConfirmId] = useState<string | null>(null);
   const [titleDraft, setTitleDraft] = useState("");
+  const [timeDraft, setTimeDraft] = useState("");
 
   useEffect(() => {
     refresh();
   }, [refresh]);
 
-  const open = (id: string, title: string) => {
+  const open = (id: string, title: string, scheduledAt: string) => {
     setOpenId((cur) => (cur === id ? null : id));
     setConfirmId(null);
     setTitleDraft(title);
+    setTimeDraft(scheduledAt);
   };
 
   const commitTitle = (id: string, current: string) => {
     const t = titleDraft.trim();
     if (t && t !== current) patchHabit(id, { title: t });
     else setTitleDraft(current);
+  };
+
+  // يُثبَّت الوقت عند مغادرة الحقل فقط (لا PATCH مع كل ضغطة مفتاح).
+  const commitTime = (id: string, current: string) => {
+    if (timeDraft && timeDraft !== current) setSchedule(id, timeDraft);
+    else setTimeDraft(current);
   };
 
   if (loading && habits.length === 0) {
@@ -66,7 +76,7 @@ export default function HabitManager() {
             {/* صفّ العادة */}
             <button
               type="button"
-              onClick={() => open(h.id, h.title)}
+              onClick={() => open(h.id, h.title, h.scheduledAt)}
               aria-expanded={opened}
               className="flex w-full items-center gap-3 px-3 py-2.5 text-start"
             >
@@ -78,7 +88,7 @@ export default function HabitManager() {
                   {h.title}
                 </span>
                 <span className="tabular block text-xs text-[--color-muted]">
-                  {ar(h.scheduledAt)} · {h.frequency === "daily" ? "يومي" : "أيام محدّدة"}
+                  {formatTime12(h.scheduledAt)} · {h.frequency === "daily" ? "يومي" : "أيام محدّدة"}
                   {h.streak > 0 ? ` · مداومة ${ar(h.streak)}` : ""}
                 </span>
               </span>
@@ -168,10 +178,29 @@ export default function HabitManager() {
                   <span className="text-sm text-[--color-muted]">وقت التذكير</span>
                   <input
                     type="time"
-                    value={h.scheduledAt}
-                    onChange={(e) => setSchedule(h.id, e.target.value)}
+                    value={timeDraft}
+                    onChange={(e) => setTimeDraft(e.target.value)}
+                    onBlur={() => commitTime(h.id, h.scheduledAt)}
+                    onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
                     className="tabular rounded-2xl border-0 bg-[--color-surface-2] px-3.5 py-2 text-[--color-ink] shadow-[inset_0_2px_3px_rgba(96,66,30,0.14)] outline-none"
                   />
+                </label>
+
+                {/* التذكير قبل الموعد */}
+                <label className="flex items-center justify-between gap-3">
+                  <span className="text-sm text-[--color-muted]">التذكير قبل الموعد</span>
+                  <select
+                    value={h.reminderOffsetMin ?? 0}
+                    onChange={(e) =>
+                      patchHabit(h.id, { reminderOffsetMin: Number(e.target.value) })
+                    }
+                    className="rounded-2xl border-0 bg-[--color-surface-2] px-3.5 py-2 text-sm text-[--color-ink] shadow-[inset_0_2px_3px_rgba(96,66,30,0.14)] outline-none"
+                  >
+                    <option value={0}>بدون تذكير</option>
+                    <option value={15}>١٥ دقيقة</option>
+                    <option value={30}>٣٠ دقيقة</option>
+                    <option value={60}>٦٠ دقيقة</option>
+                  </select>
                 </label>
 
                 {/* التكرار */}
@@ -181,37 +210,49 @@ export default function HabitManager() {
                   onChange={(f, w) => setFrequency(h.id, f, w)}
                 />
 
-                {/* حذف — بتأكيدٍ يحمي سجلّ المداومة */}
-                {confirmId !== h.id ? (
+                {/* أرشفة (الخيار الأساسي الهادئ) — تُخفي العادة وتحفظ سجلّها كاملاً */}
+                <div className="flex flex-wrap items-center gap-4">
                   <button
                     type="button"
-                    onClick={() => setConfirmId(h.id)}
-                    className="inline-flex items-center gap-1.5 self-start text-sm font-medium text-[--color-danger-ink] transition-opacity hover:opacity-70"
+                    onClick={() => archiveHabit(h.id)}
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-[--color-muted] transition-opacity hover:opacity-70"
                   >
-                    <Icon name="trash" size={15} />
-                    حذف العادة
+                    <Icon name="moon" size={15} />
+                    أرشفة
                   </button>
-                ) : (
-                  <div className="flex flex-wrap items-center gap-2.5 self-start">
-                    <span className="text-sm text-[--color-danger-ink]">
-                      حذفٌ نهائيّ؟ يمسح سجلّ المداومة كاملاً.
-                    </span>
+
+                  {/* حذفٌ نهائي — خيارٌ ثانوي أصغر خلف تأكيدٍ صريح */}
+                  {confirmId !== h.id ? (
                     <button
                       type="button"
-                      onClick={() => removeHabit(h.id)}
-                      className="press pill bg-[--color-danger] px-4 py-1.5 text-sm font-bold text-white shadow-[0_3px_0_0_var(--edge)]"
+                      onClick={() => setConfirmId(h.id)}
+                      className="inline-flex items-center gap-1 text-xs text-[--color-danger-ink] opacity-70 transition-opacity hover:opacity-100"
                     >
-                      نعم، احذف
+                      <Icon name="trash" size={13} />
+                      حذف نهائي
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => setConfirmId(null)}
-                      className="press pill bg-[--color-surface-2] px-4 py-1.5 text-sm font-medium text-[--color-muted]"
-                    >
-                      إلغاء
-                    </button>
-                  </div>
-                )}
+                  ) : (
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <span className="text-sm text-[--color-danger-ink]">
+                        حذفٌ نهائيّ لا رجعة فيه — يمسح العادة وسجلّ مداومتها كاملاً. الأرشفة تحفظ السجلّ.
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => removeHabit(h.id)}
+                        className="press pill bg-[--color-danger] px-4 py-1.5 text-sm font-bold text-white shadow-[0_3px_0_0_var(--edge)]"
+                      >
+                        نعم، احذف نهائياً
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setConfirmId(null)}
+                        className="press pill bg-[--color-surface-2] px-4 py-1.5 text-sm font-medium text-[--color-muted]"
+                      >
+                        إلغاء
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>

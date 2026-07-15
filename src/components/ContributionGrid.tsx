@@ -1,6 +1,18 @@
 // عون — شبكة السنة (٣٦٥ يوماً) على طراز الحدائق: كثافة الآذريون = اتساقك.
 import { weekdayOf } from "@/lib/date";
+import { ar } from "@/lib/numerals";
 import type { DayCell } from "@/lib/analytics";
+
+// تاريخٌ عربيٌّ مقروء في التلميحة بدل ISO الجافّ: «الثلاثاء، ١٤ يوليو».
+const DAY_FMT = new Intl.DateTimeFormat("ar", {
+  weekday: "long",
+  day: "numeric",
+  month: "long",
+});
+
+function tooltipOf(c: DayCell): string {
+  return `${DAY_FMT.format(new Date(`${c.date}T00:00:00`))} · ${ar(c.completed)}/${ar(c.due)}`;
+}
 
 // سُلّم توقيعيّ: من العجين الفارغ إلى مرجان «واحة» الكامل — درجاتٌ حلوةٌ متدرّجة.
 const LEVELS = [
@@ -28,7 +40,7 @@ export default function ContributionGrid({ days }: { days: DayCell[] }) {
           {cells.map((c, i) => (
             <span
               key={i}
-              title={c ? `${c.date} · ${c.completed}/${c.due}` : undefined}
+              title={c ? tooltipOf(c) : undefined}
               className="h-[11px] w-[11px] rounded-[4.5px]"
               style={{ background: c ? LEVELS[c.level] : "transparent" }}
             />

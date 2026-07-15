@@ -6,6 +6,8 @@ import { todayKey, isDueOn } from "./date";
 import { getUserPushSubs, sendPushToSubs } from "./push";
 import { MISSED_NUDGE } from "./messages";
 import { toMinutes, inWindow } from "./timewindow";
+import { formatTime12 } from "./time";
+import { ar } from "./numerals";
 import type { Weekday, Frequency } from "./types";
 
 /** دقائق منذ منتصف الليل في منطقةٍ زمنية. */
@@ -28,7 +30,8 @@ function safeWeekdays(raw: string): Weekday[] {
 }
 
 function reminderBody(title: string, offset: number): string {
-  return `${title} بعد ${offset} دقيقة — استعدّ بهدوء.`;
+  // أرقام عربية دائماً في نصوص الإشعارات (كانت لاتينية).
+  return `${title} بعد ${ar(offset)} دقيقة — استعدّ بهدوء.`;
 }
 
 type HabitRow = {
@@ -42,9 +45,13 @@ type HabitRow = {
 
 /**
  * يفحص كل المستخدمين ويرسل التذكيرات المستحقّة الآن.
- * يُستدعى كل 5 دقائق (vercel.json: `*​/5 * * * *`)، و windowMin=5 يطابق التردّد
- * تماماً فيقع كل موعد في نافذةٍ واحدة فقط. وتقليل التكرار مضمونٌ إضافياً على الجهاز
- * عبر حقل `tag` في الإشعار (إشعارٌ بنفس الوسم يستبدل سابقه بدل تراكمه).
+ * نمطان بحسب `windowMin` (يُقيَّد إلى 5..1440):
+ * - windowMin < 720: تذكيرات دقيقة لكل عادة — يفترض مجدولاً خارجياً كل 5 دقائق،
+ *   فيقع كل موعد في نافذةٍ واحدة فقط. وتقليل التكرار مضمونٌ إضافياً على الجهاز
+ *   عبر حقل `tag` في الإشعار (إشعارٌ بنفس الوسم يستبدل سابقه بدل تراكمه).
+ * - windowMin >= 720: «الملخّص الصباحي» — دفعة واحدة لكل مستخدم تسرد عادات
+ *   اليوم بأوقاتها، بدل وابلٍ من إشعارٍ لكل عادة. مناسب لـcron يعمل مرّةً
+ *   يومياً (Vercel Hobby: 05:00 UTC) حيث نافذة 5 دقائق لا تصادف شيئاً أبداً.
  * ملاحظة للإنتاج: لِدَيمومة منع التكرار عبر تشغيلاتٍ مكرّرة/متأخّرة من الخادم،
  * يُنصح بجدول «سجلّ إرسال» (SentReminder) — يتطلّب migration.
  */
@@ -52,6 +59,10 @@ export async function runReminders(windowMin = 5): Promise<{
   reminders: number;
   nudges: number;
 }> {
+  // تقييد النافذة إلى مجالٍ معقول (5 دقائق..يوم كامل).
+  const win = Math.min(1440, Math.max(5, Math.floor(windowMin)));
+  const digestMode = win >= 720;
+
   const users = (await prisma.user.findMany({
     select: { id: true, timezone: true },
   })) as { id: string; timezone: string }[];
@@ -89,6 +100,27 @@ export async function runReminders(windowMin = 5): Promise<{
 
     const done = new Set(logs.map((l) => l.habitId));
 
+    // ─── نمط «الملخّص الصباحي»: دفعة واحدة تسرد عادات اليوم ───
+    if (digestMode) {
+      const dueToday = rows
+        .filter((h) => isDueOn(h.frequency as Frequency, safeWeekdays(h.weekdays), today))
+        .sort((a, b) => toMinutes(a.scheduledAt) - toMinutes(b.scheduledAt));
+      if (dueToday.length === 0) continue;
+
+      const list = dueToday
+        .map((h) => `${h.title} ${formatTime12(h.scheduledAt)}`)
+        .join("، ");
+      const sent = await sendPushToSubs(subs, {
+        title: "عون — الملخّص الصباحي",
+        body: `عاداتك اليوم: ${list}`,
+        url: "/dashboard",
+        tag: `digest-${today}`,
+      });
+      if (sent > 0) reminders++;
+      continue;
+    }
+
+    // ─── النمط الدقيق: تذكيرٌ لكل عادة ضمن نافذتها ───
     for (const h of rows) {
       const weekdays = safeWeekdays(h.weekdays);
       if (!isDueOn(h.frequency as Frequency, weekdays, today)) continue;
@@ -97,7 +129,7 @@ export async function runReminders(windowMin = 5): Promise<{
       const offset = h.reminderOffsetMin ?? 30;
 
       // تذكيرٌ قبل الموعد.
-      if (inWindow(now, sched - offset, windowMin)) {
+      if (inWindow(now, sched - offset, win)) {
         const sent = await sendPushToSubs(subs, {
           title: "عون — تذكيرٌ لطيف",
           body: reminderBody(h.title, offset),
@@ -108,7 +140,7 @@ export async function runReminders(windowMin = 5): Promise<{
       }
 
       // نداءٌ لطيف عند الفوات (بعد الموعد بساعتين) إن لم تُنجَز.
-      if (!done.has(h.id) && inWindow(now, sched + 120, windowMin)) {
+      if (!done.has(h.id) && inWindow(now, sched + 120, win)) {
         const sent = await sendPushToSubs(subs, {
           title: `عون — ${h.title}`,
           body: MISSED_NUDGE,

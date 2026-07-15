@@ -45,5 +45,6 @@ export const config = {
     "/onboarding/:path*",
     "/settings/:path*",
     "/harvest/:path*",
+    "/plus/:path*",
   ],
 };

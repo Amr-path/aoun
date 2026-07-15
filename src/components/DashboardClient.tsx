@@ -1,11 +1,13 @@
 "use client";
 // عون — الشاشة الرئيسية: شريطٌ علويّ نحيف + هيرو «زهرة اليوم» + قائمةٌ تفرز نفسها + شريطٌ سفليّ.
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import type { DashboardData } from "@/lib/habits";
 import { useDashboard } from "@/store/dashboard";
 import { levelFromXp } from "@/lib/scoring";
 import { BRAND } from "@/lib/constants";
 import { ar } from "@/lib/numerals";
+import { todayKey } from "@/lib/date";
 import Logo from "./Logo";
 import Icon from "./ui/Icon";
 import FlowerMark from "./FlowerMark";
@@ -39,6 +41,7 @@ export default function DashboardClient({
   const setUserName = useDashboard((s) => s.setUserName);
   const habits = useDashboard((s) => s.habits);
   const score = useDashboard((s) => s.score);
+  const loading = useDashboard((s) => s.loading);
 
   const hydrated = useRef(false);
   useEffect(() => {
@@ -48,8 +51,29 @@ export default function DashboardClient({
     setUserName(userName);
   }, [hydrate, initial, setUserName, userName]);
 
-  const view = habits.length ? habits : initial.habits;
-  const s = habits.length ? score : initial.score;
+  // انقلاب منتصف الليل: في PWA مفتوحة يتجمّد dateKey عند التحميل،
+  // فنقارن تاريخ اليوم المحلّي بمفتاح المتجر عند عودة الظهور وكلّ دقيقة.
+  useEffect(() => {
+    const check = () => {
+      const { dateKey, loading: stillLoading, refresh } = useDashboard.getState();
+      if (stillLoading || !dateKey) return;
+      const localToday = todayKey(Intl.DateTimeFormat().resolvedOptions().timeZone);
+      if (localToday !== dateKey) void refresh();
+    };
+    const onVisible = () => {
+      if (document.visibilityState === "visible") check();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    const interval = window.setInterval(check, 60_000);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisible);
+      window.clearInterval(interval);
+    };
+  }, []);
+
+  // مصدرُ حقيقةٍ واحد: بعد الترطيب نعتمد المتجر دائماً — حتى لو كان فارغاً.
+  const view = habits;
+  const s = score;
   const { level } = levelFromXp(s.totalXp);
   const doneCount = view.filter((h) => h.dueToday && h.completedToday).length;
   const dueCount = view.filter((h) => h.dueToday).length;
@@ -171,8 +195,30 @@ export default function DashboardClient({
         </div>
 
         <section className="flex flex-col gap-2">
+          {/* هيكلٌ نابض قبل اكتمال الترطيب — بطاقاتٌ طينية صامتة */}
+          {loading && (
+            <div aria-hidden className="flex flex-col gap-2">
+              {[0, 1, 2].map((i) => (
+                <div
+                  key={i}
+                  className="animate-pulse rounded-[--radius-card] bg-[--color-surface-2] px-3 py-2"
+                  style={{ animationDelay: `${i * 120}ms` }}
+                >
+                  <div className="flex items-center gap-3 py-1">
+                    <span className="h-10 w-10 shrink-0 rounded-full bg-[--color-surface-3]" />
+                    <span className="flex min-w-0 flex-1 flex-col gap-2">
+                      <span className="h-3.5 w-2/5 rounded-full bg-[--color-surface-3]" />
+                      <span className="h-2.5 w-1/4 rounded-full bg-[--color-surface-3]" />
+                    </span>
+                    <span className="h-7 w-7 shrink-0 rounded-full bg-[--color-surface-3]" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
           {/* حالة فارغة حقيقية بدل سطرٍ رماديّ باهت */}
-          {view.length === 0 && (
+          {!loading && view.length === 0 && (
             <div className="mb-1 flex flex-col items-center gap-3 rounded-[--radius-card] border-2 border-dashed border-[--color-hairline] px-6 py-9 text-center">
               <FlowerMark size={56} />
               <p className="text-base font-semibold text-[--color-ink]">هنا تبدأ حديقتك</p>
@@ -189,7 +235,27 @@ export default function DashboardClient({
           ))}
 
           <div id="add-habit" className="scroll-mt-24">
-            {view.length < BRAND.maxHabits && <AddHabit />}
+            {!loading &&
+              (view.length < BRAND.maxHabits ? (
+                <AddHabit />
+              ) : (
+                // اكتمل العقد: بطاقةٌ هادئة بدل مرساةٍ فارغة يقفز إليها زرّ +
+                <div className="card flex flex-col items-center gap-2 px-5 py-6 text-center">
+                  <h3 className="font-[family-name:var(--font-display)] text-base font-bold text-[--color-ink]">
+                    اكتملت سبعتُك
+                  </h3>
+                  <p className="max-w-[19rem] text-sm leading-relaxed text-[--color-muted]">
+                    سبعٌ تُتقنها خيرٌ من عشرٍ تثقلك — عدّل أو استبدل من الإعدادات
+                  </p>
+                  <Link
+                    href="/settings"
+                    className="press mt-1 rounded-full bg-[--color-surface-2] px-4 py-1.5 text-xs font-bold text-[--color-ink]"
+                    style={{ boxShadow: "inset 0 1.5px 0 rgba(255,255,255,.7), 0 2px 0 0 var(--edge)" }}
+                  >
+                    إلى الإعدادات
+                  </Link>
+                </div>
+              ))}
           </div>
 
           {doneList.length > 0 && (

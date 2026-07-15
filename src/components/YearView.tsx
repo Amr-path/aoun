@@ -1,6 +1,6 @@
 "use client";
 // عون — عرض السنة: تبديل بين «الحديقة» العضوية و«الشبكة» الكلاسيكية.
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ContributionGrid from "./ContributionGrid";
 import GardenGrid from "./GardenGrid";
 import Icon from "./ui/Icon";
@@ -19,6 +19,19 @@ function GridGlyph() {
 
 export default function YearView({ days }: { days: DayCell[] }) {
   const [mode, setMode] = useState<"garden" | "grid">("garden");
+  const gridWrapRef = useRef<HTMLDivElement>(null);
+
+  // الشبكة تُرسم من الأقدم إلى الأحدث، وحاوية التمرير في RTL تبدأ عند الطرف الأقدم
+  // فيختفي «اليوم». نمرّر بعد التركيب إلى الطرف الأحدث — ودلالات scrollLeft في RTL
+  // تختلف بين المتصفحات، فنجرّب السالب أولاً ثم الموجب إن لم يتغيّر شيء.
+  useEffect(() => {
+    if (mode !== "grid") return;
+    const container = gridWrapRef.current?.querySelector<HTMLElement>(".overflow-x-auto");
+    if (!container) return;
+    const before = container.scrollLeft;
+    container.scrollLeft = -container.scrollWidth;
+    if (container.scrollLeft === before) container.scrollLeft = container.scrollWidth;
+  }, [mode]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -51,7 +64,13 @@ export default function YearView({ days }: { days: DayCell[] }) {
           شبكة
         </button>
       </div>
-      {mode === "garden" ? <GardenGrid days={days} /> : <ContributionGrid days={days} />}
+      {mode === "garden" ? (
+        <GardenGrid days={days} />
+      ) : (
+        <div ref={gridWrapRef}>
+          <ContributionGrid days={days} />
+        </div>
+      )}
     </div>
   );
 }

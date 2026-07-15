@@ -26,32 +26,39 @@ export function pushStatus(): PushStatus {
   return Notification.permission as PushStatus;
 }
 
+/** نتيجة محاولة التفعيل — أسبابٌ مميّزة لنُخبر المستخدم بصدق ماذا حدث. */
+export type EnablePushResult = "ok" | "denied" | "no-key" | "error";
+
 /** يسجّل عامل الخدمة، يطلب الإذن، ويشترك في Web Push. */
-export async function enablePush(): Promise<boolean> {
-  if (!("serviceWorker" in navigator) || !("PushManager" in window)) return false;
+export async function enablePush(): Promise<EnablePushResult> {
+  if (!("serviceWorker" in navigator) || !("PushManager" in window)) return "error";
   const key = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
-  if (!key) return false;
+  if (!key) return "no-key";
 
-  const reg = await navigator.serviceWorker.register("/sw.js");
-  await navigator.serviceWorker.ready;
+  try {
+    const reg = await navigator.serviceWorker.register("/sw.js");
+    await navigator.serviceWorker.ready;
 
-  const permission = await Notification.requestPermission();
-  if (permission !== "granted") return false;
+    const permission = await Notification.requestPermission();
+    if (permission !== "granted") return "denied";
 
-  const existing = await reg.pushManager.getSubscription();
-  const sub =
-    existing ??
-    (await reg.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(key),
-    }));
+    const existing = await reg.pushManager.getSubscription();
+    const sub =
+      existing ??
+      (await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(key),
+      }));
 
-  await fetch("/api/push/subscribe", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(sub.toJSON()),
-  });
-  return true;
+    const res = await fetch("/api/push/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(sub.toJSON()),
+    });
+    return res.ok ? "ok" : "error";
+  } catch {
+    return "error";
+  }
 }
 
 /** يلغي الاشتراك على هذا الجهاز. */

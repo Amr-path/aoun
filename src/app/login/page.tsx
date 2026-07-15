@@ -6,9 +6,16 @@ import AuthForm from "@/components/AuthForm";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "دخول" };
 
-export default async function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ mode?: string }>;
+}) {
   const id = await getUserId();
   if (id) redirect("/dashboard");
+  // دخول التسجيل أولاً: ?mode=register يفتح النموذج على إنشاء الحساب.
+  const { mode } = await searchParams;
+  const initialMode = mode === "register" ? "register" : "login";
   return (
     <main className="relative mx-auto flex min-h-dvh w-full flex-1 flex-col items-center justify-center overflow-hidden px-6 py-12">
       {/* فقاعات عجينٍ خافتة خلف الصفحة كلّها */}
@@ -28,7 +35,7 @@ export default async function LoginPage() {
           style={{ animationDelay: "-2.6s", boxShadow: "var(--shadow-top), 0 2px 0 0 var(--edge)" }}
         />
       </div>
-      <AuthForm />
+      <AuthForm initialMode={initialMode} />
     </main>
   );
 }

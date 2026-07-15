@@ -27,6 +27,8 @@ import type {
 export class NotFoundError extends Error {}
 /** تجاوز الحدّ الأقصى للعادات الفعّالة → 409. */
 export class HabitLimitError extends Error {}
+/** الحساب مُهيّأ سابقاً — إعادة الـonboarding تمحو العادات وسجلّاتها → 409. */
+export class AlreadyOnboardedError extends Error {}
 
 type HabitRow = {
   id: string;
@@ -41,6 +43,7 @@ type HabitRow = {
   colorKey: string;
   position: number;
   archived: boolean;
+  createdAt: Date;
 };
 
 /** يحوّل صفّ Prisma إلى نوع النطاق (يفكّ حقول JSON). */
@@ -128,8 +131,16 @@ export async function getDashboard(userId: string): Promise<DashboardData> {
   const todayQualifies = qualifiesForStreak(currentScore);
 
   // مسح نافذة تاريخية واحدة متّسقة مع التحليلات (تُحسب XP من نفس النافذة).
+  // نمرّر يوم إنشاء كل عادة (بتوقيت المستخدم) حتى لا تُحتسب مستحقّةً في أيامٍ
+  // سابقة لوجودها — إضافة عادة اليوم كانت تكسر streak الأيام الماضية رجعيّاً.
+  const historyHabits = rows.map((r, i) => ({
+    id: habits[i].id,
+    frequency: habits[i].frequency,
+    weekdays: habits[i].weekdays,
+    createdOn: todayKey(tz, r.createdAt),
+  }));
   const { qualifyingDates, bestStreak, perfectDays } = summarizeHistory(
-    habits,
+    historyHabits,
     completedByDay,
     today,
     tz,
@@ -196,6 +207,9 @@ export interface OnboardingHabitInput {
 /**
  * يُطبّق نتيجة الـOnboarding: يستبدل عادات المستخدم بالمجموعة المختارة (حدّ 7)،
  * ويحفظ التشخيص ويعلّم المستخدم مُهيّأً. عملية ذرّية (transaction).
+ * حماية: إن كان الحساب مُهيّأً سابقاً (onboardedAt مضبوط) نرفض بـ
+ * AlreadyOnboardedError — إذ إنّ deleteMany يمحو كل العادات وسجلّاتها
+ * (onDelete: Cascade) ويُبيد تاريخ المستخدم بالكامل.
  */
 export async function applyOnboarding(
   userId: string,
@@ -204,9 +218,20 @@ export async function applyOnboarding(
 ): Promise<DashboardData> {
   const capped = habits.slice(0, BRAND.maxHabits);
 
-  await prisma.$transaction([
-    prisma.habit.deleteMany({ where: { userId } }),
-    prisma.habit.createMany({
+  await prisma.$transaction(async (tx) => {
+    // الفحص داخل الـtransaction نفسها لسدّ سباق طلبَين متزامنَين.
+    const user = await tx.user.findUnique({
+      where: { id: userId },
+      select: { onboardedAt: true },
+    });
+    if (user?.onboardedAt) {
+      throw new AlreadyOnboardedError(
+        "تمّت تهيئة حسابك سابقاً — عدّل عاداتك من الإعدادات"
+      );
+    }
+
+    await tx.habit.deleteMany({ where: { userId } });
+    await tx.habit.createMany({
       data: capped.map((h, i) => ({
         userId,
         title: h.title,
@@ -219,12 +244,13 @@ export async function applyOnboarding(
         apiRefined: h.apiRefined ?? false,
         position: i,
       })),
-    }),
-    prisma.user.update({
+    });
+    // يُضبط onboardedAt هنا دائماً عند نجاح التهيئة الأولى.
+    await tx.user.update({
       where: { id: userId },
       data: { diagnostic: JSON.stringify(diagnostic), onboardedAt: new Date() },
-    }),
-  ]);
+    });
+  });
 
   return getDashboard(userId);
 }
@@ -237,6 +263,7 @@ export interface HabitPatch {
   emoji?: string;
   colorKey?: ColorKey;
   reminderOffsetMin?: number;
+  archived?: boolean;
 }
 
 /** يعدّل تفاصيل عادة (العنوان/الإيموجي/اللون/الوقت/التكرار). */
@@ -263,6 +290,8 @@ export async function updateHabit(
       ...(patch.reminderOffsetMin !== undefined
         ? { reminderOffsetMin: patch.reminderOffsetMin }
         : {}),
+      // الأرشفة/إلغاؤها (العادات المؤرشفة تُستبعد من اللوحة والتحليلات والتذكيرات).
+      ...(patch.archived !== undefined ? { archived: patch.archived } : {}),
     },
   });
 

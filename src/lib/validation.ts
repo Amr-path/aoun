@@ -52,7 +52,12 @@ export const habitPatchSchema = z
     title: z.string().trim().min(1).max(100).optional(),
     emoji: z.string().trim().min(1).max(16).optional(),
     colorKey: colorKeySchema.optional(),
-    reminderOffsetMin: z.number().int().min(0).max(1440).optional(),
+    // مهلة التذكير قبل الموعد — قيم محدّدة فقط (كما في واجهة الإدارة).
+    reminderOffsetMin: z
+      .union([z.literal(0), z.literal(15), z.literal(30), z.literal(60)])
+      .optional(),
+    // أرشفة العادة أو إعادتها (بدل الحذف المدمّر للسجلّات).
+    archived: z.boolean().optional(),
   })
   .refine((p) => Object.keys(p).length > 0, {
     message: "لا يوجد حقل للتعديل",

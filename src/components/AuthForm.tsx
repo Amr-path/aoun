@@ -10,9 +10,13 @@ const FIELD_CLASS =
   "w-full rounded-2xl border border-[--color-hairline-soft] bg-[--color-surface-2] px-4 py-3 text-[--color-ink] transition-colors placeholder:text-[--color-faint] aria-[invalid=true]:border-[--color-danger]";
 const FIELD_SUNKEN = { boxShadow: "inset 0 2px 3px rgba(96, 66, 30, .14)" };
 
-export default function AuthForm() {
+export default function AuthForm({
+  initialMode = "login",
+}: {
+  initialMode?: "login" | "register";
+}) {
   const router = useRouter();
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

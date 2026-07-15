@@ -11,22 +11,23 @@ const GLOW =
   "radial-gradient(70% 34% at 82% 8%, rgba(226,166,133,.10), transparent 64%)," +
   "radial-gradient(70% 40% at 12% 16%, rgba(124,127,208,.07), transparent 62%)";
 
+// صدقٌ كامل: كل ما هو متاحٌ اليوم يبقى مجانياً — لا نَعِد بما تملكه أصلاً.
 const FREE = [
-  "العادات السبع الأساسية",
-  "الإتمام اليومي والمداومة",
-  "تذكيراتٌ أساسية",
-  "حديقةُ آخر الأسابيع",
+  "العادات السبع الأساسية والإتمام اليومي والمداومة",
+  "التذكيرات اللطيفة",
+  "الحديقة السنوية الكاملة",
+  "الوضع الليلي",
+  "تنقيح العادات بالذكاء",
+  "بطاقة الحصاد والمشاركة",
   "بذرةُ اليوم",
 ];
 
+// ما لم يُبنَ بعد — يُعرض بوضوح تحت «قريباً» لا كميزةٍ حاضرة.
 const PLUS = [
-  "الحديقة السنوية الكاملة والتحليلات العميقة",
-  "الرسالة الأسبوعية السردية",
-  "الوضع الليلي والثيمات والألوان",
-  "تنقيح العادات بالذكاء وتذكيراتٌ مخصّصة",
-  "بطاقات الحصاد والتصدير",
-  "شاراتٌ أغنى ورفيقٌ أعمق",
-  "نسخٌ احتياطي وتعدّد أجهزة",
+  "إحصاءاتٌ متقدّمة ورؤى أعمق",
+  "نسخٌ احتياطي وتصدير البيانات",
+  "ثيماتٌ إضافية",
+  "تذكيراتٌ ذكية",
 ];
 
 type Plan = "annual" | "lifetime";
@@ -63,13 +64,13 @@ export default function PlusClient() {
           </span>
         </h1>
         <p className="mt-3 max-w-[320px] text-sm leading-relaxed text-[--color-muted]">
-          النواةُ السبع تبقى مجانيّةً دائماً. «بلس» يفتح العُمق والجمال والذكاء — لمن أراد أن يزهرَ عامُه كاملاً.
+          كلُّ ما تستخدمه اليوم مجانيٌّ ويبقى كذلك. «بلس» القادم سيضيف عمقاً اختيارياً — لمن أراد دعم التطوير.
         </p>
       </div>
 
       {/* المجاني */}
       <section className="card mt-7 p-5">
-        <h2 className="mb-3 text-base font-bold text-[--color-ink]">المجاني يكفيك للبدء</h2>
+        <h2 className="mb-3 text-base font-bold text-[--color-ink]">مجانيٌّ اليوم — ويبقى مجانياً</h2>
         <ul className="flex flex-col gap-2.5">
           {FREE.map((f) => (
             <li key={f} className="flex items-center gap-2.5 text-sm text-[--color-muted]">
@@ -87,7 +88,7 @@ export default function PlusClient() {
       >
         <h2 className="mb-3 flex items-center gap-2 text-base font-bold text-[--color-accent-ink]">
           <Icon name="spark" size={17} />
-          «عون بلس» يضيف
+          قريباً في «بلس»
         </h2>
         <ul className="flex flex-col gap-2.5">
           {PLUS.map((f) => (

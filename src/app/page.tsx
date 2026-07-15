@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getUserId } from "@/lib/auth";
 import FlowerMark from "@/components/FlowerMark";
 import Icon, { type IconName } from "@/components/ui/Icon";
 
@@ -163,7 +165,11 @@ function ProductPeek() {
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  // المسجَّل دخوله لا يحتاج صفحة التسويق — إلى لوحته مباشرة.
+  const userId = await getUserId();
+  if (userId) redirect("/dashboard");
+
   return (
     <main className="relative mx-auto flex w-full max-w-lg flex-1 flex-col items-center overflow-hidden px-6 pb-0 pt-5 text-center">
       {/* ─── الترويسة: لوحةُ فجرٍ طينية بشمسٍ وغيومٍ وتلّة ─── */}
@@ -187,7 +193,7 @@ export default function Home() {
           </p>
 
           <div className="mt-6 flex items-center gap-3">
-            <Link href="/login" className="btn-clay press px-8 py-3.5 text-lg font-bold">
+            <Link href="/login?mode=register" className="btn-clay press px-8 py-3.5 text-lg font-bold">
               ابدأ رحلتك
             </Link>
             <a href="#why" className="sky-chip press rounded-full px-6 py-3 text-base font-bold">
@@ -261,7 +267,7 @@ export default function Home() {
             <p className="quote-seed mt-2.5 max-w-[300px] text-base leading-relaxed text-[--color-muted]">
               سبعُ عاداتٍ تختارها، وحديقةٌ تنمو باسمك، ورفيقٌ يحترم وقتك. مجّانًا، بلا حدٍّ زمنيّ.
             </p>
-            <Link href="/login" className="btn-clay press mt-6 px-8 py-3.5 text-base font-bold">
+            <Link href="/login?mode=register" className="btn-clay press mt-6 px-8 py-3.5 text-base font-bold">
               ابدأ رحلتك
             </Link>
           </div>

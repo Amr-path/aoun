@@ -1,6 +1,10 @@
 "use client";
-// عون — عرض السنة: تبديل بين «الحديقة» العضوية و«الشبكة» الكلاسيكية.
-import { useEffect, useRef, useState } from "react";
+// عون — عرض السنة: تبديل بين «الحديقة» (نموّ) و«الشبكة» (كثافة) — عدستان
+// على نفس البيانات ونفس الهندسة.
+// التمرير إلى «اليوم» صار داخل YearCanvas فيسري على العدستين؛ كان هنا مقصوراً
+// على الشبكة (mode !== "grid" يعود مبكراً) فتفتح الحديقةُ — وهي الافتراضية —
+// عند أقدم يومٍ في سنتك ويغيب اليوم خارج الشاشة.
+import { useState } from "react";
 import ContributionGrid from "./ContributionGrid";
 import GardenGrid from "./GardenGrid";
 import Icon from "./ui/Icon";
@@ -17,21 +21,11 @@ function GridGlyph() {
   );
 }
 
+const SEG_CLASS =
+  "press inline-flex min-h-[32px] items-center gap-1.5 rounded-[7px] px-4 py-1.5 transition-all duration-150";
+
 export default function YearView({ days }: { days: DayCell[] }) {
   const [mode, setMode] = useState<"garden" | "grid">("garden");
-  const gridWrapRef = useRef<HTMLDivElement>(null);
-
-  // الشبكة تُرسم من الأقدم إلى الأحدث، وحاوية التمرير في RTL تبدأ عند الطرف الأقدم
-  // فيختفي «اليوم». نمرّر بعد التركيب إلى الطرف الأحدث — ودلالات scrollLeft في RTL
-  // تختلف بين المتصفحات، فنجرّب السالب أولاً ثم الموجب إن لم يتغيّر شيء.
-  useEffect(() => {
-    if (mode !== "grid") return;
-    const container = gridWrapRef.current?.querySelector<HTMLElement>(".overflow-x-auto");
-    if (!container) return;
-    const before = container.scrollLeft;
-    container.scrollLeft = -container.scrollWidth;
-    if (container.scrollLeft === before) container.scrollLeft = container.scrollWidth;
-  }, [mode]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -41,7 +35,7 @@ export default function YearView({ days }: { days: DayCell[] }) {
           type="button"
           onClick={() => setMode("garden")}
           aria-pressed={mode === "garden"}
-          className={`press inline-flex items-center gap-1.5 rounded-[7px] px-4 py-1.5 transition-all duration-150 ${
+          className={`${SEG_CLASS} ${
             mode === "garden"
               ? "bg-[--color-surface] font-semibold text-[--color-ink] shadow-[var(--shadow-1)]"
               : "text-[--color-muted]"
@@ -54,7 +48,7 @@ export default function YearView({ days }: { days: DayCell[] }) {
           type="button"
           onClick={() => setMode("grid")}
           aria-pressed={mode === "grid"}
-          className={`press inline-flex items-center gap-1.5 rounded-[7px] px-4 py-1.5 transition-all duration-150 ${
+          className={`${SEG_CLASS} ${
             mode === "grid"
               ? "bg-[--color-surface] font-semibold text-[--color-ink] shadow-[var(--shadow-1)]"
               : "text-[--color-muted]"
@@ -64,13 +58,8 @@ export default function YearView({ days }: { days: DayCell[] }) {
           شبكة
         </button>
       </div>
-      {mode === "garden" ? (
-        <GardenGrid days={days} />
-      ) : (
-        <div ref={gridWrapRef}>
-          <ContributionGrid days={days} />
-        </div>
-      )}
+
+      {mode === "garden" ? <GardenGrid days={days} /> : <ContributionGrid days={days} />}
     </div>
   );
 }

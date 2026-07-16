@@ -35,15 +35,15 @@ export default function YearView({ days }: { days: DayCell[] }) {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* مبدّل العرض: قناةٌ طينية غائرة تعلوها خرزةٌ بيضاء منفوخة للوضع المختار */}
-      <div className="inline-flex gap-1 self-start rounded-full bg-[--color-surface-3] p-1 text-sm shadow-[inset_0_2px_3px_rgba(96,66,30,0.18)]">
+      {/* مبدّل العرض: عنصر تحكّمٍ مجزّأ بأسلوب iOS — مقطعٌ نشطٌ أبيض بظلٍّ خافت */}
+      <div className="inline-flex self-start rounded-[9px] bg-[--color-surface-2] p-[2px] text-sm">
         <button
           type="button"
           onClick={() => setMode("garden")}
           aria-pressed={mode === "garden"}
-          className={`press pill inline-flex items-center gap-1.5 px-4 py-1.5 transition-colors ${
+          className={`press inline-flex items-center gap-1.5 rounded-[7px] px-4 py-1.5 transition-all duration-150 ${
             mode === "garden"
-              ? "bg-[--color-surface] font-bold text-[--color-accent-ink] shadow-[inset_0_1.5px_0_rgba(255,255,255,0.6),0_3px_0_0_var(--edge)]"
+              ? "bg-[--color-surface] font-semibold text-[--color-ink] shadow-[var(--shadow-1)]"
               : "text-[--color-muted]"
           }`}
         >
@@ -54,9 +54,9 @@ export default function YearView({ days }: { days: DayCell[] }) {
           type="button"
           onClick={() => setMode("grid")}
           aria-pressed={mode === "grid"}
-          className={`press pill inline-flex items-center gap-1.5 px-4 py-1.5 transition-colors ${
+          className={`press inline-flex items-center gap-1.5 rounded-[7px] px-4 py-1.5 transition-all duration-150 ${
             mode === "grid"
-              ? "bg-[--color-surface] font-bold text-[--color-accent-ink] shadow-[inset_0_1.5px_0_rgba(255,255,255,0.6),0_3px_0_0_var(--edge)]"
+              ? "bg-[--color-surface] font-semibold text-[--color-ink] shadow-[var(--shadow-1)]"
               : "text-[--color-muted]"
           }`}
         >

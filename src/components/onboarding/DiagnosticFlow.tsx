@@ -39,7 +39,7 @@ export default function DiagnosticFlow({ question, answers, onChange, onAdvance 
             type="time"
             value={answers.wakeTime}
             onChange={(e) => onChange({ wakeTime: e.target.value })}
-            className="tabular w-full rounded-[--radius-md] border border-[--color-border] bg-[--color-surface] px-5 py-4 text-center text-2xl text-[--color-ink] shadow-[var(--shadow-1)] outline-none transition-colors focus:border-[--color-accent]"
+            className="tabular w-full rounded-[12px] bg-[--color-surface] px-5 py-4 text-center text-2xl text-[--color-ink] shadow-[var(--shadow-1)] outline-none transition-shadow focus:shadow-[0_0_0_2px_var(--color-accent),var(--shadow-1)]"
           />
         ) : (
           <div className="grid grid-cols-1 gap-3">
@@ -58,25 +58,11 @@ export default function DiagnosticFlow({ question, answers, onChange, onAdvance 
                       : selectSingle(opt.value)
                   }
                   aria-pressed={selected}
-                  className={`press card flex items-center gap-3.5 p-4 text-start transition-all ${
-                    selected
-                      ? "border-[--color-accent] ring-1 ring-[--color-accent]"
-                      : "lift"
+                  className={`press card flex items-center gap-3.5 rounded-[12px] p-4 text-start transition-all duration-150 ${
+                    selected ? "ring-accent" : "lift"
                   }`}
-                  style={
-                    selected
-                      ? { background: "var(--color-accent-soft)" }
-                      : undefined
-                  }
                 >
-                  <span
-                    className="grid h-11 w-11 shrink-0 place-items-center rounded-[--radius-md] text-xl transition-colors"
-                    style={{
-                      background: selected
-                        ? "var(--color-surface)"
-                        : "var(--color-surface-2)",
-                    }}
-                  >
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[10px] bg-[--color-surface-2] text-xl">
                     {opt.emoji}
                   </span>
                   <span className="min-w-0 flex-1">
@@ -87,11 +73,10 @@ export default function DiagnosticFlow({ question, answers, onChange, onAdvance 
                   </span>
                   {selected && (
                     <span
-                      className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-[--color-accent-ink]"
-                      style={{ background: "var(--color-accent)" }}
+                      className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[--color-accent] text-white"
                       aria-hidden
                     >
-                      <Icon name="check" size={14} className="text-[--color-cream]" strokeWidth={2.4} />
+                      <Icon name="check" size={14} strokeWidth={2.4} />
                     </span>
                   )}
                 </button>

@@ -83,19 +83,16 @@ export default function AddHabit() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="card press grid place-items-center rounded-[--radius-card] border-2 border-dashed border-[--color-hairline] p-6 text-[--color-muted] transition-colors hover:border-[--color-accent] hover:text-[--color-accent-ink]"
+        className="card press flex w-full items-center gap-3 p-3 text-start"
       >
-        <span
-          className="animate-bob grid h-11 w-11 place-items-center rounded-full text-[--color-accent-ink]"
-          style={{
-            background: "var(--color-accent-soft)",
-            boxShadow: "inset 0 1.5px 0 rgba(255,255,255,.6), 0 3px 0 0 var(--edge)",
-          }}
-        >
-          <Icon name="plus" />
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[10px] bg-[--color-accent-soft] text-[--color-accent-ink]">
+          <Icon name="plus" size={18} />
         </span>
-        <span className="mt-2.5 text-sm font-semibold">ازرع عادةً جديدة</span>
-        <span className="mt-0.5 text-xs text-[--color-faint]">ابدأها أصغرَ ممّا تظنّ</span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-[15px] font-semibold text-[--color-ink]">إضافة عادة</span>
+          <span className="block text-xs text-[--color-faint]">ابدأها أصغرَ ممّا تظنّ</span>
+        </span>
+        <Icon name="chevron" size={14} className="shrink-0 text-[--color-faint]" />
       </button>
     );
   }
@@ -129,52 +126,51 @@ export default function AddHabit() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="ابحث عن عادة: تركيز، نوم، قراءة…"
-              className="w-full rounded-[--radius-md] border border-[--color-hairline] bg-[--color-surface] py-2.5 pe-4 ps-10 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-accent]"
+              className="w-full rounded-[10px] border-0 bg-[--color-surface-2] py-2.5 pe-4 ps-10 text-[--color-ink] outline-none placeholder:text-[--color-faint]"
             />
           </div>
-          <div className="flex max-h-72 flex-col gap-2 overflow-y-auto pe-1">
-            {results.map((h) => {
-              const meta = HABIT_META[h.key];
-              return (
-                <button
-                  key={h.key}
-                  type="button"
-                  onClick={() => addFromLibrary(h.key)}
-                  disabled={busy}
-                  className="lift press card flex items-center gap-3 p-3 text-start disabled:opacity-60"
-                >
-                  <span
-                    className="icon-chip h-10 w-10 shrink-0 text-xl"
-                    style={{ background: accentSoftOf(h.colorKey) }}
+          <div className="max-h-72 overflow-y-auto pe-1">
+            <div className="flex flex-col divide-y divide-[--color-hairline-soft]">
+              {results.map((h) => {
+                const meta = HABIT_META[h.key];
+                return (
+                  <button
+                    key={h.key}
+                    type="button"
+                    onClick={() => addFromLibrary(h.key)}
+                    disabled={busy}
+                    className="press flex items-center gap-3 py-2.5 text-start disabled:opacity-60"
                   >
-                    {h.emoji}
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="flex items-center gap-2">
-                      <span className="truncate font-semibold text-[--color-ink]">
-                        {h.title}
+                    <span
+                      className="icon-chip h-10 w-10 shrink-0 text-xl"
+                      style={{ background: accentSoftOf(h.colorKey) }}
+                    >
+                      {h.emoji}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="flex items-center gap-2">
+                        <span className="truncate font-semibold text-[--color-ink]">
+                          {h.title}
+                        </span>
+                        {meta && (
+                          <span className="shrink-0 text-xs text-[--color-faint]">
+                            {meta.category}
+                          </span>
+                        )}
                       </span>
                       {meta && (
-                        <span className="pill tilt-1 bg-[--color-surface-2] px-2 py-0.5 text-xs font-semibold text-[--color-muted]">
-                          {meta.category}
+                        <span className="block truncate text-xs text-[--color-faint]">
+                          {meta.why}
                         </span>
                       )}
                     </span>
-                    {meta && (
-                      <span className="block truncate text-xs text-[--color-faint]">
-                        {meta.why}
-                      </span>
-                    )}
-                  </span>
-                  <span
-                    className="icon-chip h-8 w-8 shrink-0 rounded-full text-[--color-accent-ink]"
-                    style={{ background: "var(--color-accent-soft)" }}
-                  >
-                    <Icon name="plus" size={18} />
-                  </span>
-                </button>
-              );
-            })}
+                    <span className="grid h-8 w-8 shrink-0 place-items-center text-[--color-accent]">
+                      <Icon name="plus" size={20} />
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
             {results.length === 0 && (
               <p className="py-4 text-center text-sm text-[--color-faint]">
                 لا نتائج بهذا الاسم — أنشئها عادةً مخصّصة.
@@ -206,7 +202,7 @@ export default function AddHabit() {
               onKeyDown={(e) => e.key === "Enter" && submitCustom()}
               autoFocus
               placeholder="سمِّ عادتك…"
-              className="flex-1 rounded-[--radius-sm] border border-[--color-hairline] bg-[--color-surface] px-3 py-2 text-[--color-ink] outline-none placeholder:text-[--color-faint] focus:border-[--color-accent]"
+              className="min-w-0 flex-1 rounded-[10px] border-0 bg-[--color-surface-2] px-3 py-2 text-[--color-ink] outline-none placeholder:text-[--color-faint]"
             />
           </div>
 
@@ -249,7 +245,7 @@ export default function AddHabit() {
                       boxShadow:
                         color === c
                           ? "0 0 0 2px var(--color-surface), 0 0 0 4px " + accentOf(c)
-                          : "inset 0 1.5px 0 rgba(255,255,255,.4)",
+                          : "none",
                     }}
                   />
                 </button>
@@ -259,34 +255,32 @@ export default function AddHabit() {
               type="time"
               value={time}
               onChange={(e) => setTime(e.target.value)}
-              className="tabular rounded-[--radius-xs] border border-[--color-hairline] bg-[--color-surface] px-3 py-1.5 text-[--color-ink] outline-none"
+              className="tabular rounded-[10px] border-0 bg-[--color-surface-2] px-3 py-1.5 text-[--color-ink] outline-none"
             />
           </div>
 
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={submitCustom}
-              disabled={busy || !title.trim()}
-              className="btn-clay press flex-1 py-2.5 font-bold disabled:opacity-50"
-            >
-              {busy ? (
-                <span className="inline-flex items-center justify-center gap-2">
-                  <Spinner size={16} />
-                  تُضاف…
-                </span>
-              ) : (
-                "إضافة"
-              )}
-            </button>
-            <button
-              type="button"
-              onClick={() => setCustom(false)}
-              className="pill bg-[--color-surface-2] px-5 font-medium text-[--color-muted] transition-colors hover:bg-[--color-surface-3]"
-            >
-              رجوع
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={submitCustom}
+            disabled={busy || !title.trim()}
+            className="btn-clay press w-full py-3 font-semibold disabled:opacity-50"
+          >
+            {busy ? (
+              <span className="inline-flex items-center justify-center gap-2">
+                <Spinner size={16} />
+                تُضاف…
+              </span>
+            ) : (
+              "إضافة"
+            )}
+          </button>
+          <button
+            type="button"
+            onClick={() => setCustom(false)}
+            className="press self-center py-1 text-sm font-medium text-[--color-muted]"
+          >
+            رجوع
+          </button>
         </>
       )}
     </div>

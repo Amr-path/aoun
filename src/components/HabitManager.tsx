@@ -12,6 +12,10 @@ import Icon from "./ui/Icon";
 import Spinner from "./ui/Spinner";
 import FrequencyToggle from "./FrequencyToggle";
 
+// حقل iOS: إدراجٌ رماديّ هادئ بلا حدودٍ ولا ظلالٍ غائرة.
+const FIELD_CLASS =
+  "rounded-[10px] border-0 bg-[--color-surface-2] outline-none focus:ring-2 focus:ring-[--color-accent]";
+
 export default function HabitManager() {
   const habits = useDashboard((s) => s.habits);
   const loading = useDashboard((s) => s.loading);
@@ -67,27 +71,33 @@ export default function HabitManager() {
   }
 
   return (
-    <section className="flex flex-col gap-2" aria-label="إدارة العادات">
+    <section
+      className="card divide-y divide-[--color-hairline-soft] overflow-hidden"
+      aria-label="إدارة العادات"
+    >
       {habits.map((h) => {
         const soft = accentSoftOf(h.colorKey);
         const opened = openId === h.id;
         return (
-          <div key={h.id} className="card overflow-hidden">
-            {/* صفّ العادة */}
+          <div key={h.id}>
+            {/* صفّ العادة — قائمة iOS مجمّعة */}
             <button
               type="button"
               onClick={() => open(h.id, h.title, h.scheduledAt)}
               aria-expanded={opened}
-              className="flex w-full items-center gap-3 px-3 py-2.5 text-start"
+              className="flex w-full items-center gap-3 px-4 py-3 text-start transition-colors hover:bg-[--color-surface-2]"
             >
-              <span className="icon-chip h-9 w-9 shrink-0 rounded-full text-base" style={{ background: soft }}>
+              <span
+                className="icon-chip h-8 w-8 shrink-0 rounded-[8px] text-base"
+                style={{ background: soft }}
+              >
                 {h.emoji}
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-[15px] font-semibold text-[--color-ink]">
                   {h.title}
                 </span>
-                <span className="tabular block text-xs text-[--color-muted]">
+                <span className="tabular block text-[13px] text-[--color-faint]">
                   {formatTime12(h.scheduledAt)} · {h.frequency === "daily" ? "يومي" : "أيام محدّدة"}
                   {h.streak > 0 ? ` · مداومة ${ar(h.streak)}` : ""}
                 </span>
@@ -101,24 +111,24 @@ export default function HabitManager() {
               />
             </button>
 
-            {/* لوحة التعديل */}
+            {/* لوحة التعديل — تحت الصفّ داخل القسم نفسه، بفاصلٍ شعري */}
             {opened && (
-              <div className="flex flex-col gap-4 border-t border-[--color-hairline-soft] px-3.5 pb-4 pt-3.5">
+              <div className="flex flex-col gap-4 border-t border-[--color-hairline-soft] px-4 pb-4 pt-3.5">
                 {/* العنوان */}
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-xs text-[--color-muted]">العنوان</span>
+                  <span className="text-[13px] text-[--color-muted]">العنوان</span>
                   <input
                     value={titleDraft}
                     onChange={(e) => setTitleDraft(e.target.value)}
                     onBlur={() => commitTitle(h.id, h.title)}
                     onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
-                    className="rounded-2xl border-0 bg-[--color-surface-2] px-3.5 py-2.5 text-[--color-ink] shadow-[inset_0_2px_3px_rgba(96,66,30,0.14)] outline-none transition-shadow focus:shadow-[inset_0_2px_3px_rgba(96,66,30,0.14),0_0_0_2.5px_var(--color-accent)]"
+                    className={`${FIELD_CLASS} px-3.5 py-2.5 text-[--color-ink]`}
                   />
                 </label>
 
                 {/* الرمز */}
                 <div className="flex flex-col gap-1.5">
-                  <span className="text-xs text-[--color-muted]">الرمز</span>
+                  <span className="text-[13px] text-[--color-muted]">الرمز</span>
                   <div className="flex flex-wrap gap-1">
                     {EMOJI_CHOICES.map((e) => (
                       <button
@@ -127,13 +137,13 @@ export default function HabitManager() {
                         onClick={() => patchHabit(h.id, { emoji: e })}
                         aria-label={`الرمز ${e}`}
                         aria-pressed={h.emoji === e}
-                        className="grid h-11 w-11 place-items-center rounded-xl transition-transform active:scale-95"
+                        className="grid h-11 w-11 place-items-center rounded-[10px] transition-transform active:scale-95"
                       >
                         <span
-                          className={`grid h-9 w-9 place-items-center rounded-xl text-lg transition-all ${
+                          className={`grid h-9 w-9 place-items-center rounded-[10px] bg-[--color-surface-2] text-lg transition-all ${
                             h.emoji === e
-                              ? "scale-105 bg-[--color-surface-2] ring-2 ring-[--color-accent]"
-                              : "bg-[--color-surface-2] opacity-80 hover:opacity-100"
+                              ? "ring-2 ring-[--color-accent]"
+                              : "opacity-80 hover:opacity-100"
                           }`}
                         >
                           {e}
@@ -145,7 +155,7 @@ export default function HabitManager() {
 
                 {/* اللون */}
                 <div className="flex flex-col gap-1.5">
-                  <span className="text-xs text-[--color-muted]">اللون</span>
+                  <span className="text-[13px] text-[--color-muted]">اللون</span>
                   <div className="flex flex-wrap gap-1.5">
                     {COLOR_KEYS.map((c) => (
                       <button
@@ -164,8 +174,8 @@ export default function HabitManager() {
                             background: accentOf(c),
                             boxShadow:
                               h.colorKey === c
-                                ? `0 0 0 2.5px var(--color-surface), 0 0 0 5px ${accentOf(c)}`
-                                : "inset 0 1.5px 0 rgba(255,255,255,.4)",
+                                ? `0 0 0 2px var(--color-surface), 0 0 0 4px ${accentOf(c)}`
+                                : "none",
                           }}
                         />
                       </button>
@@ -182,7 +192,7 @@ export default function HabitManager() {
                     onChange={(e) => setTimeDraft(e.target.value)}
                     onBlur={() => commitTime(h.id, h.scheduledAt)}
                     onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
-                    className="tabular rounded-2xl border-0 bg-[--color-surface-2] px-3.5 py-2 text-[--color-ink] shadow-[inset_0_2px_3px_rgba(96,66,30,0.14)] outline-none"
+                    className={`tabular ${FIELD_CLASS} px-3.5 py-2 text-[--color-ink]`}
                   />
                 </label>
 
@@ -194,7 +204,7 @@ export default function HabitManager() {
                     onChange={(e) =>
                       patchHabit(h.id, { reminderOffsetMin: Number(e.target.value) })
                     }
-                    className="rounded-2xl border-0 bg-[--color-surface-2] px-3.5 py-2 text-sm text-[--color-ink] shadow-[inset_0_2px_3px_rgba(96,66,30,0.14)] outline-none"
+                    className={`${FIELD_CLASS} px-3.5 py-2 text-sm text-[--color-ink]`}
                   >
                     <option value={0}>بدون تذكير</option>
                     <option value={15}>١٥ دقيقة</option>
@@ -215,7 +225,7 @@ export default function HabitManager() {
                   <button
                     type="button"
                     onClick={() => archiveHabit(h.id)}
-                    className="inline-flex items-center gap-1.5 text-sm font-medium text-[--color-muted] transition-opacity hover:opacity-70"
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-[--color-muted] transition-colors hover:text-[--color-ink]"
                   >
                     <Icon name="moon" size={15} />
                     أرشفة
@@ -226,7 +236,7 @@ export default function HabitManager() {
                     <button
                       type="button"
                       onClick={() => setConfirmId(h.id)}
-                      className="inline-flex items-center gap-1 text-xs text-[--color-danger-ink] opacity-70 transition-opacity hover:opacity-100"
+                      className="inline-flex items-center gap-1 text-[13px] text-[--color-danger] transition-opacity hover:opacity-70"
                     >
                       <Icon name="trash" size={13} />
                       حذف نهائي
@@ -239,7 +249,7 @@ export default function HabitManager() {
                       <button
                         type="button"
                         onClick={() => removeHabit(h.id)}
-                        className="press pill bg-[--color-danger] px-4 py-1.5 text-sm font-bold text-white shadow-[0_3px_0_0_var(--edge)]"
+                        className="press pill bg-[--color-danger] px-4 py-1.5 text-sm font-semibold text-white"
                       >
                         نعم، احذف نهائياً
                       </button>

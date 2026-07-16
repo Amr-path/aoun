@@ -1,15 +1,11 @@
 "use client";
-// عون — صفحة الاشتراك «عون بلس»: مزايا مجاني↔بلس + تسعير + دعوة ترقية (دون بوّابة دفع فعلية بعد).
+// عون — صفحة الاشتراك «عون بلس»: ورقة اشتراكٍ بروح iOS — صفوف مزايا بفواصل شعرية،
+// تسعيرٌ بارز، وزرٌّ معبّأ واحد (دون بوّابة دفع فعلية بعد).
 import Link from "next/link";
 import { useState } from "react";
 import FlowerMark from "./FlowerMark";
 import Icon from "./ui/Icon";
 import { ar } from "@/lib/numerals";
-
-const GLOW =
-  "radial-gradient(95% 40% at 50% -8%, rgba(224,145,58,.13), transparent 62%)," +
-  "radial-gradient(70% 34% at 82% 8%, rgba(226,166,133,.10), transparent 64%)," +
-  "radial-gradient(70% 40% at 12% 16%, rgba(124,127,208,.07), transparent 62%)";
 
 // صدقٌ كامل: كل ما هو متاحٌ اليوم يبقى مجانياً — لا نَعِد بما تملكه أصلاً.
 const FREE = [
@@ -37,14 +33,12 @@ export default function PlusClient() {
   const [note, setNote] = useState(false);
 
   return (
-    <main className="relative mx-auto w-full max-w-lg overflow-hidden px-5 pb-16 pt-5">
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10" style={{ background: GLOW }} />
-
+    <main className="mx-auto w-full max-w-lg px-5 pb-16 pt-5">
       {/* شريط علوي */}
       <div className="flex h-10 items-center justify-between">
         <Link
           href="/settings"
-          className="press grid h-9 w-9 place-items-center rounded-[--radius-md] border border-[--color-hairline-soft] bg-[--color-surface] text-[--color-muted] shadow-[var(--shadow-top),var(--shadow-1)]"
+          className="press grid h-9 w-9 place-items-center rounded-full bg-[--color-surface] text-[--color-muted] shadow-[var(--shadow-1)]"
           aria-label="رجوع"
         >
           <Icon name="chevron" size={18} className="scale-x-[-1]" />
@@ -54,12 +48,9 @@ export default function PlusClient() {
       {/* الهيرو */}
       <div className="mt-4 flex flex-col items-center text-center">
         <FlowerMark size={72} className="mb-3" />
-        <h1 className="flex items-center gap-2 font-[family-name:var(--font-display)] text-3xl font-extrabold text-[--color-ink]">
+        <h1 className="flex items-center gap-2 font-[family-name:var(--font-display)] text-[28px] font-bold text-[--color-ink]">
           عون
-          <span
-            className="rounded-full px-3 py-1 text-base font-bold text-[--color-cream]"
-            style={{ background: "var(--grad-cta)" }}
-          >
+          <span className="rounded-full bg-[--color-accent] px-3 py-1 text-base font-bold text-white">
             بلس
           </span>
         </h1>
@@ -68,36 +59,37 @@ export default function PlusClient() {
         </p>
       </div>
 
-      {/* المجاني */}
-      <section className="card mt-7 p-5">
-        <h2 className="mb-3 text-base font-bold text-[--color-ink]">مجانيٌّ اليوم — ويبقى مجانياً</h2>
-        <ul className="flex flex-col gap-2.5">
+      {/* المجاني — قائمة مجموعةٍ بصفوفٍ مفصولة بخطوطٍ شعرية */}
+      <section className="mt-7">
+        <h2 className="mb-2 px-1 text-[13px] font-medium text-[--color-faint]">
+          مجانيٌّ اليوم — ويبقى مجانياً
+        </h2>
+        <div className="card divide-y overflow-hidden">
           {FREE.map((f) => (
-            <li key={f} className="flex items-center gap-2.5 text-sm text-[--color-muted]">
-              <Icon name="check" size={15} className="shrink-0 text-[--color-faint]" />
+            <div key={f} className="flex items-center gap-3 px-4 py-3 text-sm text-[--color-ink]">
+              <Icon name="check" size={16} className="shrink-0 text-[--color-accent]" />
               {f}
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
 
       {/* بلس */}
-      <section
-        className="mt-4 rounded-[--radius-card] border p-5"
-        style={{ borderColor: "var(--color-accent)", background: "var(--color-accent-soft)" }}
-      >
-        <h2 className="mb-3 flex items-center gap-2 text-base font-bold text-[--color-accent-ink]">
-          <Icon name="spark" size={17} />
+      <section className="mt-6">
+        <h2 className="mb-2 px-1 text-[13px] font-medium text-[--color-faint]">
           قريباً في «بلس»
         </h2>
-        <ul className="flex flex-col gap-2.5">
+        <div className="card divide-y overflow-hidden">
           {PLUS.map((f) => (
-            <li key={f} className="flex items-start gap-2.5 text-sm font-medium text-[--color-accent-ink]">
-              <Icon name="check" size={15} className="mt-0.5 shrink-0" />
+            <div
+              key={f}
+              className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-[--color-ink]"
+            >
+              <Icon name="spark" size={16} className="shrink-0 text-[--color-accent]" />
               {f}
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
 
       {/* التسعير */}
@@ -125,11 +117,7 @@ export default function PlusClient() {
       <button
         type="button"
         onClick={() => setNote(true)}
-        className="press mt-4 flex w-full items-center justify-center gap-2 rounded-full py-3.5 text-center text-base font-bold text-[--color-cream]"
-        style={{
-          background: "var(--grad-cta)",
-          boxShadow: "0 10px 22px -8px rgba(200,122,40,.5), inset 0 1px 0 rgba(255,255,255,.35)",
-        }}
+        className="btn-clay press mt-4 flex w-full items-center justify-center gap-2 rounded-[12px] py-3.5 text-center text-base font-bold"
       >
         <Icon name="bell" size={18} />
         أعلِمني عند الإطلاق
@@ -170,22 +158,20 @@ function PlanCard({
     <button
       type="button"
       onClick={onClick}
-      className="press relative flex flex-col items-center rounded-[--radius-card] bg-[--color-surface] p-4 text-center transition-colors"
-      style={{
-        border: active ? "2px solid var(--color-accent)" : "1px solid var(--color-hairline-soft)",
-        boxShadow: active ? "var(--shadow-2)" : "var(--shadow-top), var(--shadow-1)",
-      }}
+      aria-pressed={active}
+      className={`press relative flex flex-col items-center rounded-[--radius-card] bg-[--color-surface] p-4 text-center transition-shadow duration-150 ${
+        active
+          ? "shadow-[0_0_0_2px_var(--color-accent),var(--shadow-1)]"
+          : "shadow-[var(--shadow-1)]"
+      }`}
     >
       {badge && (
-        <span
-          className="absolute -top-2.5 rounded-full px-2.5 py-0.5 text-xs font-bold text-[--color-accent-ink]"
-          style={{ background: "var(--color-accent-soft)", border: "1px solid var(--color-accent)" }}
-        >
+        <span className="absolute -top-2.5 rounded-full bg-[--color-accent-soft] px-2.5 py-0.5 text-xs font-bold text-[--color-accent-ink]">
           {badge}
         </span>
       )}
-      <span className="mt-1 text-sm font-bold text-[--color-ink]">{title}</span>
-      <span className="score mt-1.5 font-[family-name:var(--font-display)] text-2xl font-extrabold text-[--color-ink]">
+      <span className="mt-1 text-sm font-semibold text-[--color-ink]">{title}</span>
+      <span className="score tabular mt-1.5 text-[28px] font-bold leading-tight text-[--color-ink]">
         {price}
       </span>
       <span className="text-xs text-[--color-muted]">{unit}</span>

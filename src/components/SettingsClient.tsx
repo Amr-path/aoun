@@ -1,6 +1,6 @@
 "use client";
 // عون — صفحة الإعدادات: الحساب، المنطقة الزمنية، المظهر، الإشعارات، الخروج.
-// بروح «واحة» الهادئة: بطاقاتٌ طينية منفوخة، حقولٌ غائرة في العجين، وعناوينُ أقسامٍ بتظليل الزبدة.
+// بروح «نقاء»: مجموعات iOS — بطاقات بيضاء، فواصل شعرية، وعناوين أقسام خافتة.
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
@@ -37,14 +37,14 @@ interface Props {
   initialTz: string;
 }
 
-// عنوان مجموعةٍ بين فاصلَي خرز — كلمةٌ قصيرة مُظلَّلة بالزبدة.
+// حقل iOS: إدراجٌ رماديّ هادئ بلا حدودٍ ولا ظلالٍ غائرة.
+const FIELD_CLASS =
+  "rounded-[10px] border-0 bg-[--color-surface-2] px-3.5 py-2.5 text-[--color-ink] outline-none focus:ring-2 focus:ring-[--color-accent]";
+
+// عنوان قسمٍ بأسلوب إعدادات iOS — كلمةٌ خافتة صغيرة بلا زخرفة.
 function SectionLabel({ children }: { children: ReactNode }) {
   return (
-    <div className="mb-3 mt-6 flex items-center gap-3 px-1">
-      <span className="ornament-line" aria-hidden />
-      <span className="text-gild whitespace-nowrap text-xs font-bold">{children}</span>
-      <span className="ornament-line rev" aria-hidden />
-    </div>
+    <p className="mb-2 mt-7 px-4 text-[13px] font-medium text-[--color-faint]">{children}</p>
   );
 }
 
@@ -78,43 +78,35 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
         <Logo size={28} withWordmark />
         <Link
           href="/dashboard"
-          className="press pill inline-flex items-center gap-1.5 border border-[--color-hairline-soft] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] shadow-[var(--shadow-top),0_3px_0_0_var(--edge)] transition-colors hover:bg-[--color-surface-2]"
+          className="press inline-flex items-center gap-1 text-[17px] text-[--color-accent-ink]"
         >
-          <Icon name="chevron" size={16} className="scale-x-[-1]" />
+          <Icon name="chevron" size={17} className="scale-x-[-1]" />
           اللوحة
         </Link>
       </div>
 
-      <h1 className="font-[family-name:var(--font-display)] text-3xl font-black text-[--color-ink]">
+      <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold text-[--color-ink]">
         الإعدادات
       </h1>
 
       {/* الحساب */}
       <SectionLabel>الحساب</SectionLabel>
-      <section className="card p-5">
+      <section className="card p-4">
         <label className="mb-3 flex flex-col gap-1.5">
-          <span className="text-xs text-[--color-muted]">الاسم</span>
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="rounded-2xl border-0 bg-[--color-surface-2] px-3.5 py-2.5 text-[--color-ink] shadow-[inset_0_2px_3px_rgba(96,66,30,0.14)] outline-none transition-shadow focus:shadow-[inset_0_2px_3px_rgba(96,66,30,0.14),0_0_0_2.5px_var(--color-accent)]"
-          />
+          <span className="text-[13px] text-[--color-muted]">الاسم</span>
+          <input value={name} onChange={(e) => setName(e.target.value)} className={FIELD_CLASS} />
         </label>
         <label className="mb-3 flex flex-col gap-1.5">
-          <span className="text-xs text-[--color-muted]">البريد</span>
+          <span className="text-[13px] text-[--color-muted]">البريد</span>
           <input
             value={email}
             disabled
-            className="rounded-2xl border-0 bg-[--color-surface-3] px-3.5 py-2.5 text-[--color-faint] shadow-[inset_0_2px_3px_rgba(96,66,30,0.14)] outline-none"
+            className="rounded-[10px] border-0 bg-[--color-surface-2] px-3.5 py-2.5 text-[--color-faint] outline-none"
           />
         </label>
         <label className="flex flex-col gap-1.5">
-          <span className="text-xs text-[--color-muted]">المنطقة الزمنية</span>
-          <select
-            value={tz}
-            onChange={(e) => setTz(e.target.value)}
-            className="rounded-2xl border-0 bg-[--color-surface-2] px-3.5 py-2.5 text-[--color-ink] shadow-[inset_0_2px_3px_rgba(96,66,30,0.14)] outline-none transition-shadow focus:shadow-[inset_0_2px_3px_rgba(96,66,30,0.14),0_0_0_2.5px_var(--color-accent)]"
-          >
+          <span className="text-[13px] text-[--color-muted]">المنطقة الزمنية</span>
+          <select value={tz} onChange={(e) => setTz(e.target.value)} className={FIELD_CLASS}>
             {TIMEZONES.map((z) => (
               <option key={z.id} value={z.id}>
                 {z.label}
@@ -128,7 +120,7 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
             type="button"
             onClick={save}
             disabled={busy}
-            className="btn-clay px-7 py-2.5 font-bold disabled:opacity-60"
+            className="btn-clay press px-7 py-2.5 font-semibold disabled:opacity-60"
           >
             {busy ? (
               <span className="inline-flex items-center justify-center">
@@ -143,30 +135,26 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
 
       {/* إدارة العادات — التعديل هنا فقط؛ اللوحة للإنجاز والأصل الثبات */}
       <SectionLabel>عاداتك</SectionLabel>
-      <p className="-mt-1 mb-3 px-1 text-xs leading-relaxed text-[--color-faint]">
+      <p className="-mt-1 mb-3 px-4 text-xs leading-relaxed text-[--color-faint]">
         هنا وحدها تُعدَّل العادة أو تُحذف — أبقينا لوحتك اليومية للإنجاز فقط.
       </p>
       <HabitManager />
 
-      {/* الترقية إلى عون بلس — بطاقةُ زبدةٍ طينية */}
-      <Link
-        href="/plus"
-        className="press lift mt-4 flex items-center gap-3 rounded-[--radius-card] border border-[--color-hairline-soft] p-4 shadow-[var(--shadow-top),var(--shadow-1)]"
-        style={{ background: "var(--color-amber-soft)" }}
-      >
+      {/* الترقية إلى عون بلس — صفُّ بطاقةٍ نظيف */}
+      <Link href="/plus" className="card press lift mt-4 flex items-center gap-3 p-4">
         <span
-          className="icon-chip h-10 w-10 shrink-0 text-[--color-amber-ink]"
-          style={{ background: "var(--grad-sunrise)" }}
+          className="icon-chip h-8 w-8 shrink-0 rounded-[10px] text-[--color-amber-ink]"
+          style={{ background: "var(--color-amber-soft)" }}
         >
-          <Icon name="spark" size={18} />
+          <Icon name="spark" size={16} />
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block font-bold text-[--color-amber-ink]">عون بلس</span>
-          <span className="block text-xs text-[--color-amber-ink] opacity-80">
+          <span className="block font-semibold text-[--color-ink]">عون بلس</span>
+          <span className="block text-[13px] text-[--color-muted]">
             افتح كامل التجربة وادعم التطوير
           </span>
         </span>
-        <Icon name="chevron" size={18} className="text-[--color-amber-ink]" />
+        <Icon name="chevron" size={17} className="shrink-0 text-[--color-faint]" />
       </Link>
 
       {/* المظهر والتنبيهات */}
@@ -174,9 +162,9 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
       <ThemeToggle />
       <NotificationsToggle />
 
-      {/* الجلسة — زرّ الخروج بهدوءِ الخطر: حبّةٌ ورديةٌ ناعمة بحبرٍ غامق، بلا تعبئةٍ صارخة */}
+      {/* الجلسة — صفُّ خروجٍ تدميريّ بأسلوب iOS: نصٌّ أحمر مركّز داخل بطاقة */}
       <SectionLabel>الجلسة</SectionLabel>
-      <div className="flex justify-center [&_button:active]:shadow-none [&_button]:border-0 [&_button]:bg-[--color-danger-soft] [&_button]:text-[--color-danger-ink] [&_button]:shadow-[0_3px_0_0_var(--edge)]">
+      <div className="card overflow-hidden [&_button]:w-full [&_button]:justify-center [&_button]:rounded-none [&_button]:border-0 [&_button]:bg-transparent [&_button]:py-3.5 [&_button]:text-[--color-danger] [&_button:hover]:bg-[--color-surface-2]">
         <LogoutButton />
       </div>
 

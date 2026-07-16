@@ -4,31 +4,13 @@ import { getUserId } from "@/lib/auth";
 import FlowerMark from "@/components/FlowerMark";
 import Icon, { type IconName } from "@/components/ui/Icon";
 
-// خرزات الأركان الطينية — باستيل ناعم مع حبرٍ مطابق لكل لون.
-const CHIP_TONES = [
-  { bg: "var(--color-sage-soft)", ink: "var(--color-sage-ink)" },
-  { bg: "var(--color-sky-soft)", ink: "var(--color-sky-ink)" },
-  { bg: "var(--color-amber-soft)", ink: "var(--color-amber-ink)" },
-];
-
 const PILLARS: { icon: IconName; title: string; body: string }[] = [
   { icon: "spark", title: "قِلّةٌ تُتقَن", body: "سبعُ عاداتٍ حدّاً لا يُتجاوز. ما تُتقنه يبقى، وما يزدحم يُهجَر." },
   { icon: "leaf", title: "أثرٌ يتراكم", body: "كلُّ يومٍ تفي فيه لنفسك يضيف إلى حديقتك — سجلٌّ حيٌّ يشهد لرحلتك بصمت." },
   { icon: "sun", title: "صحبةٌ لا تزحم", body: "تذكيرٌ في وقته، وكلمةٌ في محلّها. لا إلحاح، ولا ضجيج، ولا شعورٌ بالذنب." },
 ];
 
-// فاصلٌ هادئ: خيطا خرزٍ حول حبّةٍ مرجانية طرية.
-function OrnamentDivider({ className = "" }: { className?: string }) {
-  return (
-    <div aria-hidden className={`flex w-full max-w-xs items-center gap-3 ${className}`}>
-      <span className="ornament-line" />
-      <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[--color-accent] shadow-[0_2px_0_0_var(--edge-accent)]" />
-      <span className="ornament-line rev" />
-    </div>
-  );
-}
-
-// سماء الفجر خلف الترويسة: شمسُ زبدةٍ تتنفّس وغيمتان منفوختتان من عجين.
+// سماء الترويسة: شمسٌ هادئة وغيمةٌ رقيقة واحدة — لا أكثر.
 function HeroSky() {
   return (
     <svg
@@ -37,67 +19,46 @@ function HeroSky() {
       preserveAspectRatio="xMidYMin slice"
       className="pointer-events-none absolute inset-x-0 top-0 h-[170px] w-full"
     >
-      {/* هالة الشمس ثم قرصها الزبديّ الطريّ */}
-      <circle className="sun-glow" cx="326" cy="54" r="42" fill="var(--color-amber)" opacity="0.3" />
-      <circle cx="326" cy="54" r="26" fill="var(--color-amber)" />
-      <ellipse cx="318" cy="45" rx="11" ry="7" fill="rgba(255,255,255,0.45)" />
-
-      {/* غيمةٌ كبيرة تتمايل على مهل */}
-      <g className="animate-bob" fill="var(--color-surface)" opacity="0.95">
-        <ellipse cx="72" cy="64" rx="34" ry="16" />
-        <ellipse cx="96" cy="55" rx="22" ry="14" />
-        <ellipse cx="48" cy="56" rx="18" ry="12" />
-      </g>
-      {/* وغيمةٌ صغيرة تتبعها بخطوةٍ متأخرة */}
-      <g className="animate-bob" style={{ animationDelay: "-1.8s" }} fill="var(--color-surface)" opacity="0.85">
-        <ellipse cx="228" cy="32" rx="25" ry="11" />
-        <ellipse cx="247" cy="26" rx="15" ry="9" />
-        <ellipse cx="210" cy="26" rx="13" ry="8" />
+      <circle className="sun-glow" cx="326" cy="54" r="38" fill="var(--color-amber)" opacity="0.22" />
+      <circle cx="326" cy="54" r="23" fill="var(--color-amber)" opacity="0.9" />
+      <g fill="var(--color-surface)" opacity="0.6">
+        <ellipse cx="80" cy="58" rx="32" ry="9" />
+        <ellipse cx="103" cy="52" rx="17" ry="7" />
       </g>
     </svg>
   );
 }
 
-// تلّةٌ خضراء صغيرة تحتضن أسفل اللوحة — صدى «تلّة الواحة» داخل التطبيق.
+// تلّةٌ خضراء خافتة تستقرّ أسفل اللوحة.
 function HeroHill() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-16 overflow-hidden">
       <svg viewBox="0 0 400 64" preserveAspectRatio="none" className="h-full w-full">
-        <ellipse cx="120" cy="92" rx="240" ry="62" fill="var(--color-sage)" opacity="0.3" />
-        <ellipse cx="310" cy="100" rx="220" ry="66" fill="var(--color-sage)" opacity="0.45" />
+        <ellipse cx="120" cy="92" rx="240" ry="62" fill="var(--color-sage)" opacity="0.25" />
+        <ellipse cx="310" cy="100" rx="220" ry="66" fill="var(--color-sage)" opacity="0.4" />
       </svg>
     </div>
   );
 }
 
-// لقطة منتجٍ مصغّرة من داخل التطبيق تطفو أسفل الصفحة.
+// لقطة منتجٍ من داخل التطبيق — بطاقةٌ بيضاء بصفوفٍ مفصولةٍ بخطوطٍ شعرية.
 function ProductPeek() {
   const rows = [
     { emoji: "🚶", name: "المشي", soft: "var(--color-lavender-soft)", ring: "var(--color-lavender)", done: false },
     { emoji: "📖", name: "القراءة", soft: "var(--color-sky-soft)", ring: "var(--color-sky)", done: false },
-    { emoji: "💧", name: "شرب الماء", soft: "var(--color-surface-2)", ring: "var(--color-sage)", done: true },
+    { emoji: "💧", name: "شرب الماء", soft: "var(--color-sage-soft)", ring: "var(--color-sage)", done: true },
   ];
   return (
-    <div
-      className="lp-peek tilt-1 mt-8 w-[302px] rounded-t-[--radius-xl] bg-[--color-surface] px-4 pt-4"
-      style={{
-        border: "1px solid var(--color-hairline-soft)",
-        borderBottom: 0,
-        boxShadow: "var(--shadow-top), var(--shadow-lg)",
-      }}
-    >
+    <div className="lp-peek card mt-8 w-[302px] rounded-t-[--radius-xl] rounded-b-none px-4 pt-4 text-start shadow-[var(--shadow-lg)]">
       <div className="mb-3 flex items-center justify-between">
-        <span className="font-[family-name:var(--font-display)] text-base font-extrabold text-[--color-ink]">
+        <span className="font-[family-name:var(--font-display)] text-base font-bold text-[--color-ink]">
           صباح الخير
         </span>
         <span className="text-xs text-[--color-faint]">الخميس ٢٤ يوليو</span>
       </div>
 
-      {/* صينيةُ الملخّص: عجينةٌ غائرة برفق */}
-      <div
-        className="mb-2.5 flex items-center gap-3 rounded-[--radius-md] bg-[--color-surface-2] p-2.5"
-        style={{ boxShadow: "inset 0 2px 3px rgba(96, 66, 30, 0.1)" }}
-      >
+      {/* ملخّص اليوم — إدراجٌ رماديّ هادئ */}
+      <div className="flex items-center gap-3 rounded-[10px] bg-[--color-surface-2] p-2.5">
         <div className="relative grid h-[56px] w-[56px] shrink-0 place-items-center">
           <svg width="56" height="56" viewBox="0 0 56 56">
             <circle cx="28" cy="28" r="22" fill="none" stroke="var(--color-surface-3)" strokeWidth="6" />
@@ -114,53 +75,46 @@ function ProductPeek() {
               transform="rotate(-90 28 28)"
             />
           </svg>
-          <b className="score absolute font-[family-name:var(--font-display)] text-sm font-extrabold text-[--color-ink]">
+          <b className="score absolute font-[family-name:var(--font-display)] text-sm font-bold text-[--color-ink]">
             ٣/٧
           </b>
         </div>
         <div className="min-w-0 flex-1 text-right">
-          <div className="text-xs font-bold text-[--color-ink]">يومُك يكتمل</div>
+          <div className="text-[13px] font-semibold text-[--color-ink]">يومُك يكتمل</div>
           <div className="mt-0.5 text-xs text-[--color-muted]">بقيت أربعُ عاداتٍ ليكتمل يومك</div>
-          {/* خيطُ اليوم — التقدّم يُسكَب مرجانًا في قناةٍ طينية */}
           <div className="thread mt-2" aria-hidden>
             <i style={{ width: "43%" }} />
           </div>
         </div>
       </div>
 
-      {rows.map((r) => (
-        <div
-          key={r.name}
-          className="mb-2 flex items-center gap-2.5 rounded-[--radius-sm] p-2.5"
-          style={{
-            background: r.done ? "var(--color-sage-soft)" : "var(--color-surface)",
-            border: "1px solid var(--color-hairline-soft)",
-            boxShadow: "0 2px 0 0 var(--edge)",
-          }}
-        >
-          <span
-            className="icon-chip h-[30px] w-[30px] shrink-0 text-sm"
-            style={{ background: r.soft }}
-          >
-            {r.emoji}
-          </span>
-          <span className="flex-1 text-xs font-bold text-[--color-ink]">{r.name}</span>
-          <span
-            className="grid h-[19px] w-[19px] shrink-0 place-items-center rounded-full"
-            style={{
-              border: r.done ? "none" : `2px solid ${r.ring}`,
-              background: r.done ? "var(--color-sage)" : "transparent",
-              boxShadow: r.done ? "inset 0 -2px 0 rgba(0, 0, 0, 0.12)" : undefined,
-            }}
-          >
-            {r.done && (
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 6 9 17l-5-5" />
-              </svg>
-            )}
-          </span>
-        </div>
-      ))}
+      {/* صفوف العادات — قائمة iOS مفصولة بخطوطٍ شعرية */}
+      <div className="mt-1 divide-y divide-[--color-hairline-soft]">
+        {rows.map((r) => (
+          <div key={r.name} className="flex items-center gap-2.5 py-2.5">
+            <span
+              className="icon-chip h-8 w-8 shrink-0 rounded-[8px] text-sm"
+              style={{ background: r.soft }}
+            >
+              {r.emoji}
+            </span>
+            <span className="flex-1 text-[13px] font-semibold text-[--color-ink]">{r.name}</span>
+            <span
+              className="grid h-[19px] w-[19px] shrink-0 place-items-center rounded-full"
+              style={{
+                border: r.done ? "none" : `2px solid ${r.ring}`,
+                background: r.done ? "var(--color-accent)" : "transparent",
+              }}
+            >
+              {r.done && (
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+              )}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -172,38 +126,39 @@ export default async function Home() {
 
   return (
     <main className="relative mx-auto flex w-full max-w-lg flex-1 flex-col items-center overflow-hidden px-6 pb-0 pt-5 text-center">
-      {/* ─── الترويسة: لوحةُ فجرٍ طينية بشمسٍ وغيومٍ وتلّة ─── */}
+      {/* ─── الترويسة: لوحةُ فجرٍ هادئة بشمسٍ وتلّة ─── */}
       <section className="sky-panel sky-fajr relative w-full overflow-hidden rounded-[--radius-xl] px-6 pt-10">
-        {/* همسة فقاعات العجين على السماء */}
-        <div aria-hidden className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.05]" />
         <HeroSky />
         <HeroHill />
 
         <div className="relative flex flex-col items-center">
           <FlowerMark size={72} className="mb-4" />
 
-          <h1 className="font-[family-name:var(--font-display)] text-5xl font-extrabold leading-[1.15]">
+          <h1 className="font-[family-name:var(--font-display)] text-5xl font-bold leading-[1.15]">
             الثباتُ،
             <br />
             <span className="text-gild">لا الحماس.</span>
           </h1>
 
-          <p className="quote-seed sky-muted mt-4 max-w-[300px] text-lg leading-relaxed">
+          <p className="sky-muted mt-4 max-w-[300px] text-[17px] leading-relaxed">
             سبعُ عاداتٍ تكفيك، ورفيقٌ هادئ لا يزحم يومك. فالذي يصل ليس الأكثر حماسةً، بل الأكثر عودة.
           </p>
 
-          <div className="mt-6 flex items-center gap-3">
-            <Link href="/login?mode=register" className="btn-clay press px-8 py-3.5 text-lg font-bold">
+          <div className="mt-6 flex items-center gap-5">
+            <Link
+              href="/login?mode=register"
+              className="btn-clay press rounded-full px-8 py-3.5 text-[17px] font-semibold"
+            >
               ابدأ رحلتك
             </Link>
-            <a href="#why" className="sky-chip press rounded-full px-6 py-3 text-base font-bold">
-              تعرّف أكثر
+            <a href="#why" className="press text-[17px] font-semibold text-[--color-accent-ink]">
+              تعرّف أكثر ›
             </a>
           </div>
 
           <p className="sky-muted mt-4 text-sm">
             لديك حساب؟{" "}
-            <Link href="/login" className="font-bold underline underline-offset-4 hover:opacity-80">
+            <Link href="/login" className="font-semibold underline underline-offset-4 hover:opacity-80">
               سجّل الدخول
             </Link>
           </p>
@@ -212,62 +167,53 @@ export default async function Home() {
         </div>
       </section>
 
-      <OrnamentDivider className="mt-16" />
-
       {/* لماذا سبعٌ فقط — الفلسفة */}
-      <section id="why" className="mt-10 w-full max-w-md scroll-mt-8">
-        <div className="flex items-center gap-4">
-          <span aria-hidden className="ornament-line" />
-          <h2 className="shrink-0 font-[family-name:var(--font-display)] text-3xl font-extrabold">
-            لماذا <span className="text-gild">سبعٌ</span> فقط؟
-          </h2>
-          <span aria-hidden className="ornament-line rev" />
-        </div>
-        <p className="mx-auto mt-4 max-w-[340px] text-sm leading-relaxed text-[--color-muted]">
+      <section id="why" className="mt-16 w-full max-w-md scroll-mt-8">
+        <h2 className="font-[family-name:var(--font-display)] text-3xl font-bold">
+          لماذا <span className="text-gild">سبعٌ</span> فقط؟
+        </h2>
+        <p className="mx-auto mt-3 max-w-[340px] text-[15px] leading-relaxed text-[--color-muted]">
           لأن عدوَّ الاستمرار هو الازدحام. سبعُ عاداتٍ تغطّي أركان يومك — جسدَك
           وذهنَك وسكينتَك — وتترك لك متّسعًا لتعيش. وما زاد على ذلك حماسةٌ تستهلك نفسها.
         </p>
-        <div className="mt-8 grid gap-4 text-right sm:grid-cols-3">
-          {PILLARS.map((p, i) => (
-            <div key={p.title} className={`card relative overflow-hidden p-4 ${i % 2 === 0 ? "tilt-1" : "tilt-2"}`}>
-              {/* همسة فقاعات عجينٍ خلف البطاقة */}
-              <div aria-hidden className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.06]" />
-              <div className="relative">
-                {/* خرزةٌ طينية مدوّرة تتمايل بمهل، بلون حلوى وحبرٍ مطابق */}
-                <span
-                  aria-hidden
-                  className="icon-chip animate-bob mb-4 mt-1 grid h-11 w-11 place-items-center rounded-full"
-                  style={{
-                    background: CHIP_TONES[i % CHIP_TONES.length].bg,
-                    color: CHIP_TONES[i % CHIP_TONES.length].ink,
-                    animationDelay: `${i * -1.2}s`,
-                  }}
-                >
-                  <Icon name={p.icon} size={16} />
+
+        {/* الأركان الثلاثة — قائمة iOS داخل بطاقةٍ واحدة */}
+        <div className="card mt-8 divide-y divide-[--color-hairline-soft] text-start">
+          {PILLARS.map((p) => (
+            <div key={p.title} className="flex items-start gap-3 p-4">
+              <span
+                aria-hidden
+                className="icon-chip mt-0.5 h-8 w-8 shrink-0 rounded-[8px] text-[--color-accent-ink]"
+                style={{ background: "var(--color-accent-soft)" }}
+              >
+                <Icon name={p.icon} size={15} />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-[15px] font-semibold text-[--color-ink]">{p.title}</span>
+                <span className="mt-0.5 block text-[13px] leading-relaxed text-[--color-muted]">
+                  {p.body}
                 </span>
-                <h3 className="text-sm font-bold text-[--color-ink]">{p.title}</h3>
-                <p className="mt-1 text-xs leading-relaxed text-[--color-muted]">{p.body}</p>
-              </div>
+              </span>
             </div>
           ))}
         </div>
       </section>
 
-      <OrnamentDivider className="mt-16" />
-
-      {/* دعوة أخيرة — بطاقةٌ طينية بإطارٍ مُذهّب */}
-      <section className="mt-10 w-full max-w-md">
-        <div className="card gild-frame relative overflow-hidden p-8">
-          <div aria-hidden className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.06]" />
-          <div className="relative flex flex-col items-center text-center">
+      {/* دعوة أخيرة — بطاقةٌ بيضاء نظيفة */}
+      <section className="mt-16 w-full max-w-md">
+        <div className="card p-8">
+          <div className="flex flex-col items-center text-center">
             <FlowerMark size={52} className="mb-3" />
-            <h2 className="font-[family-name:var(--font-display)] text-2xl font-extrabold">
+            <h2 className="font-[family-name:var(--font-display)] text-2xl font-bold">
               ابدأ عامك <span className="text-gild">بهدوء</span>
             </h2>
-            <p className="quote-seed mt-2.5 max-w-[300px] text-base leading-relaxed text-[--color-muted]">
+            <p className="mt-2.5 max-w-[300px] text-[15px] leading-relaxed text-[--color-muted]">
               سبعُ عاداتٍ تختارها، وحديقةٌ تنمو باسمك، ورفيقٌ يحترم وقتك. مجّانًا، بلا حدٍّ زمنيّ.
             </p>
-            <Link href="/login?mode=register" className="btn-clay press mt-6 px-8 py-3.5 text-base font-bold">
+            <Link
+              href="/login?mode=register"
+              className="btn-clay press mt-6 rounded-full px-8 py-3.5 text-[17px] font-semibold"
+            >
               ابدأ رحلتك
             </Link>
           </div>

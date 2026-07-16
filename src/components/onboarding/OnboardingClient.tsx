@@ -146,14 +146,8 @@ export default function OnboardingClient() {
             <Icon name="chevron" size={18} className="scale-x-[-1]" />
           </button>
         )}
-        <div className="h-2 flex-1 overflow-hidden rounded-full bg-[--color-surface-2] shadow-[inset_0_1px_2px_rgba(35,28,20,0.06)]">
-          <div
-            className="h-full rounded-full transition-[width] duration-500"
-            style={{
-              width: `${progress}%`,
-              background: "var(--grad-sunrise)",
-            }}
-          />
+        <div className="thread flex-1">
+          <i style={{ width: `${progress}%` }} />
         </div>
       </div>
 
@@ -183,7 +177,7 @@ export default function OnboardingClient() {
           type="button"
           onClick={advance}
           disabled={!canAdvance}
-          className="press mt-8 flex items-center justify-center gap-2 rounded-[--radius-pill] bg-[--color-ink] py-3.5 text-center font-bold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-40"
+          className="btn-clay press mt-8 flex items-center justify-center gap-2 rounded-[12px] py-3.5 text-center font-bold disabled:opacity-40"
         >
           التالي
           <Icon name="chevron" size={18} />

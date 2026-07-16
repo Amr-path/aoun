@@ -1,16 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Almarai, Alexandria } from "next/font/google";
+import { IBM_Plex_Sans_Arabic, Alexandria } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { BRAND } from "@/lib/constants";
 import SWRegister from "@/components/SWRegister";
 import Toaster from "@/components/ui/Toaster";
 
-// الجسم: Almarai — عربيٌّ دافئٌ واضح.
-const arabic = Almarai({
+// الجسم: IBM Plex Sans Arabic — حيادٌ نظاميّ دقيق بروح SF Arabic.
+const arabic = IBM_Plex_Sans_Arabic({
   variable: "--font-arabic",
   subsets: ["arabic"],
-  weight: ["300", "400", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -45,8 +45,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   // يطابق خلفية التطبيق: كريميّ فاتح، وداكن «الغسق» — فلا يبقى شريط الحالة كريمياً ليلاً.
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fbf0dc" },
-    { media: "(prefers-color-scheme: dark)", color: "#211810" },
+    { media: "(prefers-color-scheme: light)", color: "#f2f2f7" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
   ],
   width: "device-width",
   initialScale: 1,

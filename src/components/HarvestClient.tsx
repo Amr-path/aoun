@@ -1,5 +1,5 @@
 "use client";
-// عون — بطاقة «حصادي» قابلة للتصدير كصورة للمشاركة، تحت شمسِ صباحٍ زبدية بروح «واحة».
+// عون — بطاقة «حصادي» قابلة للتصدير كصورة للمشاركة، بلوحة «نقاء» الفاتحة الثابتة.
 import { useRef, useState } from "react";
 import Link from "next/link";
 import * as htmlToImage from "html-to-image";
@@ -9,18 +9,18 @@ import Icon from "@/components/ui/Icon";
 import Spinner from "@/components/ui/Spinner";
 
 const PETAL = "M60 52 C 47 42 47 24 60 11 C 73 24 73 42 60 52 Z";
-// حديقةُ العادات السبع — حلوى باستيل «واحة» بلوحةٍ ثابتة (تصدير PNG متّسق)
-const PETAL_COLORS = ["#58c08a", "#3abfb0", "#58a8f0", "#9d8beb", "#f286b0", "#f09a5a", "#f5be4b"];
+// حديقةُ العادات السبع — لوحة iOS المصقولة بقيمٍ ثابتة (تصدير PNG متّسق)
+const PETAL_COLORS = ["#34b26b", "#30b0c7", "#2e93fa", "#7d7aff", "#ff6482", "#ff9f0a", "#ffcc00"];
 const ANGLES = Array.from({ length: 7 }, (_, i) => (i * 360) / 7);
-// لوحة «واحة» النهارية الثابتة داخل عقدة التصدير (لا تتبع وضع الغسق كي يبقى التصدير متّسقاً)
-const EXPORT_BG = "#fbf0dc";
-const EXPORT_CARD = "#fffdf8";
-const EXPORT_INK = "#46311a";
-const EXPORT_MUTED = "#7b6141";
-const EXPORT_FAINT = "#8d7351";
-const EXPORT_ACCENT = "#ee6a3c";
-const EXPORT_BUTTER = "#f5be4b";
-const EXPORT_EDGE = "#e6cfa3";
+// لوحة «نقاء» النهارية الثابتة داخل عقدة التصدير (لا تتبع وضع الغسق كي يبقى التصدير متّسقاً)
+const EXPORT_BG = "#f2f2f7";
+const EXPORT_CARD = "#ffffff";
+const EXPORT_INK = "#1c1c1e";
+const EXPORT_MUTED = "#66666c";
+const EXPORT_FAINT = "#8e8e93";
+const EXPORT_ACCENT = "#2fa36b";
+const EXPORT_AMBER = "#ffcc00";
+const EXPORT_EDGE = "#e5e5ea";
 
 interface Props {
   name: string | null;
@@ -87,10 +87,6 @@ export default function HarvestClient({
     <main className="mx-auto flex w-full max-w-md flex-col items-center px-5 pb-24 pt-6">
       {/* ترويسةُ صباحٍ زبدية — الحصاد تحت شمسٍ دافئة */}
       <section className="sky-panel sky-morning relative mb-6 w-full overflow-hidden rounded-[--radius-xl]">
-        <div
-          aria-hidden
-          className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.05]"
-        />
         <div className="relative flex items-center justify-between gap-3 px-5 py-5">
           <div className="min-w-0">
             <h1 className="font-[family-name:var(--font-display)] text-3xl font-black">
@@ -110,16 +106,9 @@ export default function HarvestClient({
         </div>
       </section>
 
-      {/* إطارٌ طينيٌّ بنقاط عجينٍ خلف البطاقة (خارج عقدة التصدير فلا تدخل في الصورة) */}
-      <div
-        className="relative overflow-hidden rounded-[--radius-xl] border border-[--color-hairline-soft] p-2 shadow-[var(--shadow-top),var(--shadow-lg)]"
-        style={{ background: "var(--color-surface-2)" }}
-      >
-        <div
-          aria-hidden
-          className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.06]"
-        />
-        {/* البطاقة (بلوحة «واحة» فاتحة ثابتة مسطّحة — بلا تدرّجات — لتصديرٍ متّسق) */}
+      {/* إطارُ البطاقة: خليةٌ بيضاء بظلٍّ عميق (خارج عقدة التصدير فلا يدخل في الصورة) */}
+      <div className="card overflow-hidden rounded-[--radius-xl] p-2 shadow-[var(--shadow-lg)]">
+        {/* البطاقة (بلوحة «نقاء» الفاتحة الثابتة المسطّحة — بلا تدرّجات — لتصديرٍ متّسق) */}
         <div
           ref={ref}
           dir="rtl"
@@ -128,7 +117,7 @@ export default function HarvestClient({
             width: 360,
             maxWidth: "100%",
             background: EXPORT_BG,
-            borderRadius: 28,
+            borderRadius: 14,
             padding: "28px 24px 24px",
             fontFamily: "var(--font-display), var(--font-arabic), sans-serif",
             color: EXPORT_INK,
@@ -139,7 +128,7 @@ export default function HarvestClient({
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
             <svg width="26" height="26" viewBox="0 0 48 48">
               <rect width="45" height="45" x="1.5" y="1.5" rx="14" fill={EXPORT_ACCENT} />
-              <g fill={EXPORT_BG} opacity="0.94">
+              <g fill={EXPORT_CARD} opacity="0.94">
                 {ANGLES.map((a) => (
                   <path
                     key={a}
@@ -148,7 +137,7 @@ export default function HarvestClient({
                   />
                 ))}
               </g>
-              <circle cx="24" cy="24" r="3" fill={EXPORT_BUTTER} />
+              <circle cx="24" cy="24" r="3" fill={EXPORT_AMBER} />
             </svg>
             <span style={{ fontSize: 20, fontWeight: 800 }}>عون</span>
           </div>
@@ -178,16 +167,13 @@ export default function HarvestClient({
                   justifyContent: "center",
                 }}
               >
-                {/* الرقم البطل بتظليل الزبدة المسطّح — hex ثابت ليخرج في التصدير كما يظهر */}
+                {/* الرقم البطل بلون النظام المسطّح — hex ثابت ليخرج في التصدير كما يظهر */}
                 <span
                   style={{
                     fontSize: 34,
                     fontWeight: 800,
                     lineHeight: 1.2,
-                    background: EXPORT_BUTTER,
-                    color: EXPORT_INK,
-                    padding: "0 10px",
-                    borderRadius: 12,
+                    color: EXPORT_ACCENT,
                   }}
                 >
                   {ar(bestStreak)}
@@ -208,8 +194,8 @@ export default function HarvestClient({
               gridTemplateColumns: "1fr 1fr 1fr",
               gap: 8,
               background: EXPORT_CARD,
-              borderRadius: 20,
-              boxShadow: `0 3px 0 0 ${EXPORT_EDGE}`,
+              borderRadius: 16,
+              boxShadow: "0 0 0 0.5px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.06)",
               padding: "16px 12px",
             }}
           >

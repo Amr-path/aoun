@@ -13,6 +13,24 @@ const ENABLE_ERRORS: Record<string, string> = {
   error: "تعذّر التفعيل",
 };
 
+// مفتاح iOS: مسارٌ 51×31 وإبهامٌ أبيض 27 بحركةٍ قصيرة.
+function Switch({ on }: { on: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className={`relative block h-[31px] w-[51px] shrink-0 rounded-full transition-colors duration-200 ${
+        on ? "bg-[--color-accent]" : "bg-[--color-surface-3]"
+      }`}
+    >
+      <span
+        className={`absolute top-[2px] block h-[27px] w-[27px] rounded-full bg-white shadow-[var(--shadow-1)] transition-all duration-200 ${
+          on ? "start-[22px]" : "start-[2px]"
+        }`}
+      />
+    </span>
+  );
+}
+
 export default function NotificationsToggle() {
   const [status, setStatus] = useState<PushStatus>("unsupported");
   const [isIos, setIsIos] = useState(false);
@@ -32,16 +50,16 @@ export default function NotificationsToggle() {
     // على iOS نُرشد بهدوء بدل الاختفاء الصامت؛ وسوى ذلك لا نعرض شيئاً.
     if (!isIos) return null;
     return (
-      <div className="card mt-4 flex items-center gap-3 p-4">
+      <div className="card mt-3 flex items-center gap-3 p-4">
         <span
-          className="icon-chip h-11 w-11 shrink-0 text-[--color-amber-ink]"
+          className="icon-chip h-8 w-8 shrink-0 rounded-[8px] text-[--color-amber-ink]"
           style={{ background: "var(--color-amber-soft)" }}
         >
-          <Icon name="bell" size={22} />
+          <Icon name="bell" size={17} />
         </span>
         <div className="min-w-0 flex-1">
           <h3 className="font-semibold text-[--color-ink]">تذكيراتٌ لطيفة</h3>
-          <p className="mt-0.5 text-xs leading-relaxed text-[--color-muted]">
+          <p className="mt-0.5 text-[13px] leading-relaxed text-[--color-muted]">
             على الآيفون: ثبّت عون أولاً — شارِك ثم أضِف إلى الشاشة الرئيسية، وستجد التذكيرات هنا
           </p>
         </div>
@@ -77,61 +95,54 @@ export default function NotificationsToggle() {
     });
   };
 
+  const granted = status === "granted";
+
   return (
-    <div className="card mt-4 flex items-center gap-3 p-4">
+    <div className="card mt-3 flex items-center gap-3 p-4">
       <span
-        className="icon-chip h-11 w-11 shrink-0 text-[--color-amber-ink]"
+        className="icon-chip h-8 w-8 shrink-0 rounded-[8px] text-[--color-amber-ink]"
         style={{ background: "var(--color-amber-soft)" }}
       >
-        <Icon name="bell" size={22} />
+        <Icon name="bell" size={17} />
       </span>
       <div className="min-w-0 flex-1">
         <h3 className="font-semibold text-[--color-ink]">تذكيراتٌ لطيفة</h3>
-        <p className="mt-0.5 text-xs text-[--color-muted]">
-          {status === "granted"
+        <p className="mt-0.5 text-[13px] text-[--color-muted]">
+          {granted
             ? "مُفعّلة — سنذكّرك قبل موعد كل عادة بلطف."
             : status === "denied"
               ? "الإشعارات محظورة من المتصفح — فعّلها من إعداداته."
               : "فعّلها لتصلك تذكيراتٌ قبل موعد كل عادة."}
         </p>
-      </div>
-
-      {status === "granted" ? (
-        <div className="flex shrink-0 gap-2">
+        {granted && (
           <button
             type="button"
             onClick={test}
             disabled={busy}
-            className="press pill bg-[--color-surface-2] px-4 py-2 text-sm font-medium text-[--color-ink] transition-colors hover:bg-[--color-surface-3] disabled:opacity-50"
+            className="mt-1 text-[13px] font-semibold text-[--color-accent-ink] transition-opacity hover:opacity-80 disabled:opacity-50"
           >
-            جرّب
+            أرسِل إشعاراً تجريبياً
           </button>
-          <button
-            type="button"
-            onClick={turnOff}
-            disabled={busy}
-            aria-label="إيقاف التذكيرات"
-            className="press pill px-3 py-2 text-sm text-[--color-faint] transition-colors hover:text-[--color-danger-ink]"
-          >
-            إيقاف
-          </button>
-        </div>
-      ) : status === "default" ? (
+        )}
+      </div>
+
+      {busy ? (
+        <span className="grid h-[31px] w-[51px] shrink-0 place-items-center text-[--color-muted]">
+          <Spinner size={16} />
+        </span>
+      ) : (
         <button
           type="button"
-          onClick={enable}
+          role="switch"
+          aria-checked={granted}
+          aria-label={granted ? "إيقاف التذكيرات" : "تفعيل التذكيرات"}
+          onClick={granted ? turnOff : enable}
           disabled={busy}
-          className="press pill shrink-0 bg-[--color-ink] px-5 py-2 text-sm font-semibold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-50"
+          className="press shrink-0 rounded-full disabled:opacity-50"
         >
-          {busy ? (
-            <span className="inline-flex items-center justify-center">
-              <Spinner size={16} />
-            </span>
-          ) : (
-            "تفعيل"
-          )}
+          <Switch on={granted} />
         </button>
-      ) : null}
+      )}
     </div>
   );
 }

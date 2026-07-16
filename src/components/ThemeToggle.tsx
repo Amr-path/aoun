@@ -3,6 +3,24 @@
 import { useEffect, useState } from "react";
 import Icon from "@/components/ui/Icon";
 
+// مفتاح iOS: مسارٌ 51×31 وإبهامٌ أبيض 27 بحركةٍ قصيرة.
+function Switch({ on }: { on: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className={`relative block h-[31px] w-[51px] shrink-0 rounded-full transition-colors duration-200 ${
+        on ? "bg-[--color-accent]" : "bg-[--color-surface-3]"
+      }`}
+    >
+      <span
+        className={`absolute top-[2px] block h-[27px] w-[27px] rounded-full bg-white shadow-[var(--shadow-1)] transition-all duration-200 ${
+          on ? "start-[22px]" : "start-[2px]"
+        }`}
+      />
+    </span>
+  );
+}
+
 export default function ThemeToggle() {
   const [theme, setTheme] = useState<"light" | "dusk">("light");
 
@@ -25,43 +43,27 @@ export default function ThemeToggle() {
   return (
     <button
       type="button"
+      role="switch"
+      aria-checked={isDusk}
       onClick={toggle}
-      className="press card flex w-full items-center justify-between p-4 text-start"
+      className="press card flex w-full items-center justify-between gap-3 p-4 text-start"
       aria-label="تبديل الوضع الليلي"
     >
-      <span className="flex items-center gap-3">
+      <span className="flex min-w-0 items-center gap-3">
         <span
-          className="icon-chip h-11 w-11 text-[--color-accent-ink]"
+          className="icon-chip h-8 w-8 shrink-0 rounded-[8px] text-[--color-accent-ink]"
           style={{ background: "var(--color-accent-soft)" }}
         >
-          <Icon name={isDusk ? "moon" : "sun"} size={22} />
+          <Icon name={isDusk ? "moon" : "sun"} size={17} />
         </span>
-        <span>
-          <span className="block font-semibold text-[--color-ink]">المظهر</span>
-          <span className="block text-xs text-[--color-muted]">
-            {isDusk ? "الوضع الليلي مُفعّل" : "الوضع النهاري"}
+        <span className="min-w-0">
+          <span className="block font-semibold text-[--color-ink]">الوضع الليلي</span>
+          <span className="block text-[13px] text-[--color-muted]">
+            {isDusk ? "مُفعّل — سكينةُ الغسق" : "متوقف — الوضع النهاري"}
           </span>
         </span>
       </span>
-      <span
-        aria-hidden
-        className="flex items-center gap-1 rounded-[--radius-pill] bg-[--color-surface-2] p-1"
-      >
-        <span
-          className={`grid h-8 w-9 place-items-center rounded-[--radius-pill] transition-colors ${
-            isDusk ? "text-[--color-faint]" : "bg-[--color-accent-soft] text-[--color-accent-ink]"
-          }`}
-        >
-          <Icon name="sun" size={18} />
-        </span>
-        <span
-          className={`grid h-8 w-9 place-items-center rounded-[--radius-pill] transition-colors ${
-            isDusk ? "bg-[--color-accent-soft] text-[--color-accent-ink]" : "text-[--color-faint]"
-          }`}
-        >
-          <Icon name="moon" size={18} />
-        </span>
-      </span>
+      <Switch on={isDusk} />
     </button>
   );
 }

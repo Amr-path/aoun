@@ -99,9 +99,9 @@ export default function DashboardClient({
           <Logo size={30} withWordmark />
         </div>
 
-        {/* الترويسة — تحية أكبر واسمٌ مُذهّب */}
+        {/* الترويسة — عنوانٌ كبير بروح iOS وتاريخٌ ثانويّ هادئ */}
         <div className="mt-3 flex items-end justify-between gap-3">
-          <h1 className="font-[family-name:var(--font-display)] text-3xl font-black leading-tight text-[--color-ink]">
+          <h1 className="font-[family-name:var(--font-display)] text-[28px] font-bold leading-tight text-[--color-ink]">
             {greeting}
             {userName ? (
               <>
@@ -110,10 +110,7 @@ export default function DashboardClient({
               </>
             ) : null}
           </h1>
-          <span
-            className="shrink-0 rounded-full bg-[--color-surface] px-3 py-1.5 text-xs font-bold text-[--color-ink]"
-            style={{ boxShadow: "inset 0 1.5px 0 rgba(255,255,255,.8), 0 3px 0 0 var(--edge)" }}
-          >
+          <span className="shrink-0 pb-1 text-[13px] font-medium text-[--color-faint]">
             {dateLabel}
           </span>
         </div>
@@ -126,13 +123,10 @@ export default function DashboardClient({
           daypart={daypart}
         />
 
-        {/* بذرةُ اليوم — حكمةٌ بخطّ المخطوطات بين زخرفتين */}
+        {/* بذرةُ اليوم — سطرٌ واحد هادئ بين فاصلين شعريين */}
         <div className="mt-3.5 flex items-center gap-3 px-2">
           <span className="ornament-line" aria-hidden />
-          <p
-            className="quote-seed tilt-2 max-w-[17rem] rounded-[--radius-md] bg-[--color-surface] px-3.5 py-2 text-center text-[15px] leading-relaxed text-[--color-muted]"
-            style={{ boxShadow: "inset 0 1.5px 0 rgba(255,255,255,.8), 0 3px 0 0 var(--edge)" }}
-          >
+          <p className="quote-seed max-w-[17rem] text-center text-[15px] leading-relaxed text-[--color-muted]">
             {seed}
           </p>
           <span className="ornament-line rev" aria-hidden />
@@ -140,30 +134,24 @@ export default function DashboardClient({
 
         {/* رسالة تعافٍ عند العودة بعد انقطاع */}
         {recovery && (
-          <div
-            className="mt-3 flex items-start gap-2.5 rounded-[--radius-card] p-3.5"
-            style={{
-              background: "var(--color-accent-soft)",
-              boxShadow: "inset 0 1.5px 0 rgba(255,255,255,.55), 0 4px 0 0 var(--edge)",
-            }}
-          >
-            <Icon name="leaf" size={17} className="mt-0.5 shrink-0 text-[--color-accent-ink]" />
-            <p className="text-sm leading-relaxed text-[--color-accent-ink]">{recovery}</p>
+          <div className="card mt-3 flex items-start gap-3 p-3.5">
+            <span className="icon-chip h-8 w-8 shrink-0 bg-[--color-accent-soft] text-[--color-accent-ink]">
+              <Icon name="leaf" size={16} />
+            </span>
+            <p className="text-sm leading-relaxed text-[--color-ink]">{recovery}</p>
           </div>
         )}
 
-        {/* قسم العادات + خيط اليوم الذهبي */}
-        <div className="mb-1.5 mt-5 flex items-center justify-between">
-          <h2 className="font-[family-name:var(--font-display)] text-base font-bold text-[--color-ink]">
-            عاداتك اليوم
-          </h2>
-          <span className="tabular text-xs font-semibold text-[--color-muted]">
+        {/* ترويسة القسم — بأسلوب ترويسات مجموعات iOS */}
+        <div className="mb-1.5 mt-5 flex items-center justify-between px-1">
+          <h2 className="text-[13px] font-semibold text-[--color-faint]">عاداتك اليوم</h2>
+          <span className="tabular text-[13px] font-medium text-[--color-faint]">
             {ar(doneCount)} / {ar(dueCount)}
           </span>
         </div>
-        {/* «خرزات اليوم» — خرزةٌ منتفخة لكلّ عادةٍ مستحقّة، تمتلئ واحدةً واحدة */}
+        {/* «خرزات اليوم» — تقدّمٌ مقسّم بروح iOS: شريحةٌ لكلّ عادةٍ مستحقّة */}
         <div
-          className="mb-3 flex min-h-4 flex-wrap items-center gap-2 px-1"
+          className="mb-3 flex min-h-4 items-center gap-1 px-1"
           role="progressbar"
           aria-label="خرزات اليوم"
           aria-valuemin={0}
@@ -176,19 +164,10 @@ export default function DashboardClient({
               <span
                 key={i}
                 aria-hidden
-                className={`h-3.5 w-3.5 rounded-full ${filled ? "animate-bead" : ""}`}
-                style={
-                  filled
-                    ? {
-                        background: "var(--grad-cta)",
-                        boxShadow:
-                          "inset 0 1.5px 0 rgba(255,255,255,.5), 0 2px 0 0 var(--edge-accent)",
-                      }
-                    : {
-                        background: "var(--color-surface-3)",
-                        boxShadow: "inset 0 2px 3px rgba(0,0,0,.1)",
-                      }
-                }
+                className="h-1.5 flex-1 rounded-full transition-colors duration-300"
+                style={{
+                  background: filled ? "var(--color-accent)" : "var(--color-surface-3)",
+                }}
               />
             );
           })}
@@ -249,8 +228,7 @@ export default function DashboardClient({
                   </p>
                   <Link
                     href="/settings"
-                    className="press mt-1 rounded-full bg-[--color-surface-2] px-4 py-1.5 text-xs font-bold text-[--color-ink]"
-                    style={{ boxShadow: "inset 0 1.5px 0 rgba(255,255,255,.7), 0 2px 0 0 var(--edge)" }}
+                    className="press mt-1 text-sm font-semibold text-[--color-accent]"
                   >
                     إلى الإعدادات
                   </Link>

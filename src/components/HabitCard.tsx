@@ -44,19 +44,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
   };
 
   return (
-    <div
-      className={`card relative px-3 py-2 ${inactive ? "opacity-55" : ""}`}
-      style={done ? { background: soft } : undefined}
-    >
-      {/* شريطٌ جانبيّ عند الإتمام */}
-      {done && (
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-y-3 start-1.5 w-1 rounded-full"
-          style={{ background: accent }}
-        />
-      )}
-
+    <div className={`card relative px-3 py-2 ${inactive ? "opacity-55" : ""}`}>
       <div className="flex items-center gap-3">
         {/* رمز العادة داخل حلقة مداومةٍ تكتمل نحو ٣٠ يوماً */}
         <span className="relative grid h-10 w-10 shrink-0 place-items-center">
@@ -86,7 +74,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
           )}
           <span
             className={`icon-chip h-8 w-8 rounded-full text-base ${done ? "animate-jelly" : ""}`}
-            style={{ background: done ? "var(--color-surface)" : soft }}
+            style={{ background: soft }}
           >
             {habit.emoji}
           </span>
@@ -107,7 +95,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
             : {})}
         >
           <h3
-            className={`truncate text-[15px] font-semibold leading-snug text-[--color-ink] ${done ? "done-title" : ""}`}
+            className={`truncate text-[15px] font-semibold leading-snug text-[--color-ink] ${done ? "done-title opacity-75" : ""}`}
           >
             {habit.title}
           </h3>
@@ -128,16 +116,8 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
             <span>{habit.frequency === "daily" ? "يومي" : "أيام محدّدة"}</span>
             {habit.streak > 0 && (
               <span
-                className="streak inline-flex items-center gap-1 rounded-full px-2 py-px text-xs font-bold"
-                style={
-                  habit.streak >= 7
-                    ? {
-                        background: "var(--grad-sunrise)",
-                        color: "var(--color-amber-ink)",
-                        boxShadow: "inset 0 1px 0 rgba(255,255,255,.5)",
-                      }
-                    : { background: soft, color: ink, boxShadow: "inset 0 1px 0 rgba(255,255,255,.5)" }
-                }
+                className="streak inline-flex items-center gap-1 rounded-full px-2 py-px text-xs font-semibold"
+                style={{ background: soft, color: ink }}
                 title={`مداومة ${streakStage(habit.streak).label}`}
               >
                 <Icon name="leaf" size={11} />
@@ -147,7 +127,7 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
           </div>
         </div>
 
-        {/* زرّ الإتمام الطيني — هدف لمس ≥44px */}
+        {/* زرّ الإتمام — صندوق اختيارٍ دائريّ بروح iOS، هدف لمس ≥44px */}
         <button
           type="button"
           onClick={onCheck}
@@ -156,15 +136,15 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
           className="group grid h-11 w-11 shrink-0 place-items-center rounded-full"
         >
           <span
-            className={`relative grid h-7 w-7 place-items-center rounded-full transition-transform group-active:translate-y-[2px] ${
+            className={`relative grid h-[26px] w-[26px] place-items-center rounded-full transition-transform duration-150 group-active:scale-90 ${
               done ? "animate-pop" : ""
             }`}
             style={{
-              background: done ? accent : "var(--color-surface)",
+              background: done ? accent : "transparent",
               color: done ? "#fff" : accent,
-              boxShadow: done
-                ? "inset 0 1.5px 0 rgba(255,255,255,.35), 0 3px 0 0 var(--edge)"
-                : "inset 0 1.5px 0 rgba(255,255,255,.85), 0 3px 0 0 var(--edge)",
+              border: done
+                ? "2px solid transparent"
+                : `2px solid color-mix(in srgb, ${accent} 45%, transparent)`,
             }}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -196,14 +176,13 @@ export default function HabitCard({ habit }: { habit: HabitWithStatus }) {
         </button>
       </div>
 
-      {/* الخطوات الصغرى — حباتٌ غائرة تظهر عند بسط البطاقة */}
+      {/* الخطوات الصغرى — رقاقاتٌ هادئة تظهر عند بسط البطاقة */}
       {hasSteps && open && (
         <div className="animate-rise flex flex-wrap gap-1.5 px-1 pb-1.5 pt-2">
           {habit.microSteps.map((step) => (
             <span
               key={step}
               className="rounded-full bg-[--color-surface-2] px-2.5 py-1 text-xs leading-relaxed text-[--color-muted]"
-              style={{ boxShadow: "inset 0 2px 3px rgba(96, 66, 30, .12)" }}
             >
               {step}
             </span>

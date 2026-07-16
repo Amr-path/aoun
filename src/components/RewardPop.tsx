@@ -35,10 +35,7 @@ export default function RewardPop() {
       className="pointer-events-none fixed inset-x-0 bottom-24 z-50 mx-auto flex w-fit max-w-[90vw] justify-center px-4"
       role="status"
     >
-      <div
-        className="animate-cheer card relative flex items-center gap-3 rounded-[--radius-xl] px-5 py-3"
-        style={reward.milestone ? { background: "var(--color-accent-soft)" } : undefined}
-      >
+      <div className="animate-cheer card relative flex items-center gap-3 rounded-[--radius-xl] px-5 py-3 shadow-[var(--shadow-lg)]">
         {pieces.map((p, i) => (
           <span
             key={i}
@@ -61,16 +58,8 @@ export default function RewardPop() {
           }`}
           style={
             reward.milestone
-              ? {
-                  background: "var(--grad-sunrise)",
-                  color: "var(--color-amber-ink)",
-                  boxShadow: "inset 0 1.5px 0 rgba(255,255,255,.6), 0 3px 0 0 var(--edge)",
-                }
-              : {
-                  background: soft,
-                  color: ink,
-                  boxShadow: "inset 0 1.5px 0 rgba(255,255,255,.6), 0 3px 0 0 var(--edge)",
-                }
+              ? { background: "var(--color-accent-soft)", color: "var(--color-accent-ink)" }
+              : { background: soft, color: ink }
           }
         >
           {reward.milestone ? "✦" : `+${ar(reward.xp)}`}

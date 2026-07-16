@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { BRAND } from "@/lib/constants";
 import type { OnboardingHabitInput } from "@/lib/habits";
-import { accentOf, accentSoftOf, accentInkOf } from "@/lib/colors";
+import { accentSoftOf, accentInkOf } from "@/lib/colors";
 import { ar } from "@/lib/numerals";
 import Icon from "@/components/ui/Icon";
 import Spinner from "@/components/ui/Spinner";
@@ -62,11 +62,8 @@ export default function ReviewStep({
         {habits.map((h) => (
           <div key={h.uid} className="card flex items-center gap-3.5 p-4">
             <span
-              className="grid h-12 w-12 shrink-0 place-items-center rounded-[--radius-md] text-2xl"
-              style={{
-                background: accentSoftOf(h.colorKey),
-                boxShadow: `inset 0 0 0 1px ${accentOf(h.colorKey)}22`,
-              }}
+              className="grid h-12 w-12 shrink-0 place-items-center rounded-[10px] text-2xl"
+              style={{ background: accentSoftOf(h.colorKey) }}
             >
               {h.emoji}
             </span>
@@ -138,14 +135,13 @@ export default function ReviewStep({
               onChange={(e) => setText(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && submitCustom()}
               placeholder="اكتب عادتك بكلماتك… مثال: أشرب ماءً أكثر"
-              className="flex-1 rounded-[--radius-md] border border-[--color-border] bg-[--color-surface] px-4 py-3 text-[--color-ink] shadow-[var(--shadow-1)] outline-none transition-colors placeholder:text-[--color-faint] focus:border-[--color-accent]"
+              className="flex-1 rounded-[12px] bg-[--color-surface] px-4 py-3 text-[--color-ink] shadow-[var(--shadow-1)] outline-none transition-shadow placeholder:text-[--color-faint] focus:shadow-[0_0_0_2px_var(--color-accent),var(--shadow-1)]"
             />
             <button
               type="button"
               onClick={submitCustom}
               disabled={adding || !text.trim()}
-              className="press inline-flex shrink-0 items-center gap-1.5 rounded-[--radius-pill] px-5 font-semibold transition-colors disabled:opacity-50"
-              style={{ background: "var(--color-accent-soft)", color: "var(--color-accent-ink)" }}
+              className="press inline-flex shrink-0 items-center gap-1.5 rounded-[12px] bg-[--color-accent-soft] px-5 font-semibold text-[--color-accent-ink] transition-colors disabled:opacity-50"
             >
               {adding ? (
                 <span className="inline-flex items-center justify-center">
@@ -169,7 +165,7 @@ export default function ReviewStep({
         type="button"
         onClick={onFinish}
         disabled={finishing || habits.length === 0}
-        className="press mt-8 flex items-center justify-center gap-2 rounded-[--radius-pill] bg-[--color-ink] py-4 text-center font-bold text-[--color-cream] shadow-[var(--shadow-2)] disabled:opacity-50"
+        className="btn-clay press mt-8 flex items-center justify-center gap-2 rounded-[12px] py-4 text-center font-bold disabled:opacity-50"
       >
         {finishing ? (
           <span className="inline-flex items-center justify-center">
@@ -177,7 +173,7 @@ export default function ReviewStep({
           </span>
         ) : (
           <>
-            <Icon name="leaf" size={18} className="text-[--color-cream]" />
+            <Icon name="leaf" size={18} />
             ابدأ رحلتي
           </>
         )}

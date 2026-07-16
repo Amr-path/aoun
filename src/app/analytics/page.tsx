@@ -1,4 +1,4 @@
-// عون — صفحة «رحلتك»: جدارُ الأثر — أرقامٌ ضخمة بخطّ العرض، شبكة السنة، الاتساق الأسبوعي، والشارات.
+// عون — صفحة «رحلتك»: ملخّص الأثر بروح iOS — عنوانٌ كبير، بطاقاتُ إحصاءٍ بيضاء هادئة، وأقسامٌ بعناوين خافتة.
 import Link from "next/link";
 import { requireUserId } from "@/lib/auth";
 import { getAnalytics } from "@/lib/analytics";
@@ -15,65 +15,42 @@ import { earnedCount } from "@/lib/badges";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "رحلتك" };
 
-// عنوان قسمٍ بين زخرفتين — على طراز فواصل المخطوطات.
+// عنوان قسمٍ بأسلوب iOS: سطرٌ صغير خافت فوق البطاقة — بلا زخرفة.
 function SectionTitle({ title, hint }: { title: string; hint?: string }) {
   return (
-    <div className="mb-4 flex items-center gap-3">
-      <span className="ornament-line" aria-hidden />
-      <div className="flex flex-col items-center">
-        <h2 className="font-[family-name:var(--font-display)] text-lg font-black text-[--color-ink]">
-          {title}
-        </h2>
-        {hint ? <span className="mt-0.5 text-xs text-[--color-faint]">{hint}</span> : null}
-      </div>
-      <span className="ornament-line rev" aria-hidden />
+    <div className="mb-2 flex items-baseline justify-between px-1">
+      <h2 className="text-[13px] font-medium text-[--color-faint]">{title}</h2>
+      {hint ? <span className="tabular text-[12px] text-[--color-faint]">{hint}</span> : null}
     </div>
   );
 }
 
-// بطاقة إحصاءٍ طينية: وجهٌ أبيض منفوخ بميلٍ لطيف، رقاقةُ حلوى، ورقمٌ ضخمٌ بلون سكّري —
-// والرقم البطل وحده يلبس تظليل الزبدة.
+// بطاقة إحصاء: خليةٌ بيضاء، تسميةٌ خافتة مع رمزٍ صغير، ورقمٌ كبير بالحبر —
+// والرقم البطل وحده يلبس لون النظام.
 function Stat({
   label,
   value,
   icon,
-  tint,
-  tilt,
-  gild,
+  hero,
 }: {
   label: string;
   value: number;
   icon: IconName;
-  tint: string;
-  tilt?: string;
-  gild?: boolean;
+  hero?: boolean;
 }) {
   return (
-    <div className={`card relative overflow-hidden p-4 ${tilt ?? ""}`}>
-      <div
-        aria-hidden
-        className="pattern-khatam pointer-events-none absolute inset-0 opacity-[0.06]"
-      />
-      <div className="relative">
-        <span
-          className="icon-chip mb-2 grid h-8 w-8"
-          style={{
-            background: `var(--color-${tint}-soft)`,
-            color: `var(--color-${tint}-ink)`,
-          }}
-        >
-          <Icon name={icon} size={16} />
-        </span>
-        <p className="text-sm text-[--color-muted]">{label}</p>
-        <p
-          className={`score tabular mt-1 font-[family-name:var(--font-display)] text-4xl font-black ${
-            gild ? "text-gild" : ""
-          }`}
-          style={gild ? undefined : { color: `var(--color-${tint}-ink)` }}
-        >
-          {ar(value)}
-        </p>
-      </div>
+    <div className="card p-4">
+      <p className="flex items-center gap-1.5 text-[13px] text-[--color-faint]">
+        <Icon name={icon} size={14} />
+        {label}
+      </p>
+      <p
+        className={`score tabular mt-1 text-[28px] font-bold leading-tight ${
+          hero ? "text-[--color-accent]" : "text-[--color-ink]"
+        }`}
+      >
+        {ar(value)}
+      </p>
     </div>
   );
 }
@@ -89,85 +66,75 @@ export default async function AnalyticsPage() {
 
   return (
     <main className="mx-auto w-full max-w-2xl px-5 pb-32 pt-8">
-      <div className="mb-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <span className="icon-chip h-11 w-11 bg-[--color-accent-soft] text-[--color-accent-ink] shadow-[var(--shadow-top),var(--shadow-1)]">
-            <Icon name="garden" size={22} />
-          </span>
-          <h1 className="font-[family-name:var(--font-display)] text-3xl font-black text-[--color-ink]">
-            رحلتك
-          </h1>
-        </div>
+      {/* عنوانٌ كبير + رجوعٌ نصّي بلون النظام */}
+      <div className="mb-1 flex items-center justify-between">
+        <h1 className="font-[family-name:var(--font-display)] text-[28px] font-bold text-[--color-ink]">
+          رحلتك
+        </h1>
         <Link
           href="/dashboard"
-          className="press pill inline-flex items-center gap-1 border border-[--color-hairline-soft] bg-[--color-surface] px-4 py-2 text-sm font-medium text-[--color-ink] shadow-[var(--shadow-top),0_3px_0_0_var(--edge)] transition-colors hover:bg-[--color-surface-2]"
+          className="press inline-flex items-center gap-1 px-1 text-[15px] font-medium text-[--color-accent]"
         >
           <Icon name="chevron" size={16} className="scale-x-[-1]" />
           اللوحة
         </Link>
       </div>
+      <p className="mb-6 px-0.5 text-[15px] text-[--color-muted]">أثرك، يوماً بيوم</p>
 
-      {/* سطرُ الافتتاح — كلمةٌ مُظلَّلة بالزبدة بين فاصلَي خرزٍ لطيفَين */}
-      <div className="mb-6 flex items-center gap-3 px-2">
-        <span className="ornament-line" aria-hidden />
-        <p className="quote-seed whitespace-nowrap text-center text-[15px] text-[--color-muted]">
-          مخطوطةُ <span className="text-gild font-bold">أثرك</span>، يوماً بيوم
-        </p>
-        <span className="ornament-line rev" aria-hidden />
-      </div>
-
-      {/* ملخّصٌ كرفّ حلوى — بطاقاتٌ منفوخة تميل بالتناوب */}
+      {/* ملخّص الأرقام — بطاقاتٌ بيضاء مستوية */}
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat
-          label="مداومة حالية"
-          value={a.currentStreak}
-          icon="leaf"
-          tint="sage"
-          tilt="tilt-1"
-          gild
-        />
-        <Stat label="أفضل مداومة" value={a.bestStreak} icon="spark" tint="amber" tilt="tilt-2" />
-        <Stat label="أيام نشطة" value={a.activeDays} icon="check" tint="sky" tilt="tilt-2" />
-        <Stat label="أيام مثالية" value={a.perfectDays} icon="sun" tint="clay" tilt="tilt-1" />
+        <Stat label="مداومة حالية" value={a.currentStreak} icon="leaf" hero />
+        <Stat label="أفضل مداومة" value={a.bestStreak} icon="spark" />
+        <Stat label="أيام نشطة" value={a.activeDays} icon="check" />
+        <Stat label="أيام مثالية" value={a.perfectDays} icon="sun" />
       </section>
 
-      {/* لمحة أسبوعك — سطرٌ بخطّ المخطوطات */}
-      <section className="card mt-6 p-5">
+      {/* لمحة أسبوعك */}
+      <section className="mt-6">
         <SectionTitle title="لمحة أسبوعك" />
-        <p className="quote-seed text-center text-[15px] leading-relaxed text-[--color-muted]">
-          {narrative}
-        </p>
+        <div className="card p-5">
+          <p className="text-[15px] leading-relaxed text-[--color-muted]">{narrative}</p>
+        </div>
       </section>
 
       {/* حديقة/شبكة السنة */}
-      <section className="card mt-6 p-5">
+      <section className="mt-6">
         <SectionTitle title="سنتك تُزهر" hint="آخر ٣٦٥ يوماً" />
-        <YearView days={a.days} />
+        <div className="card p-5">
+          <YearView days={a.days} />
+        </div>
       </section>
 
       {/* الاتساق الأسبوعي */}
-      <section className="card mt-6 p-5">
+      <section className="mt-6">
         <SectionTitle title="اتساقك الأسبوعي" hint="آخر ٨ أسابيع" />
-        <WeeklyChart weeks={a.weeks} />
+        <div className="card p-5">
+          <WeeklyChart weeks={a.weeks} />
+        </div>
       </section>
 
       {/* الشارات */}
-      <section className="card mt-6 p-5">
+      <section className="mt-6">
         <SectionTitle title="شاراتك" hint={`${ar(earnedCount(a))} مفتوحة`} />
-        <BadgesSection stats={a} />
+        <div className="card p-5">
+          <BadgesSection stats={a} />
+        </div>
       </section>
 
       {/* مشاركة الحصاد */}
       <Link
         href="/harvest"
-        className="btn-clay press mt-6 flex items-center justify-center gap-2 py-3.5 text-center font-bold"
+        className="btn-clay press mt-6 flex items-center justify-center gap-2 rounded-[12px] py-3.5 text-center font-bold"
       >
         <Icon name="spark" size={20} />
         شارك حصادك
       </Link>
 
       <p className="mt-6 text-center text-sm text-[--color-muted]">
-        أتممتَ <span className="text-gild tabular font-bold">{ar(a.totalCompletions)}</span>{" "}
+        أتممتَ{" "}
+        <span className="tabular font-semibold text-[--color-accent-ink]">
+          {ar(a.totalCompletions)}
+        </span>{" "}
         عادةً حتى الآن. واصِل، فالمداومة تُثمر.
       </p>
 

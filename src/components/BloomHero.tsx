@@ -303,7 +303,7 @@ export default function BloomHero({ habits, streak, level, daypart }: Props) {
           )}
         </svg>
 
-        <h2 className="mt-1.5 font-[family-name:var(--font-display)] text-lg font-bold leading-snug">
+        <h2 className="mt-1.5 font-[family-name:var(--font-display)] text-[17px] font-semibold leading-snug">
           {title}
         </h2>
         <p className="sky-muted mt-0.5 text-[13px] leading-relaxed">{sub}</p>

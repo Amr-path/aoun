@@ -1,6 +1,7 @@
 "use client";
 // عون — شريط تبويبات سفليّ بروح iOS: مادةٌ زجاجية بعرض الشاشة وخطٌّ شعريّ علويّ.
-import Link from "next/link";
+// يُركَّب مرّةً واحدة في app/(app)/layout.tsx فيبقى حيّاً أثناء التنقّل.
+import Link, { useLinkStatus } from "next/link";
 import { usePathname } from "next/navigation";
 import Icon, { type IconName } from "./ui/Icon";
 
@@ -10,17 +11,34 @@ const ITEMS: { href: string; label: string; icon: IconName }[] = [
   { href: "/settings", label: "إعدادات", icon: "settings" },
 ];
 
+// محتوى التبويب — داخل <Link> كي يقرأ useLinkStatus حالة الانتقال.
+// نُضيء التبويب فور اللمس (active || pending) بدل انتظار ردّ الخادم: اللمسة
+// تُجيب فوراً، والهيكل يظهر تحتها. التأخير 150ms يمنع وميضاً في الانتقالات السريعة.
+function NavInner({ it, active }: { it: (typeof ITEMS)[number]; active: boolean }) {
+  const { pending } = useLinkStatus();
+  const lit = active || pending;
+
+  return (
+    <span
+      className={`flex flex-col items-center gap-0.5 transition-colors duration-150 ${
+        lit ? "text-[--color-accent]" : "text-[--color-faint]"
+      } ${pending ? "animate-pulse [animation-delay:150ms]" : ""}`}
+    >
+      <Icon name={it.icon} size={24} />
+      <span className="text-[10px] font-medium">{it.label}</span>
+    </span>
+  );
+}
+
 function NavLink({ it, active }: { it: (typeof ITEMS)[number]; active: boolean }) {
   return (
     <Link
       href={it.href}
       aria-current={active ? "page" : undefined}
-      className={`press flex flex-1 flex-col items-center gap-0.5 py-1.5 text-[10px] font-medium transition-colors ${
-        active ? "text-[--color-accent]" : "text-[--color-faint]"
-      }`}
+      // 44px حدٌّ أدنى لمساحة اللمس (إرشادات الواجهة البشرية)
+      className="press flex min-h-[44px] flex-1 items-center justify-center"
     >
-      <Icon name={it.icon} size={24} />
-      <span>{it.label}</span>
+      <NavInner it={it} active={active} />
     </Link>
   );
 }
@@ -31,8 +49,11 @@ export default function BottomNav() {
     path === href || (href !== "/dashboard" && path.startsWith(href));
 
   return (
-    <nav className="glass fixed inset-x-0 bottom-0 z-40 border-t border-[--color-hairline-soft] pb-[env(safe-area-inset-bottom)]">
-      <div className="mx-auto flex max-w-lg items-center px-2 pt-1.5 pb-1">
+    <nav
+      aria-label="التنقّل الرئيسي"
+      className="glass fixed inset-x-0 bottom-0 z-40 border-t border-[--color-hairline-soft] pb-[env(safe-area-inset-bottom)]"
+    >
+      <div className="mx-auto flex max-w-lg items-center px-2 pt-1 pb-0.5">
         <NavLink it={ITEMS[0]} active={isActive(ITEMS[0].href)} />
         <NavLink it={ITEMS[1]} active={isActive(ITEMS[1].href)} />
 

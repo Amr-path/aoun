@@ -8,7 +8,6 @@ import { weeklyNarrative } from "@/lib/narrative";
 import YearView from "@/components/YearView";
 import WeeklyChart from "@/components/WeeklyChart";
 import BadgesSection from "@/components/BadgesSection";
-import BottomNav from "@/components/BottomNav";
 import Icon, { type IconName } from "@/components/ui/Icon";
 import { earnedCount } from "@/lib/badges";
 
@@ -137,8 +136,6 @@ export default async function AnalyticsPage() {
         </span>{" "}
         عادةً حتى الآن. واصِل، فالمداومة تُثمر.
       </p>
-
-      <BottomNav />
     </main>
   );
 }

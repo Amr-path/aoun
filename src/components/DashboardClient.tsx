@@ -1,5 +1,6 @@
 "use client";
-// عون — الشاشة الرئيسية: شريطٌ علويّ نحيف + هيرو «زهرة اليوم» + قائمةٌ تفرز نفسها + شريطٌ سفليّ.
+// عون — الشاشة الرئيسية: شريطٌ علويّ نحيف + هيرو «زهرة اليوم» + قائمةٌ تفرز نفسها.
+// الشريط السفليّ يأتي من app/(app)/layout.tsx — لا يُركَّب هنا.
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import type { DashboardData } from "@/lib/habits";
@@ -14,7 +15,6 @@ import FlowerMark from "./FlowerMark";
 import BloomHero, { type Daypart } from "./BloomHero";
 import HabitCard from "./HabitCard";
 import AddHabit from "./AddHabit";
-import BottomNav from "./BottomNav";
 import AmbientPulse from "./AmbientPulse";
 import RewardPop from "./RewardPop";
 
@@ -92,175 +92,171 @@ export default function DashboardClient({
   const doneList = ordered.filter((h) => h.completedToday);
 
   return (
-    <>
-      <main className="mx-auto w-full max-w-lg px-5 pb-32 pt-3">
-        {/* شريط علوي نحيف — الإعدادات تُفتح من الشريط السفليّ (أُزيل الترس المكرّر). */}
-        <div className="flex h-10 items-center">
-          <Logo size={30} withWordmark />
-        </div>
+    <main className="mx-auto w-full max-w-lg px-5 pb-32 pt-3">
+      {/* شريط علوي نحيف — الإعدادات تُفتح من الشريط السفليّ (أُزيل الترس المكرّر). */}
+      <div className="flex h-10 items-center">
+        <Logo size={30} withWordmark />
+      </div>
 
-        {/* الترويسة — عنوانٌ كبير بروح iOS وتاريخٌ ثانويّ هادئ */}
-        <div className="mt-3 flex items-end justify-between gap-3">
-          <h1 className="font-[family-name:var(--font-display)] text-[28px] font-bold leading-tight text-[--color-ink]">
-            {greeting}
-            {userName ? (
-              <>
-                {"، "}
-                <span className="text-gild">{userName}</span>
-              </>
-            ) : null}
-          </h1>
-          <span className="shrink-0 pb-1 text-[13px] font-medium text-[--color-faint]">
-            {dateLabel}
+      {/* الترويسة — عنوانٌ كبير بروح iOS وتاريخٌ ثانويّ هادئ */}
+      <div className="mt-3 flex items-end justify-between gap-3">
+        <h1 className="font-[family-name:var(--font-display)] text-[28px] font-bold leading-tight text-[--color-ink]">
+          {greeting}
+          {userName ? (
+            <>
+              {"، "}
+              <span className="text-gild">{userName}</span>
+            </>
+          ) : null}
+        </h1>
+        <span className="shrink-0 pb-1 text-[13px] font-medium text-[--color-faint]">
+          {dateLabel}
+        </span>
+      </div>
+
+      {/* «سماء اليوم» — لوحة حيّة تتبدّل مع وقتك */}
+      <BloomHero
+        habits={view.filter((h) => h.dueToday)}
+        streak={s.streakCount}
+        level={level}
+        daypart={daypart}
+      />
+
+      {/* بذرةُ اليوم — سطرٌ واحد هادئ بين فاصلين شعريين */}
+      <div className="mt-3.5 flex items-center gap-3 px-2">
+        <span className="ornament-line" aria-hidden />
+        <p className="quote-seed max-w-[17rem] text-center text-[15px] leading-relaxed text-[--color-muted]">
+          {seed}
+        </p>
+        <span className="ornament-line rev" aria-hidden />
+      </div>
+
+      {/* رسالة تعافٍ عند العودة بعد انقطاع */}
+      {recovery && (
+        <div className="card mt-3 flex items-start gap-3 p-3.5">
+          <span className="icon-chip h-8 w-8 shrink-0 bg-[--color-accent-soft] text-[--color-accent-ink]">
+            <Icon name="leaf" size={16} />
           </span>
+          <p className="text-sm leading-relaxed text-[--color-ink]">{recovery}</p>
         </div>
+      )}
 
-        {/* «سماء اليوم» — لوحة حيّة تتبدّل مع وقتك */}
-        <BloomHero
-          habits={view.filter((h) => h.dueToday)}
-          streak={s.streakCount}
-          level={level}
-          daypart={daypart}
-        />
+      {/* ترويسة القسم — بأسلوب ترويسات مجموعات iOS */}
+      <div className="mb-1.5 mt-5 flex items-center justify-between px-1">
+        <h2 className="text-[13px] font-semibold text-[--color-faint]">عاداتك اليوم</h2>
+        <span className="tabular text-[13px] font-medium text-[--color-faint]">
+          {ar(doneCount)} / {ar(dueCount)}
+        </span>
+      </div>
+      {/* «خرزات اليوم» — تقدّمٌ مقسّم بروح iOS: شريحةٌ لكلّ عادةٍ مستحقّة */}
+      <div
+        className="mb-3 flex min-h-4 items-center gap-1 px-1"
+        role="progressbar"
+        aria-label="خرزات اليوم"
+        aria-valuemin={0}
+        aria-valuemax={dueCount}
+        aria-valuenow={doneCount}
+      >
+        {Array.from({ length: dueCount }, (_, i) => {
+          const filled = i < doneCount;
+          return (
+            <span
+              key={i}
+              aria-hidden
+              className="h-1.5 flex-1 rounded-full transition-colors duration-300"
+              style={{
+                background: filled ? "var(--color-accent)" : "var(--color-surface-3)",
+              }}
+            />
+          );
+        })}
+      </div>
 
-        {/* بذرةُ اليوم — سطرٌ واحد هادئ بين فاصلين شعريين */}
-        <div className="mt-3.5 flex items-center gap-3 px-2">
-          <span className="ornament-line" aria-hidden />
-          <p className="quote-seed max-w-[17rem] text-center text-[15px] leading-relaxed text-[--color-muted]">
-            {seed}
-          </p>
-          <span className="ornament-line rev" aria-hidden />
-        </div>
-
-        {/* رسالة تعافٍ عند العودة بعد انقطاع */}
-        {recovery && (
-          <div className="card mt-3 flex items-start gap-3 p-3.5">
-            <span className="icon-chip h-8 w-8 shrink-0 bg-[--color-accent-soft] text-[--color-accent-ink]">
-              <Icon name="leaf" size={16} />
-            </span>
-            <p className="text-sm leading-relaxed text-[--color-ink]">{recovery}</p>
+      <section className="flex flex-col gap-2">
+        {/* هيكلٌ نابض قبل اكتمال الترطيب — بطاقاتٌ طينية صامتة */}
+        {loading && (
+          <div aria-hidden className="flex flex-col gap-2">
+            {[0, 1, 2].map((i) => (
+              <div
+                key={i}
+                className="animate-pulse rounded-[--radius-card] bg-[--color-surface-2] px-3 py-2"
+                style={{ animationDelay: `${i * 120}ms` }}
+              >
+                <div className="flex items-center gap-3 py-1">
+                  <span className="h-10 w-10 shrink-0 rounded-full bg-[--color-surface-3]" />
+                  <span className="flex min-w-0 flex-1 flex-col gap-2">
+                    <span className="h-3.5 w-2/5 rounded-full bg-[--color-surface-3]" />
+                    <span className="h-2.5 w-1/4 rounded-full bg-[--color-surface-3]" />
+                  </span>
+                  <span className="h-7 w-7 shrink-0 rounded-full bg-[--color-surface-3]" />
+                </div>
+              </div>
+            ))}
           </div>
         )}
 
-        {/* ترويسة القسم — بأسلوب ترويسات مجموعات iOS */}
-        <div className="mb-1.5 mt-5 flex items-center justify-between px-1">
-          <h2 className="text-[13px] font-semibold text-[--color-faint]">عاداتك اليوم</h2>
-          <span className="tabular text-[13px] font-medium text-[--color-faint]">
-            {ar(doneCount)} / {ar(dueCount)}
-          </span>
-        </div>
-        {/* «خرزات اليوم» — تقدّمٌ مقسّم بروح iOS: شريحةٌ لكلّ عادةٍ مستحقّة */}
-        <div
-          className="mb-3 flex min-h-4 items-center gap-1 px-1"
-          role="progressbar"
-          aria-label="خرزات اليوم"
-          aria-valuemin={0}
-          aria-valuemax={dueCount}
-          aria-valuenow={doneCount}
-        >
-          {Array.from({ length: dueCount }, (_, i) => {
-            const filled = i < doneCount;
-            return (
-              <span
-                key={i}
-                aria-hidden
-                className="h-1.5 flex-1 rounded-full transition-colors duration-300"
-                style={{
-                  background: filled ? "var(--color-accent)" : "var(--color-surface-3)",
-                }}
-              />
-            );
-          })}
-        </div>
-
-        <section className="flex flex-col gap-2">
-          {/* هيكلٌ نابض قبل اكتمال الترطيب — بطاقاتٌ طينية صامتة */}
-          {loading && (
-            <div aria-hidden className="flex flex-col gap-2">
-              {[0, 1, 2].map((i) => (
-                <div
-                  key={i}
-                  className="animate-pulse rounded-[--radius-card] bg-[--color-surface-2] px-3 py-2"
-                  style={{ animationDelay: `${i * 120}ms` }}
-                >
-                  <div className="flex items-center gap-3 py-1">
-                    <span className="h-10 w-10 shrink-0 rounded-full bg-[--color-surface-3]" />
-                    <span className="flex min-w-0 flex-1 flex-col gap-2">
-                      <span className="h-3.5 w-2/5 rounded-full bg-[--color-surface-3]" />
-                      <span className="h-2.5 w-1/4 rounded-full bg-[--color-surface-3]" />
-                    </span>
-                    <span className="h-7 w-7 shrink-0 rounded-full bg-[--color-surface-3]" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* حالة فارغة حقيقية بدل سطرٍ رماديّ باهت */}
-          {!loading && view.length === 0 && (
-            <div className="mb-1 flex flex-col items-center gap-3 rounded-[--radius-card] border-2 border-dashed border-[--color-hairline] px-6 py-9 text-center">
-              <FlowerMark size={56} />
-              <p className="text-base font-semibold text-[--color-ink]">هنا تبدأ حديقتك</p>
-              <p className="max-w-[16rem] text-sm leading-relaxed text-[--color-muted]">
-                أضِف عادتك الأولى، واجعلها أصغرَ ممّا تظنّ — فالصغيرةُ هي التي تبقى.
-              </p>
-            </div>
-          )}
-
-          {pending.map((h, i) => (
-            <div key={h.id} className="animate-rise" style={{ animationDelay: `${i * 45}ms` }}>
-              <HabitCard habit={h} />
-            </div>
-          ))}
-
-          <div id="add-habit" className="scroll-mt-24">
-            {!loading &&
-              (view.length < BRAND.maxHabits ? (
-                <AddHabit />
-              ) : (
-                // اكتمل العقد: بطاقةٌ هادئة بدل مرساةٍ فارغة يقفز إليها زرّ +
-                <div className="card flex flex-col items-center gap-2 px-5 py-6 text-center">
-                  <h3 className="font-[family-name:var(--font-display)] text-base font-bold text-[--color-ink]">
-                    اكتملت سبعتُك
-                  </h3>
-                  <p className="max-w-[19rem] text-sm leading-relaxed text-[--color-muted]">
-                    سبعٌ تُتقنها خيرٌ من عشرٍ تثقلك — عدّل أو استبدل من الإعدادات
-                  </p>
-                  <Link
-                    href="/settings"
-                    className="press mt-1 text-sm font-semibold text-[--color-accent]"
-                  >
-                    إلى الإعدادات
-                  </Link>
-                </div>
-              ))}
+        {/* حالة فارغة حقيقية بدل سطرٍ رماديّ باهت */}
+        {!loading && view.length === 0 && (
+          <div className="mb-1 flex flex-col items-center gap-3 rounded-[--radius-card] border-2 border-dashed border-[--color-hairline] px-6 py-9 text-center">
+            <FlowerMark size={56} />
+            <p className="text-base font-semibold text-[--color-ink]">هنا تبدأ حديقتك</p>
+            <p className="max-w-[16rem] text-sm leading-relaxed text-[--color-muted]">
+              أضِف عادتك الأولى، واجعلها أصغرَ ممّا تظنّ — فالصغيرةُ هي التي تبقى.
+            </p>
           </div>
+        )}
 
-          {doneList.length > 0 && (
-            <div className="my-1 flex items-center gap-3 px-1 text-xs font-semibold text-[--color-faint]">
-              <span className="ornament-line" aria-hidden />
-              <span className="inline-flex items-center gap-1.5">
-                <svg width="8" height="8" viewBox="0 0 10 10" aria-hidden className="text-[--color-accent]">
-                  <circle cx="5" cy="5" r="3.5" fill="currentColor" />
-                </svg>
-                اكتملت اليوم
-              </span>
-              <span className="ornament-line rev" aria-hidden />
-            </div>
-          )}
+        {pending.map((h, i) => (
+          <div key={h.id} className="animate-rise" style={{ animationDelay: `${i * 45}ms` }}>
+            <HabitCard habit={h} />
+          </div>
+        ))}
 
-          {doneList.map((h) => (
-            <div key={h.id}>
-              <HabitCard habit={h} />
-            </div>
-          ))}
-        </section>
+        <div id="add-habit" className="scroll-mt-24">
+          {!loading &&
+            (view.length < BRAND.maxHabits ? (
+              <AddHabit />
+            ) : (
+              // اكتمل العقد: بطاقةٌ هادئة بدل مرساةٍ فارغة يقفز إليها زرّ +
+              <div className="card flex flex-col items-center gap-2 px-5 py-6 text-center">
+                <h3 className="font-[family-name:var(--font-display)] text-base font-bold text-[--color-ink]">
+                  اكتملت سبعتُك
+                </h3>
+                <p className="max-w-[19rem] text-sm leading-relaxed text-[--color-muted]">
+                  سبعٌ تُتقنها خيرٌ من عشرٍ تثقلك — عدّل أو استبدل من الإعدادات
+                </p>
+                <Link
+                  href="/settings"
+                  className="press mt-1 text-sm font-semibold text-[--color-accent]"
+                >
+                  إلى الإعدادات
+                </Link>
+              </div>
+            ))}
+        </div>
 
-        <AmbientPulse />
-        <RewardPop />
-      </main>
+        {doneList.length > 0 && (
+          <div className="my-1 flex items-center gap-3 px-1 text-xs font-semibold text-[--color-faint]">
+            <span className="ornament-line" aria-hidden />
+            <span className="inline-flex items-center gap-1.5">
+              <svg width="8" height="8" viewBox="0 0 10 10" aria-hidden className="text-[--color-accent]">
+                <circle cx="5" cy="5" r="3.5" fill="currentColor" />
+              </svg>
+              اكتملت اليوم
+            </span>
+            <span className="ornament-line rev" aria-hidden />
+          </div>
+        )}
 
-      <BottomNav />
-    </>
+        {doneList.map((h) => (
+          <div key={h.id}>
+            <HabitCard habit={h} />
+          </div>
+        ))}
+      </section>
+
+      <AmbientPulse />
+      <RewardPop />
+    </main>
   );
 }

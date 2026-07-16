@@ -7,7 +7,6 @@ import Logo from "./Logo";
 import ThemeToggle from "./ThemeToggle";
 import NotificationsToggle from "./NotificationsToggle";
 import LogoutButton from "./LogoutButton";
-import BottomNav from "./BottomNav";
 import HabitManager from "./HabitManager";
 import Icon from "@/components/ui/Icon";
 import Spinner from "@/components/ui/Spinner";
@@ -167,8 +166,6 @@ export default function SettingsClient({ initialName, email, initialTz }: Props)
       <div className="card overflow-hidden [&_button]:w-full [&_button]:justify-center [&_button]:rounded-none [&_button]:border-0 [&_button]:bg-transparent [&_button]:py-3.5 [&_button]:text-[--color-danger] [&_button:hover]:bg-[--color-surface-2]">
         <LogoutButton />
       </div>
-
-      <BottomNav />
     </main>
   );
 }
